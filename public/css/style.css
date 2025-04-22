@@ -1,0 +1,200 @@
+
+
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body {
+    font-family: 'Segoe UI', sans-serif;
+    background-color: #fdfdfd;
+    color: #222;
+  }
+
+.search-box{
+    float: right;
+    width: 24rem;
+    background: white;
+    height: 3rem;
+    padding: 0.8rem;
+    border-radius: 1.5rem;
+    margin-top: 1%;
+    margin-right: 2%;
+}
+/*Navigation bar */
+.navbar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 80px;
+    width: 100%;
+    position: sticky;
+    top: 0;
+    z-index: 999;
+    background-color: white;
+    border-bottom: 1px solid #ddd;
+  }
+
+  .navBar-container{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 0 2rem;
+    max-width: 1600px;
+  }
+
+  .navBar-logo {
+    font-size: 2rem;
+    font-weight: 600;
+    color: #fd6b3f;
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+  .navBar-container .nav-links {
+    display: flex;
+    text-align: center;
+    gap: 1.5rem;
+    list-style: none;
+  }
+
+  .navBar-container .nav-links li a {
+    text-decoration: none;
+    color: #222;
+    font-size: 1.3rem;
+    font-weight: 500;
+    padding: 3px 20px;
+    border-radius: 20px;
+    border: 2px solid transparent;
+    transition: all 0.7s ease;
+    white-space: nowrap;
+
+  }
+
+  .navBar-container .nav-links li a:hover, .navBar-container .nav-links li a.active{
+    color: #f85e5e;
+    border: 2px solid black;
+  }
+
+  .navBar-toggle{
+    background: transparent;
+    display: none;
+    padding: 10px;
+    border: none;
+    cursor: pointer;
+  }
+
+  .bar {
+    display: block;
+    width: 25px;
+    height: 3px;
+    margin: 5px auto;
+    background: black;
+    transition: all 0.3s ease-in-out;
+
+  }
+
+
+/* to make Navigation bar responsive */
+@media (max-width: 800px){
+    .navbar{
+        backdrop-filter: none;
+    }
+
+    .navBar-container .nav-links {
+        display: none;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1.7rem !important;
+        position: absolute;
+        height: 100vh;
+        width: 250px;
+        top: 0;
+        right: 0;
+        padding: 5rem 1.5rem;
+        box-shadow: 0 10px 10px black;
+    }
+
+    .navBar-container .nav-links.active {
+        display: flex;
+
+    }
+
+    .navBar-toggle {
+        display: block;
+        z-index: 999;
+    }
+
+    .navBar-toggle.active .bar:nth-child(2){
+        opacity: 0;
+    }
+
+    .navBar-toggle.active .bar:nth-child(1){
+        transform: translateY(8px) rotate(45deg);
+    }
+
+    .navBar-toggle.active .bar:nth-child(3){
+        transform: translateY(-8px) rotate(-45deg);
+    }
+
+}
+
+@media (max-width: 480px) {
+    .navBar-container{
+        padding: 0 1rem;
+    }
+
+    .navBar-container .nav-links li a {
+        font-size: 1.2rem;
+        padding: 3px 15px;
+    }
+}
+
+  /*Search bar */
+.search-box .search-text{
+    width: 19rem;
+    padding: 0 .6rem;
+}
+
+
+.search-button{
+    text-decoration: none;
+    background: white;
+    color: black;
+    display: flex;
+    float: right;
+    justify-content: center;
+    align-items: center;
+    width: 3rem;
+    height: 3rem;
+}
+
+.search-text{
+    border: none;
+    background: none;
+    outline: none;
+    float: left;
+    color: black;
+    font-size: 1.6rem;
+    line-height: 3rem;
+    letter-spacing: .06rem;
+}
+
+  /*main body */
+
+  .main-body{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 80vh;
+    text-align: center;
+  }
+
+  .main-body h1 {
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
+  }
