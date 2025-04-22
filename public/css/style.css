@@ -59,7 +59,6 @@
     align-items: center;
     justify-content: space-between;
     width: 100%;
-    max-width: 1600px;
     background-color: var(--nav-color);
     box-shadow: 0px 3px 12px var(--card-shadow-color);
   }
@@ -71,25 +70,27 @@
     color: #FF6C24;
     text-decoration: none;
     cursor: pointer;
-    padding-left: 2rem;
     text-shadow: 3px 3px 12px #004048;
+    align-self: center;
+    padding-left: 2rem;
+    padding-bottom: 2rem;
+
 
   }
 
   .navBar-container .nav-links {
     display: flex;
-    text-align: center;
     gap: 1.5rem;
-    padding: 1.5rem;
     list-style: none;
+    margin-right: 1rem;
   }
 
   .navBar-container .nav-links li a {
     text-decoration: none;
     color: var(--nav-text);
-    font-size: 1.3rem;
+    font-size: 1rem;
     font-weight: 500;
-    padding: 3px 20px;
+    padding: 5px 25px;
     border: 2px solid transparent;
     transition: all 0.7s ease;
     white-space: nowrap;
@@ -117,7 +118,7 @@
     width: 25px;
     height: 3px;
     margin: 5px auto;
-    background: black;
+    background: var(--nav-text);
     transition: all 0.3s ease-in-out;
 
   }
@@ -130,20 +131,17 @@
   .nav-search {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
   }
 
   .nav-search-input {
-    padding: 0.4rem 1rem;
+    padding: 0.5rem 2rem;
     border: 1px solid #ccc;
-    border-radius: 5px;
     font-size: 0.8rem;
-    padding: 0.5rem;
     width: 150px;
   }
 
   .nav-search-btn {
-    background-color: #fd6b3f;
+    background-color: var(--heading-color);
     color: white;
     border: none;
     width: 32px;
