@@ -5,4 +5,5 @@ navBarToggle.addEventListener('click', () => {
     navBarToggle.classList.toggle('active');
     console.log("Toggle button clicked!");
     navBarLink.classList.toggle('active');
+    document.body.classList.toggle('menu-open');
 });
