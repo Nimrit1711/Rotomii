@@ -5,22 +5,63 @@
     --text-color: #000000;
     --heading-color: #FF7531;
     --heading-stroke: #000000;
-    --search-bg: #FFFFFF;
+    --nav-search-bg: #FFFFFF;
+    --body-search-bg:#FFFFFF;
     --search-text-color: #000000;
     --nav-text: #FFFFFF;
-  }
+    --icon-fill: #FFFFFF;
 
-  .darkMode{
-    --bg-color: #101617;
-    --nav-color: #1D292C;
-    --text-color: white;
-    --heading-color: #FF7817;
-    --heading-stroke: #35F2FF;
-    --search-bg: #08171B;
-    --search-text-color: #1D292C;
-    --nav-text: #35F2FF;
 
   }
+
+  .darkMode {
+    --bg-color: #2B2E34;
+    --nav-color: #1C1E22;
+    --text-color: #EAF6F7;
+    --heading-color: #FF7531;
+    --heading-stroke: #29ACBD;
+    --nav-search-bg: #2F333A;
+    --body-search-bg:#1C1E22;
+    --search-text-color: #EAF6F7;
+    --nav-text: #29ACBD;
+    --icon-fill: #FFFFFF;
+
+  }
+
+  /*theme switch buttons */
+  #theme-switch{
+    height: 50px;
+    width: 50px;
+    padding: 0;
+    border-radius: 50%;
+    border: none;
+    background-color: var(--nav-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+  }
+
+  #theme-switch svg{
+    fill: var(--nav-text);
+  }
+
+    /*to switch between icons */
+  #theme-switch svg:last-child{
+    display: none;
+  }
+
+  .darkMode #theme-switch svg:first-child{
+    display: none;
+  }
+
+  .darkMode #theme-switch svg:last-child{
+    display: block;
+  }
+
+
 
   @font-face {
     font-family: 'PokemonSolid';
@@ -44,7 +85,6 @@
 .search-box{
     float: right;
     width: 24rem;
-    background: var(--search-bg);
     height: 3rem;
     padding: 0.8rem;
     border-radius: 1.5rem;
@@ -70,7 +110,7 @@
     justify-content: space-between;
     width: 100%;
     background-color: var(--nav-color);
-    box-shadow: 0px 3px 12px var(--card-shadow-color);
+
   }
 
   .navBar-logo {
@@ -135,6 +175,7 @@
   .nav-search {
     display: flex;
     align-items: center;
+
   }
 
 
@@ -148,6 +189,8 @@
     box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
     transition: 0.4s ease-in-out;
     outline: none;
+    background-color: var(--nav-search-bg);
+    color: var(--search-text-color);
 
   }
 
@@ -243,7 +286,7 @@
     justify-content: space-between;
     width: 100%;
     max-width: 400px;
-    background: var(--nav-text);
+    background: var(--body-search-bg);
     border-radius: 25px;
     border: none;
 
@@ -260,6 +303,7 @@
     font-size: 1rem;
     padding: 0.5rem;
     background-color: transparent;
+    color: var(--search-text-color);
   }
 
   .search-box i {
@@ -288,6 +332,5 @@
     font-family: "Fredoka", sans-serif;
     color: var(--heading-color);
     -webkit-text-stroke: .05rem var(--heading-stroke);
-    text-shadow: 3px 3px 8px var(--card-shadow-color);
   }
 
