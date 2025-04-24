@@ -18,10 +18,10 @@ app.use(cookieParser());
 // Session configuration
 // TODO: Move secret to environment variable later
 app.use(session({
-  secret: 'rotomii-secret-key', 
+  secret: 'rotomii-secret-key',
   resave: false,
   saveUninitialized: false,
-  cookie: { 
+  cookie: {
     secure: false, // Change to true when we deploy
     maxAge: 24 * 60 * 60 * 1000 // 1 day in milliseconds
   }
@@ -44,22 +44,21 @@ setupDb().catch(err => {
 const authRoutes = require('./routes/auth');
 const pokemonRoutes = require('./routes/pokemon');
 const teamRoutes = require('./routes/teams');
+const indexRoutes = require('./routes/index');
 
 app.use('/api/auth', authRoutes);
 app.use('/api/pokemon', pokemonRoutes);
 app.use('/api/teams', teamRoutes);
+app.use('/', indexRoutes);
 
-// Simple test route
-app.get('/', (req, res) => {
-  res.send('Rotomii API is running! Made by Group 34');
-});
+
 
 // Protected route example
 const { isAuthenticated, isAdmin } = require('./middleware/auth');
 
 // Get user profile if logged in
 app.get('/api/profile', isAuthenticated, (req, res) => {
-  res.json({ 
+  res.json({
     user: {
       id: req.user.user_id,
       username: req.user.username,

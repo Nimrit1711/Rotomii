@@ -9,7 +9,7 @@
     --body-search-bg:#FFFFFF;
     --search-text-color: #000000;
     --nav-text: #FFFFFF;
-    --icon-fill: #FFFFFF;
+
 
 
   }
@@ -19,12 +19,12 @@
     --nav-color: #1C1E22;
     --text-color: #EAF6F7;
     --heading-color: #FF7531;
-    --heading-stroke: #29ACBD;
+    --heading-stroke: #3de8ff;
     --nav-search-bg: #2F333A;
     --body-search-bg:#1C1E22;
     --search-text-color: #EAF6F7;
-    --nav-text: #29ACBD;
-    --icon-fill: #FFFFFF;
+    --nav-text: #3de8ff;
+
 
   }
 
