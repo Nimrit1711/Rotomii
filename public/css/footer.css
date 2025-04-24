@@ -1,0 +1,47 @@
+
+.footer {
+    background-color: var(--nav-color);
+    color: var(--nav-text);
+    text-align: center;
+    padding: 2rem 1rem;
+    position: absolute;
+    margin-top: 3rem;
+    font-size: 1rem;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+  }
+
+
+  /*theme switch buttons */
+  #theme-switch{
+    height: 50px;
+    width: 50px;
+    padding: 0;
+    border-radius: 50%;
+    border: none;
+    background-color: var(--nav-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+  }
+
+  #theme-switch svg{
+    fill: var(--nav-text);
+  }
+
+    /*to switch between icons */
+  #theme-switch svg:last-child{
+    display: none;
+  }
+
+  .darkMode #theme-switch svg:first-child{
+    display: none;
+  }
+
+  .darkMode #theme-switch svg:last-child{
+    display: block;
+  }

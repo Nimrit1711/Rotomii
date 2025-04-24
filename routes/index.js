@@ -6,7 +6,19 @@ let publicPath = path.join(__dirname, '..', 'public');
 
 // Route to homepage
 router.get('/', (req, res) => {
-  res.sendFile(`${publicPath}/home.html`);
-
+  res.render('home');
 });
+
+router.get('/myteams', (req, res) => {
+  res.render('teams');
+});
+
+router.get('/profile', (req, res) => {
+  res.render('profile');
+});
+
+router.get('/myboxes', (req, res) => {
+  res.render('boxes');
+});
+
 module.exports = router;

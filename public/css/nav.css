@@ -1,86 +1,10 @@
-/*light mode colour pallet */
-:root {
-    --bg-color: #E6FFFC;
-    --nav-color: #29ACBD;
-    --text-color: #000000;
-    --heading-color: #FF7531;
-    --heading-stroke: #000000;
-    --nav-search-bg: #FFFFFF;
-    --body-search-bg:#FFFFFF;
-    --search-text-color: #000000;
-    --nav-text: #FFFFFF;
-
-
-
-  }
-
-  .darkMode {
-    --bg-color: #2B2E34;
-    --nav-color: #1C1E22;
-    --text-color: #EAF6F7;
-    --heading-color: #FF7531;
-    --heading-stroke: #3de8ff;
-    --nav-search-bg: #2F333A;
-    --body-search-bg:#1C1E22;
-    --search-text-color: #EAF6F7;
-    --nav-text: #3de8ff;
-
-
-  }
-
-  /*theme switch buttons */
-  #theme-switch{
-    height: 50px;
-    width: 50px;
-    padding: 0;
-    border-radius: 50%;
-    border: none;
-    background-color: var(--nav-color);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-  }
-
-  #theme-switch svg{
-    fill: var(--nav-text);
-  }
-
-    /*to switch between icons */
-  #theme-switch svg:last-child{
-    display: none;
-  }
-
-  .darkMode #theme-switch svg:first-child{
-    display: none;
-  }
-
-  .darkMode #theme-switch svg:last-child{
-    display: block;
-  }
-
-
-
-  @font-face {
+@font-face {
     font-family: 'PokemonSolid';
     src: url('/fonts/Pokemon Solid.ttf') format('truetype');
     font-weight: normal;
     font-style: normal;
   }
 
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
-
-  body {
-    font-family: 'Segoe UI', sans-serif;
-    background-color: var(--bg-color);
-    color: var(--text-color);
-  }
 
 .search-box{
     float: right;
@@ -91,7 +15,7 @@
     margin-top: 1%;
     margin-right: 2%;
 }
-/*Navigation bar */
+
 .navbar {
     display: flex;
     align-items: center;
@@ -234,8 +158,6 @@
         background-color: var(--bg-color);
         align-items: center;
         background: var(--nav-color);
-
-
     }
 
     .navBar-toggle {
@@ -276,61 +198,3 @@
         padding: 3px 15px;
     }
 }
-
-
-
-  /*Search bar in main body */
-  .search-box {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    width: 100%;
-    max-width: 400px;
-    background: var(--body-search-bg);
-    border-radius: 25px;
-    border: none;
-
-    padding: 0.5rem 1rem;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  }
-
-
-
-.search-text {
-    flex: 1;
-    border: none;
-    outline: none;
-    font-size: 1rem;
-    padding: 0.5rem;
-    background-color: transparent;
-    color: var(--search-text-color);
-  }
-
-  .search-box i {
-    color: var(--heading-color);
-  }
-
-
-
-
-  /*main body */
-
-  .main-body {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 50vh;
-    padding: 0 1rem;
-    text-align: center;
-    transition: transform 0.3s ease;
-  }
-
-  .main-body h1 {
-    font-size: 5rem;
-    padding: 1rem;
-    font-family: "Fredoka", sans-serif;
-    color: var(--heading-color);
-    -webkit-text-stroke: .05rem var(--heading-stroke);
-  }
-
