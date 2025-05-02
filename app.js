@@ -9,6 +9,9 @@ const PORT = process.env.PORT || 3000;
 // Import database setup
 const setupDb = require('./models/setupDb');
 
+// Import models
+const User = require('./models/user');
+
 // Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -18,10 +21,10 @@ app.use(cookieParser());
 // Session configuration
 // TODO: Move secret to environment variable later
 app.use(session({
-  secret: 'rotomii-secret-key', 
+  secret: 'rotomii-secret-key',
   resave: false,
   saveUninitialized: false,
-  cookie: { 
+  cookie: {
     secure: false, // Change to true when we deploy
     maxAge: 24 * 60 * 60 * 1000 // 1 day in milliseconds
   }
@@ -35,8 +38,7 @@ app.use(passport.session());
 require('./config/passport')(passport);
 
 // Initialize database
-setupDb().catch(err => {
-  console.error('Database setup failed:', err);
+setupDb().catch((err) => {
   process.exit(1);
 });
 
@@ -58,43 +60,32 @@ app.get('/', (req, res) => {
 const { isAuthenticated, isAdmin } = require('./middleware/auth');
 
 // Get user profile if logged in
-app.get('/api/profile', isAuthenticated, (req, res) => {
-  res.json({ 
-    user: {
-      id: req.user.user_id,
-      username: req.user.username,
-      email: req.user.email,
-      avatar: req.user.avatar_image,
-      theme: req.user.theme_preference
-    }
-  });
-});
+app.get('/api/profile', isAuthenticated, (req, res) => res.json({
+  user: {
+    id: req.user.user_id,
+    username: req.user.username,
+    email: req.user.email,
+    avatar: req.user.avatar_image,
+    theme: req.user.theme_preference
+  }
+}));
 
 // Admin route example - get all users
 // Only admins can access this
 app.get('/api/admin/users', isAdmin, async (req, res) => {
   try {
-    const User = require('./models/user');
     const users = await User.getAllUsers();
-    res.json({ users });
+    return res.json({ users });
   } catch (error) {
-    console.error('Error fetching users:', error);
-    res.status(500).json({ message: 'Server error' });
+    return res.status(500).json({ message: 'Server error' });
   }
 });
 
 // Handle 404 - route not found
-app.use((req, res) => {
-  res.status(404).json({ message: 'Route not found' });
-});
+app.use((req, res) => res.status(404).json({ message: 'Route not found' }));
 
 // Error handler
-app.use((err, req, res, next) => {
-  console.error(err.stack);
-  res.status(500).json({ message: 'Something went wrong!' });
-});
+app.use((err, req, res, next) => res.status(500).json({ message: 'Something went wrong!' }));
 
 // Start server
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
+app.listen(PORT, () => {});

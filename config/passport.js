@@ -24,23 +24,23 @@ module.exports = function(passport) {
         // Check if input is email or username
         const isEmail = username.includes('@');
         let user;
-        
+
         if (isEmail) {
           user = await User.findByEmail(username);
         } else {
           user = await User.findByUsername(username);
         }
-        
+
         if (!user) {
           return done(null, false, { message: 'Incorrect username or email' });
         }
-        
+
         const isMatch = await User.validatePassword(user, password);
-        
+
         if (!isMatch) {
           return done(null, false, { message: 'Incorrect password' });
         }
-        
+
         return done(null, user);
       } catch (error) {
         return done(error);

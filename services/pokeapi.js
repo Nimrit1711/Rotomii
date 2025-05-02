@@ -9,21 +9,15 @@ const POKE_API_BASE_URL = 'https://pokeapi.co/api/v2';
 
 // Basic fetch function for getting data from the API
 async function fetchFromPokeAPI(endpoint) {
-  try {
-    // Make the API request using fetch
-    const response = await fetch(`${POKE_API_BASE_URL}${endpoint}`);
-    
-    // Check if the request was successful
-    if (!response.ok) {
-      throw new Error(`Error: ${response.status} ${response.statusText}`);
-    }
-    
-    // Parse the JSON response
-    return await response.json();
-  } catch (error) {
-    console.error('Error fetching from PokeAPI:', error);
-    throw error;
+  const response = await fetch(`${POKE_API_BASE_URL}${endpoint}`);
+
+  // Check if the request was successful
+  if (!response.ok) {
+    throw new Error(`Error: ${response.status} ${response.statusText}`);
   }
+
+  // Parse the JSON response
+  return response.json();
 }
 
 // All the functions for interacting with the PokeAPI
@@ -34,43 +28,41 @@ const pokeApiService = {
     const search = String(nameOrId).toLowerCase();
     return fetchFromPokeAPI(`/pokemon/${search}`);
   },
-  
+
   // Get a list of Pokemon with pagination
-  getPokemonList: async (limit = 20, offset = 0) => {
-    return fetchFromPokeAPI(`/pokemon?limit=${limit}&offset=${offset}`);
-  },
-  
+  getPokemonList: async (limit = 20, offset = 0) => fetchFromPokeAPI(`/pokemon?limit=${limit}&offset=${offset}`),
+
   // Get data about a specific Pokemon type
   getTypeData: async (type) => {
     const typeName = String(type).toLowerCase();
     return fetchFromPokeAPI(`/type/${typeName}`);
   },
-  
+
   // Get Pokemon that are a specific type
   getPokemonByType: async (type) => {
     const typeData = await pokeApiService.getTypeData(type);
-    
+
     // Extract just the Pokemon names and URLs from the response
     // This makes it easier to use in our application
-    return typeData.pokemon.map(entry => ({
+    return typeData.pokemon.map((entry) => ({
       name: entry.pokemon.name,
       url: entry.pokemon.url
     }));
   },
-  
+
   // Search for Pokemon by name (partial match)
   // TODO: Make this function search more Pokemon than just 100
   // It would be better to use a real API endpoint but the PokeAPI doesn't support search
   searchPokemonByName: async (name, limit = 20) => {
     // Get a list of Pokemon to search through
-    const response = await fetchFromPokeAPI(`/pokemon?limit=100`);
+    const response = await fetchFromPokeAPI('/pokemon?limit=100');
     const searchName = String(name).toLowerCase();
-    
+
     // Filter the Pokemon list to find matches
-    const matches = response.results.filter(pokemon => 
-      pokemon.name.includes(searchName)
-    ).slice(0, limit);
-    
+    const matches = response.results
+      .filter((pokemon) => pokemon.name.includes(searchName))
+      .slice(0, limit);
+
     return matches;
   }
 };
