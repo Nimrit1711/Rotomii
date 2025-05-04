@@ -8,7 +8,6 @@
     background: var(--body-search-bg);
     border-radius: 25px;
     border: none;
-
     padding: 0.5rem 1rem;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   }
