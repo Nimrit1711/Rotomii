@@ -1,3 +1,7 @@
+/* Code based on and adjusted from
+How to FETCH data from an API using JavaScript by Bro Code on Youtube
+https://www.youtube.com/watch?v=37vxWr0WgQk */
+
 async function getMon() {
     try {
         const pokename = document.getElementById('pokemonName').value.toLowerCase();
