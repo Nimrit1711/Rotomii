@@ -1,32 +1,16 @@
 {
-  "name": "rotomii",
-  "version": "1.0.0",
-  "description": "Rotomii: A Pokémon Team-Builder Web App",
-  "main": "app.js",
+  "name": "25s1-wdc-ug-groups-34",
+  "version": "0.0.0",
+  "private": true,
   "scripts": {
-    "start": "node app.js",
-    "dev": "nodemon app.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node ./bin/www"
   },
-  "keywords": [
-    "pokemon",
-    "team-builder",
-    "web-app"
-  ],
-  "author": "Alex Hart, Nimrit Gill, Kristian Sorono, Madeleine Harris",
-  "license": "ISC",
   "dependencies": {
-    "cookie-parser": "^1.4.6",
+    "cookie-parser": "~1.4.4",
+    "debug": "~2.6.9",
+    "ejs": "^3.1.10",
     "express": "^4.21.2",
-    "express-session": "^1.17.3",
-    "passport": "^0.6.0",
-    "passport-local": "^1.0.0",
-    "sqlite": "^5.0.1",
-    "sqlite3": "^5.1.6",
-    "uuid": "^9.0.0"
-  },
-  "devDependencies": {
-    "eslint": "^8.45.0",
-    "nodemon": "^3.0.1"
+    "http-errors": "~1.6.3",
+    "morgan": "~1.9.1"
   }
 }
