@@ -3,6 +3,11 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+var session = require('express-session');
+var passport = require('passport');
+const setupDb = require('./models/setupDb');
+const User = require('./models/user');
+const { isAuthenticated, isAdmin } = require('./middleware/auth');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -18,9 +23,6 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-
-app.set('view engine', 'ejs');
-app.set('views', path.join(__dirname, 'views'));
 
 // Session configuration
 // TODO: Move secret to environment variable later
@@ -43,6 +45,7 @@ require('./config/passport')(passport);
 
 // Initialize database
 setupDb().catch((err) => {
+  console.error('Database initialization error:', err);
   process.exit(1);
 });
 
@@ -57,13 +60,16 @@ app.use('/api/pokemon', pokemonRoutes);
 app.use('/api/teams', teamRoutes);
 app.use('/', indexRoutes);
 
-
-
 // error handler
 app.use(function(err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
+
+  // render the error page
+  res.status(err.status || 500);
+  res.render('error');
+});
 
 // Get user profile if logged in
 app.get('/api/profile', isAuthenticated, (req, res) => {
