@@ -1,0 +1,26 @@
+<script src="/js/nav.js" defer></script>
+<link rel="stylesheet" href="css/nav.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> <!--search icon-->
+<nav class = "navBar">
+    <div class= "navBar-container">
+        <a href="/" class = "navBar-logo">Rotomii</a>
+        <button type="button" class="navBar-toggle">
+            <span class ="bar"></span>
+            <span class ="bar"></span>
+            <span class ="bar"></span>
+        </button>
+        <ul class = "nav-links">
+            <li><a href="/" class = "active">Home</a></li>
+            <li><a href= "/myteams" >My Teams</a></li>
+            <li><a href="/myboxes">My Boxes</a></li>
+            <li><a href="/profile">Profile</a></li>
+            <li><a href="#">Login / Sign Up</a></li>
+            <li class= "nav-search-item">
+                <form class= "nav-search" onsubmit="return false;">
+                    <input type="text" class="nav-search-input" placeholder="Search Pokemon...">
+                    <i class="fa fa-search"></i>
+                </form>
+            </li>
+        </ul>
+    </div>
+</nav>

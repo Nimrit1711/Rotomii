@@ -1,0 +1,39 @@
+/*light mode colour pallet */
+:root {
+    --bg-color: #E6FFFC;
+    --nav-color: #29ACBD;
+    --text-color: #000000;
+    --heading-color: #FF7531;
+    --heading-stroke: #000000;
+    --nav-search-bg: #FFFFFF;
+    --body-search-bg:#FFFFFF;
+    --search-text-color: #000000;
+    --nav-text: #FFFFFF;
+  }
+
+
+/*dark mode colour pallet */
+  .darkMode {
+    --bg-color: #2B2E34;
+    --nav-color: #1C1E22;
+    --text-color: #EAF6F7;
+    --heading-color: #FF7531;
+    --heading-stroke: #3de8ff;
+    --nav-search-bg: #2F333A;
+    --body-search-bg:#1C1E22;
+    --search-text-color: #EAF6F7;
+    --nav-text: #3de8ff;
+  }
+
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body {
+    font-family: 'Segoe UI', sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+  }
+

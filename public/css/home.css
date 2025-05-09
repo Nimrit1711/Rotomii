@@ -1,0 +1,53 @@
+  /*Search bar in main body */
+  .search-box {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 400px;
+    background: var(--body-search-bg);
+    border-radius: 25px;
+    border: none;
+
+    padding: 0.5rem 1rem;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+
+
+
+.search-text {
+    flex: 1;
+    border: none;
+    outline: none;
+    font-size: 1rem;
+    padding: 0.5rem;
+    background-color: transparent;
+    color: var(--search-text-color);
+  }
+
+  .search-box i {
+    color: var(--heading-color);
+  }
+
+
+  /*main body */
+
+  .main-body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 50vh;
+    padding: 0 1rem;
+    text-align: center;
+    transition: transform 0.3s ease;
+  }
+
+  .main-body h1 {
+    font-size: 5rem;
+    padding: 1rem;
+    font-family: "Fredoka", sans-serif;
+    color: var(--heading-color);
+    -webkit-text-stroke: .05rem var(--heading-stroke);
+  }
+

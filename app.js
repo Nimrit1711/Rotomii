@@ -18,6 +18,9 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(cookieParser());
 
+app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'views'));
+
 // Session configuration
 // TODO: Move secret to environment variable later
 app.use(session({
@@ -46,29 +49,30 @@ setupDb().catch((err) => {
 const authRoutes = require('./routes/auth');
 const pokemonRoutes = require('./routes/pokemon');
 const teamRoutes = require('./routes/teams');
+const indexRoutes = require('./routes/index');
 
 app.use('/api/auth', authRoutes);
 app.use('/api/pokemon', pokemonRoutes);
 app.use('/api/teams', teamRoutes);
+app.use('/', indexRoutes);
 
-// Simple test route
-app.get('/', (req, res) => {
-  res.send('Rotomii API is running! Made by Group 34');
-});
+
 
 // Protected route example
 const { isAuthenticated, isAdmin } = require('./middleware/auth');
 
 // Get user profile if logged in
-app.get('/api/profile', isAuthenticated, (req, res) => res.json({
-  user: {
-    id: req.user.user_id,
-    username: req.user.username,
-    email: req.user.email,
-    avatar: req.user.avatar_image,
-    theme: req.user.theme_preference
-  }
-}));
+app.get('/api/profile', isAuthenticated, (req, res) => {
+  res.json({
+    user: {
+      id: req.user.user_id,
+      username: req.user.username,
+      email: req.user.email,
+      avatar: req.user.avatar_image,
+      theme: req.user.theme_preference
+    }
+  });
+});
 
 // Admin route example - get all users
 // Only admins can access this

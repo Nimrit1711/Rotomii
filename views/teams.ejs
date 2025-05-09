@@ -1,0 +1,40 @@
+<html lang = "en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name = "viewport" content="width=device-width, initial-scale=1.0" />
+    <title> Rotomii - My Teams </title>
+    <link rel="stylesheet" href="css/themeSwitch.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&display=swap" rel="stylesheet">
+
+</head>
+<body>
+  <header>
+    <!--  nav  -->
+      <%- include('partials/navbar') %>
+  </header>
+
+  <main class="main-body">
+      <h1>My Teams</h1>
+
+      <div class="teams-container">
+        <p>Your saved teams will appear here.</p>
+
+        <!--  team cards  -->
+
+        <div class="team-card">
+          <h2>Team Lightning</h2>
+          <p>A fast team built around electric types.</p>
+        </div>
+
+        <div class="team-card">
+          <h2>Team Defense</h2>
+          <p>Bulky Pokémon with strong defensive synergy.</p>
+        </div>
+
+      </div>
+  </main>
+  <!--  footer  -->
+  <%- include('partials/footer') %>
+</body>
+
+</html>
