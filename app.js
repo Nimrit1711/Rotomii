@@ -1,22 +1,23 @@
-const express = require('express');
-const session = require('express-session');
-const cookieParser = require('cookie-parser');
-const passport = require('passport');
-const path = require('path');
-const app = express();
-const PORT = process.env.PORT || 3000;
+var createError = require('http-errors');
+var express = require('express');
+var path = require('path');
+var cookieParser = require('cookie-parser');
+var logger = require('morgan');
 
-// Import database setup
-const setupDb = require('./models/setupDb');
+var indexRouter = require('./routes/index');
+var usersRouter = require('./routes/users');
 
-// Import models
-const User = require('./models/user');
+var app = express();
 
-// Middleware
+// view engine setup
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'ejs');
+
+app.use(logger('dev'));
 app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use(express.static(path.join(__dirname, 'public')));
 
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
@@ -58,8 +59,11 @@ app.use('/', indexRoutes);
 
 
 
-// Protected route example
-const { isAuthenticated, isAdmin } = require('./middleware/auth');
+// error handler
+app.use(function(err, req, res, next) {
+  // set locals, only providing error in development
+  res.locals.message = err.message;
+  res.locals.error = req.app.get('env') === 'development' ? err : {};
 
 // Get user profile if logged in
 app.get('/api/profile', isAuthenticated, (req, res) => {
@@ -85,11 +89,4 @@ app.get('/api/admin/users', isAdmin, async (req, res) => {
   }
 });
 
-// Handle 404 - route not found
-app.use((req, res) => res.status(404).json({ message: 'Route not found' }));
-
-// Error handler
-app.use((err, req, res, next) => res.status(500).json({ message: 'Something went wrong!' }));
-
-// Start server
-app.listen(PORT, () => {});
+module.exports = app;
