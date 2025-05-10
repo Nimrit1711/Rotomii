@@ -2,14 +2,32 @@
 <html lang="en">
   <head>
     <title>Just testing some code</title>
-    <script defer src="/javascripts/poketest.js"></script>
+    <!-- <script defer src="/javascripts/poketest.js"></script> -->
+    <script defer src="/javascripts/findPokemon.js"></script>
   </head>
   <body>
     <p>FIND A MON!</p>
     <br>
-    <input type="text" id="pokemonName" placeholder="Enter Pokemon Name" onchange="getMon()"> <br>
-    <button type="button" onclick="getMon()">Fetch ze 'mon</button>     <br>
-    <img src="null" alt="pokemon sprite" id="pokemonSprite" style="display: none">
-    <p id="pokemonType" style="display: none"> check console for pokemon type plz </p>
+    <input type="text" id="pokemon-name-input" placeholder="Enter Pokemon Name">
+    <br>
+    <button type="button" onclick="findPokemon()">Get mon</button>
+    <br>
+
+    <div id="results" style="display: none">
+
+      <p id="paragraph-1"></p>
+      <ul>
+        <li id="type-0" style="display: none"></li>
+        <li id="type-1" style="display: none"></li>
+      </ul>
+      <p> Official Art: </p>
+      <img src="null" alt="pokemon official art" id="pokemon-official-art" width="150" height="150">
+      <p> Sprite Art: </p>
+      <img src="null" alt="pokemon sprite" id="pokemon-sprite">
+      <p> Box Sprite Art: </p>
+      <img src="null" alt="pokemon sprite" id="pokemon-box-sprite">
+
+    </div>
+
   </body>
 </html>

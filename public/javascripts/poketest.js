@@ -4,9 +4,9 @@ https://www.youtube.com/watch?v=37vxWr0WgQk */
 
 async function getMon() {
     try {
-        const pokename = document.getElementById('pokemonName').value.toLowerCase();
+        const pokename = document.getElementById('pokemon-name-input').value.toLowerCase();
 
-        // console.log('https://pokeapi.co/api/v2/pokemon/' + pokename);
+        console.log('https://pokeapi.co/api/v2/pokemon/' + pokename);
         const response = await fetch('https://pokeapi.co/api/v2/pokemon/' + pokename);
 
         if (!response.ok){
