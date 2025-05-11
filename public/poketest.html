@@ -11,21 +11,33 @@
     <input type="text" id="pokemon-name-input" placeholder="Enter Pokemon Name">
     <br>
     <button type="button" onclick="findPokemon()">Get mon</button>
-    <br>
-
     <div id="results" style="display: none">
 
-      <p id="paragraph-1"></p>
-      <ul>
-        <li id="type-0" style="display: none"></li>
-        <li id="type-1" style="display: none"></li>
-      </ul>
-      <p> Official Art: </p>
-      <img src="null" alt="pokemon official art" id="pokemon-official-art" width="150" height="150">
-      <p> Sprite Art: </p>
-      <img src="null" alt="pokemon sprite" id="pokemon-sprite">
-      <p> Box Sprite Art: </p>
-      <img src="null" alt="pokemon sprite" id="pokemon-box-sprite">
+      <!--  If someone looks at this static HTML code and goes "huh. this would've been easier
+            if vue was used with all the ids and stuff" . Well yes. yes it would :(      " -->
+      <!--  Art -->
+
+      <div style="float: left; margin-right: 50px;">
+        <p> Official Art: </p>
+        <img src="null" alt="pokemon official art" id="pokemon-official-art" width="150" height="150">
+        <p> Sprite Art: </p>
+        <img src="null" alt="pokemon sprite" id="pokemon-sprite">
+        <p> Box Sprite Art: </p>
+        <img src="null" alt="pokemon sprite" id="pokemon-box-sprite">
+      </div>
+
+      <!--  Typing and Type interactions  -->
+      <div >
+        <p id="paragraph-1"></p>
+        <ul id="typing"></ul>
+
+        <p id="paragraph-2"></p>
+        <ul id="weaknesses"></ul>
+        <p id="paragraph-3"></p>
+        <ul id="resistances"></ul>
+        <p id="paragraph-4"></p>
+        <ul id="immunities"></ul>
+      </div>
 
     </div>
 
