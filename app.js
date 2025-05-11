@@ -25,7 +25,6 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-<<<<<<< HEAD
 // Session configuration
 // TODO: Move secret to environment variable later
 app.use(session({
@@ -37,11 +36,9 @@ app.use(session({
     maxAge: 24 * 60 * 60 * 1000 // 1 day in milliseconds
   }
 }));
-=======
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/pokemon', pokemonRouter);
->>>>>>> ab9c117 (Searching for Pokemon in the PokeAPI now happens on the server side)
 
 // Setup passport stuff
 app.use(passport.initialize());
