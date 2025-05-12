@@ -1,0 +1,104 @@
+body{
+    min-height: 100vh;
+    width: 100%;
+}
+
+
+.container{
+    background: var(--body-search-bg);
+    position: absolute;
+    top: 50%;
+    left:50%;
+    transform: translate(-50%,-50%);
+    max-width:430px;
+    width:100%;
+    border-radius: 7px;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
+}
+
+.container .rego{
+    display: none;
+}
+
+#check:checked ~ .rego{
+    display: block;
+}
+
+#check:checked ~ .login{
+    display: none;
+}
+
+.container .form{
+    padding: 2rem;
+}
+
+#check{
+    display: none;
+}
+
+.form h1{
+    font-size: 2rem;
+    text-align: center;
+    margin-bottom: 1.5rem;
+    font-family: "Fredoka", sans-serif;
+    color: var(--heading-color);
+}
+
+.form input{
+    height:60px;
+    width: 100%;
+    padding: 0 15px;
+    font-size: 17px;
+    margin-bottom: 1.3rem;
+    border: 1px solid var(--nav-color) ;
+    outline: none;
+}
+
+.form input:focus{
+    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.3);
+}
+
+.form a{
+    font-size: 16px;
+    color: var(--heading-color);
+    text-decoration: none;
+}
+
+.form a:hover{
+    text-decoration: underline;
+}
+
+.form .Login-button{
+    color: #fff;
+    background-color: var(--login-button);
+    font-size: 1.2rem;
+    font-weight: 500;
+    letter-spacing: 1px;
+    margin-top: 1.3rem;
+    cursor: pointer;
+    border:none;
+    width:100%;
+    height: 50px;
+    padding: 0 15px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    transition: 0.3s;
+}
+
+.form .Login-button:hover{
+    opacity: 0.6;
+}
+
+.signup{
+    font-size: 17px;
+    text-align: center;
+    padding-top: 1rem;
+}
+
+.signup label{
+    color:var(--heading-color);
+    cursor: pointer;
+}
+
+.signup label:hover{
+    text-decoration: underline;
+}
