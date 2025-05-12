@@ -9,6 +9,7 @@
     --body-search-bg:#FFFFFF;
     --search-text-color: #000000;
     --nav-text: #FFFFFF;
+    --login-button: #29ACBD;
   }
 
 
@@ -23,12 +24,14 @@
     --body-search-bg:#1C1E22;
     --search-text-color: #EAF6F7;
     --nav-text: #3de8ff;
+    --login-button: #2B2E34;
   }
 
   * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    transition: all 0.3s ease;
   }
 
   body {

@@ -21,4 +21,8 @@ router.get('/myboxes', (req, res) => {
   res.render('boxes');
 });
 
+router.get('/registration', (req, res) => {
+  res.render('registration');
+});
+
 module.exports = router;
