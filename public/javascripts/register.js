@@ -28,9 +28,5 @@ formEl.addEventListener('submit', async function(e) {
     document.getElementById('error').textContent = 'Something went wrong';
   }
 
-
-
-
-
 });
 
