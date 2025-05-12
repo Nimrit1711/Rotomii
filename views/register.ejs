@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="css/themeSwitch.css" />
     <link rel="stylesheet" href="css/registration.css" />
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&display=swap" rel="stylesheet">
+    <script src="/javascripts/signup.js" defer></script>
 </head>
 <body>
      <header>
@@ -17,15 +18,17 @@
             <div class="container">
                 <div class="rego form">
                     <h1>Sign up</h1>
-                    <form action="">
-                        <input type="email" id="username" name ="name" placeholder="Username or Email" required/>
+                    <form id="register-form">
+                        <input type="text" id="username" name ="username" placeholder="Username" required/>
+                        <input type="text" name="email" id="email" placeholder="Email" required/>
                         <input type="password" name="password" id="password" placeholder="Create Password" required/>
-                        <input type="password" name="password" id="password" placeholder="Confirm Password" required/>
+                        <input type="password" name="confirmPassword" id="confirmPassword" placeholder="Confirm Password" required/>
+                        <div id="error" style="color: red;"></div>
                         <button type="submit" class="Login-button" >Sign Up</button>
                     </form>
                     <div class="signup">
                         <span class="signup">Already have an account?
-                            <a href="/loginPage">Login!</a>
+                            <a href="/register">Login!</a>
                         </span>
                     </div>
                 </div>
