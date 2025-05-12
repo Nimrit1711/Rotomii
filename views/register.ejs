@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang ="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name = "viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Rotomii - Sign up</title>
+    <link rel="stylesheet" href="css/themeSwitch.css" />
+    <link rel="stylesheet" href="css/registration.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&display=swap" rel="stylesheet">
+</head>
+<body>
+     <header>
+         <!--Nav  -->
+        <%- include('partials/navbar') %>
+    </header>
+    <section>
+            <div class="container">
+                <div class="rego form">
+                    <h1>Sign up</h1>
+                    <form action="">
+                        <input type="email" id="username" name ="name" placeholder="Username or Email" required/>
+                        <input type="password" name="password" id="password" placeholder="Create Password" required/>
+                        <input type="password" name="password" id="password" placeholder="Confirm Password" required/>
+                        <button type="submit" class="Login-button" >Sign Up</button>
+                    </form>
+                    <div class="signup">
+                        <span class="signup">Already have an account?
+                            <a href="/loginPage">Login!</a>
+                        </span>
+                    </div>
+                </div>
+            </div>
+    </section>
+    <!--  footer  -->
+  <%- include('partials/footer') %>
+</body>
+</html>

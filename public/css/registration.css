@@ -16,25 +16,14 @@ body{
     box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
 }
 
-.container .rego{
-    display: none;
-}
 
-#check:checked ~ .rego{
-    display: block;
-}
 
-#check:checked ~ .login{
-    display: none;
-}
 
 .container .form{
     padding: 2rem;
 }
 
-#check{
-    display: none;
-}
+
 
 .form h1{
     font-size: 2rem;

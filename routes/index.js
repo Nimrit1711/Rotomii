@@ -21,8 +21,12 @@ router.get('/myboxes', (req, res) => {
   res.render('boxes');
 });
 
-router.get('/registration', (req, res) => {
-  res.render('registration');
+router.get('/loginPage', (req, res) => {
+  res.render('login');
+});
+
+router.get('/register', (req, res) => {
+  res.render('register.ejs');
 });
 
 module.exports = router;
