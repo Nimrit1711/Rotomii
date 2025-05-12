@@ -1,10 +1,8 @@
 const getDb = require('./db');
-const crypto = require('crypto'); // Use built-in crypto module
-
+const crypto = require('crypto');
 // Function to hash a password with a salt
 function hashPassword(password, salt) {
-  // Use pbkdf2Sync for hashing (adjust iterations/keylen as needed)
-  return crypto.pbkdf2Sync(password, salt, 100000, 64, 'sha512').toString('hex');
+    return crypto.pbkdf2Sync(password, salt, 100000, 64, 'sha512').toString('hex');
 }
 
 // User model for handling all user-related operations
@@ -17,18 +15,15 @@ class User {
       const salt = crypto.randomBytes(16).toString('hex');
       // Hash the password using the salt
       const hashedPassword = hashPassword(password, salt);
-      
+
       // Insert the new user into the database
       const result = await db.run(
         'INSERT INTO users (username, email, password_hash, salt, address, avatar_image, theme_preference) VALUES (?, ?, ?, ?, ?, ?, ?)',
         [username, email, hashedPassword, salt, address, avatar, theme]
       );
-      return result.lastID; // Return the ID of the new user
-    } catch (error) {
-      console.error('Error registering user:', error);
-      throw error;
+      return result.lastID;
     } finally {
-      if (db) await db.close(); // Ensure db connection is closed
+      if (db) await db.close();
     }
   }
 
@@ -37,9 +32,6 @@ class User {
     const db = await getDb();
     try {
       return await db.get('SELECT * FROM users WHERE username = ?', [username]);
-    } catch (error) {
-      console.error('Error finding user:', error);
-      throw error;
     } finally {
       if (db) await db.close();
     }
@@ -50,9 +42,6 @@ class User {
     const db = await getDb();
     try {
       return await db.get('SELECT * FROM users WHERE email = ?', [email]);
-    } catch (error) {
-      console.error('Error finding user by email:', error);
-      throw error;
     } finally {
       if (db) await db.close();
     }
@@ -72,9 +61,6 @@ class User {
     try {
       // Select all columns except the password hash and salt for security
       return await db.get('SELECT user_id, username, email, address, avatar_image, theme_preference, is_admin, created_at FROM users WHERE user_id = ?', [id]);
-    } catch (error) {
-      console.error('Error finding user by ID:', error);
-      throw error;
     } finally {
       if (db) await db.close();
     }
@@ -84,11 +70,10 @@ class User {
   static async updateProfile(userId, updates) {
     const db = await getDb();
     try {
-      // Include 'address' in valid fields
       const validFields = ['username', 'email', 'address', 'avatar_image', 'theme_preference'];
       const setClause = [];
       const values = [];
-      
+
       // Build the SET clause for the SQL query
       for (const key in updates) {
         if (validFields.includes(key)) {
@@ -96,26 +81,22 @@ class User {
           values.push(updates[key]);
         }
       }
-      
+
       // If no valid fields to update, return false
       if (setClause.length === 0) return false;
-      
+
       values.push(userId);
-      
+
       const result = await db.run(
         `UPDATE users SET ${setClause.join(', ')} WHERE user_id = ?`,
         values
       );
-      
+
       return result.changes > 0;
     } catch (error) {
-      // Handle potential UNIQUE constraint errors (e.g., duplicate username/email)
       if (error.code === 'SQLITE_CONSTRAINT_UNIQUE') {
-        console.error('Update failed due to unique constraint:', error.message);
-        // You might want to throw a more specific error or return a message
         throw new Error('Username or email already exists.');
       } else {
-        console.error('Error updating user profile:', error);
         throw error;
       }
     } finally {
@@ -129,16 +110,13 @@ class User {
     try {
       const salt = crypto.randomBytes(16).toString('hex');
       const hashedPassword = hashPassword(newPassword, salt);
-      
+
       const result = await db.run(
         'UPDATE users SET password_hash = ?, salt = ? WHERE user_id = ?',
         [hashedPassword, salt, userId]
       );
-      
+
       return result.changes > 0;
-    } catch (error) {
-      console.error('Error changing password:', error);
-      throw error;
     } finally {
       if (db) await db.close();
     }
@@ -149,9 +127,6 @@ class User {
     const db = await getDb();
     try {
       return await db.all('SELECT user_id, username, email, address, avatar_image, theme_preference, is_admin, created_at FROM users');
-    } catch (error) {
-      console.error('Error getting all users:', error);
-      throw error;
     } finally {
       if (db) await db.close();
     }
@@ -163,9 +138,6 @@ class User {
     try {
       const result = await db.run('DELETE FROM users WHERE user_id = ?', [userId]);
       return result.changes > 0;
-    } catch (error) {
-      console.error('Error deleting user:', error);
-      throw error;
     } finally {
       if (db) await db.close();
     }

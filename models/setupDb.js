@@ -1,25 +1,18 @@
-
 const getDb = require('./db');
-const fs = require('fs');
-const path = require('path');
-const crypto = require('crypto'); // Use built-in crypto module
-
+const crypto = require('crypto');
 // Function to initialize the database
 async function setupDb() {
-  let db; // Declare db variable here to ensure it's accessible in finally block
-  try {
-    db = await getDb(); // Assign the database connection
-    console.log('Setting up database...');
-    
+  let db; try {
+    db = await getDb();
     // Create users table - Updated schema
     await db.exec(`
       CREATE TABLE IF NOT EXISTS users (
         user_id INTEGER PRIMARY KEY AUTOINCREMENT,
         username TEXT NOT NULL UNIQUE,
         email TEXT NOT NULL UNIQUE,
-        password_hash TEXT NOT NULL, -- Store hash
-        salt TEXT NOT NULL,          -- Store salt
-        address TEXT,                -- Added address field
+        password_hash TEXT NOT NULL, 
+        salt TEXT NOT NULL,          
+        address TEXT,                
         avatar_image TEXT,
         theme_preference TEXT DEFAULT 'light',
         is_admin INTEGER DEFAULT 0,
@@ -81,33 +74,48 @@ async function setupDb() {
         custom_notes TEXT,
         FOREIGN KEY (box_id) REFERENCES boxes(box_id) ON DELETE CASCADE
       );
+
+      -- Added tables for Pokemon Types and Interactions
+      CREATE TABLE IF NOT EXISTS types (
+        type_id INTEGER PRIMARY KEY AUTOINCREMENT,
+        type_name TEXT NOT NULL UNIQUE
+      );
+
+      CREATE TABLE IF NOT EXISTS pokemon_types (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        pokemon_id INTEGER NOT NULL, -- Assumes PokeAPI ID or similar external ID
+        type_id INTEGER NOT NULL,
+        FOREIGN KEY (type_id) REFERENCES types(type_id) ON DELETE CASCADE,
+        UNIQUE (pokemon_id, type_id)
+      );
+
+      CREATE TABLE IF NOT EXISTS type_interactions (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        attacking_type_id INTEGER NOT NULL,
+        defending_type_id INTEGER NOT NULL,
+        multiplier REAL NOT NULL, -- e.g., 2.0, 0.5, 0.0, 1.0
+        FOREIGN KEY (attacking_type_id) REFERENCES types(type_id) ON DELETE CASCADE,
+        FOREIGN KEY (defending_type_id) REFERENCES types(type_id) ON DELETE CASCADE,
+        UNIQUE (attacking_type_id, defending_type_id)
+      );
     `);
 
     // Check if admin user exists
     const adminUser = await db.get('SELECT * FROM users WHERE username = ?', ['admin']);
-    
+
     // Create admin user if it doesn't exist using crypto
     if (!adminUser) {
       const salt = crypto.randomBytes(16).toString('hex');
-      // Use pbkdf2Sync for hashing (example, adjust iterations/keylen as needed)
       const hash = crypto.pbkdf2Sync('admin123', salt, 100000, 64, 'sha512').toString('hex');
-      
+
       await db.run(
         'INSERT INTO users (username, email, password_hash, salt, address, is_admin) VALUES (?, ?, ?, ?, ?, ?)',
-        ['admin', 'admin@rotomii.com', hash, salt, '123 Admin St', 1] // Added hash, salt, address
+        ['admin', 'admin@rotomii.com', hash, salt, '123 Admin St', 1]
       );
-      
-      console.log('Admin user created');
     }
-    
-    console.log('Database setup complete');
-  } catch (err) {
-    console.error('Error setting up database:', err);
-    throw err;
   } finally {
-    // Only close if the db object was successfully obtained
-    if (db) { 
-        await db.close();
+    if (db) {
+      await db.close();
     }
   }
 }
