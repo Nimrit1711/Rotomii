@@ -4,19 +4,27 @@
     <title>Just testing some code</title>
     <!-- <script defer src="/javascripts/poketest.js"></script> -->
     <script defer src="/javascripts/findPokemon.js"></script>
+    <script defer src="/javascripts/pokemonNames.js"></script>
+
   </head>
-  <body>
+  <body onload="getNameList()">
     <p>FIND A MON!</p>
     <br>
-    <input type="text" id="pokemon-name-input" placeholder="Enter Pokemon Name">
+    <input type="text" id="pokemon-name-input" placeholder="Enter Pokemon Name" list="pokemon-names-list">
+    <datalist id="pokemon-names-list"></datalist>
     <br>
     <button type="button" onclick="findPokemon()">Get mon</button>
-    <div id="results" style="display: none">
 
+    <div id="loading" style="display: none" >
+      <img src="https://cdn.dribbble.com/userupload/42095390/file/original-eb0650febbf162e56e7eacfb6efe259b.gif" alt="Fetching mon..." width="75">
+      <p>searching for pokemon</p>
+    </div>
+
+    <div id="results" style="display: none">
       <!--  If someone looks at this static HTML code and goes "huh. this would've been easier
             if vue was used with all the ids and stuff" . Well yes. yes it would :(      " -->
-      <!--  Art -->
 
+      <!--  Art -->
       <div style="float: left; margin-right: 50px;">
         <p> Official Art: </p>
         <img src="null" alt="pokemon official art" id="pokemon-official-art" width="150" height="150">

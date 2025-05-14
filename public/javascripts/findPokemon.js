@@ -557,7 +557,14 @@ function determineImmunities(defenses){
     return immuneArray;
 }
 
+
+
 function findPokemon() {
+    const resultDiv = document.getElementById('results');
+    const loadingImg = document.querySelector('#loading');
+    resultDiv.style.display = "none";
+    loadingImg.style.display = 'block';
+
     const pokemonName = document.getElementById('pokemon-name-input').value.toLowerCase();
 
     const xhttp = new XMLHttpRequest();
@@ -581,8 +588,6 @@ function findPokemon() {
             const defImmunities = determineImmunities(typeDefenses);
 
             /* poketest.html specific */
-            const resultDiv = document.getElementById('results');
-            resultDiv.style.display = "block";
 
             const typeP = document.getElementById('paragraph-1');
             typeP.innerText = pokemonName + "'s typing:";
@@ -638,6 +643,9 @@ function findPokemon() {
 
             const boxSpriteElement = document.getElementById('pokemon-box-sprite');
             boxSpriteElement.src = pokemonBoxSprite;
+
+            loadingImg.style.display = 'none';
+            resultDiv.style.display = "block";
         }
     };
     xhttp.open("GET", "/pokemon/" + pokemonName, true);
