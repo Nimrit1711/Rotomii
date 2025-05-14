@@ -634,7 +634,7 @@ function findPokemon(_slotNum) {
                     listImmune.appendChild(node);
                 }
             } else {
-                p4.innerText = pokemonName + " has not immunities.";
+                p4.innerText = pokemonName + " has no immunities.";
             }
 
             resultDiv.style.display = "block";
