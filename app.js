@@ -40,6 +40,12 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
+// makes the user available in all views
+app.use((req, res, next) => {
+  res.locals.user = req.user || null;
+  next();
+});
+
 // Passport configuration
 require('./config/passport')(passport);
 
