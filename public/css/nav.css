@@ -37,6 +37,11 @@
 
   }
 
+  .active {
+      color: var(--nav-color);
+    background-color: var(--nav-text);
+  }
+
   .navBar-logo {
     font-size: 2rem;
     font-family: 'PokemonSolid';
@@ -70,9 +75,9 @@
 
   }
 
-  .navBar-container .nav-links li a:hover, .navBar-container .nav-links li a.active{
-    color: var(--nav-color);
-    background-color: var(--nav-text);
+  .navBar-container .nav-links li, .navBar-container .nav-links li a.active{
+    color: var(--heading-color);
+
 
   }
 

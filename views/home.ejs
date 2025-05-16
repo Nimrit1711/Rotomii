@@ -15,7 +15,11 @@
 
     <!-- Main body -->
      <main class = "main-body">
-        <h1>Welcome to Rotomii</h1>
+       <% if (user) { %>
+        <h1>Welcome to Rotomii, <%= user.username %>!</h1>
+        <% } else { %>
+            <h1>Welcome to Rotomii!</h1>
+        <% } %>
             <div class = "search-box">
                 <input class = "search-text" type = "text" placeholder="Search for a Pokemon..." />
                 <i class ="fa fa-search"></i>

@@ -40,11 +40,15 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
-// makes the user available in all views
+//makes the user available in all views
 app.use((req, res, next) => {
   res.locals.user = req.user || null;
+  // get current path
+    res.locals.currentPath = req.path;
   next();
 });
+
+
 
 // Passport configuration
 require('./config/passport')(passport);
@@ -72,9 +76,10 @@ app.use(function(err, req, res, next) {
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
 
+
   // render the error page
   res.status(err.status || 500);
-  res.render('error');
+   res.render('error', { error: err, message: err.message });
 });
 
 // Get user profile if logged in

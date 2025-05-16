@@ -10,14 +10,14 @@
             <span class ="bar"></span>
         </button>
         <ul class = "nav-links">
-            <li><a href="/" class = "active">Home</a></li>
-            <li><a href= "/myteams" >My Teams</a></li>
+           <li><a href="/" class="<%= currentPath === '/' ? 'active' : '' %>">Home</a></li>
                 <% if (user) { %>
-                    <li><a href = "/profile"><%= user.username %></a></li>
-                    <li><a href = "api/auth/logout">Logout</a></li>
+                    <li><a href="/myteams" class="<%= currentPath === '/myteams' ? 'active' : '' %>">My Teams</a></li>
+                    <li><a href="/profile" class="<%= currentPath === '/profile' ? 'active' : '' %>"><%= user.username %></a></li>
+                    <li><a href="/api/auth/logout">Logout</a></li>
                 <% } else { %>
-                    <li><a href="/login">Login</a></li>
-               <% } %>
+                    <li><a href="/login" class="<%= currentPath === '/login' ? 'active' : '' %>">Login</a></li>
+                <% } %>
 
             <li class= "nav-search-item">
                 <form class= "nav-search" onsubmit="return false;">
