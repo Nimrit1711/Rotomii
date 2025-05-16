@@ -21,7 +21,7 @@
     flex: 1;
     border: none;
     outline: none;
-    font-size: 1rem;
+    font-size: 2vh;
     padding: 0.5rem;
     background-color: transparent;
     color: var(--search-text-color);
@@ -46,7 +46,7 @@
   }
 
   .main-body h1 {
-    font-size: 5rem;
+    font-size: 8vh;
     padding: 1rem;
     font-family: "Fredoka", sans-serif;
     color: var(--heading-color);
@@ -61,5 +61,11 @@
   100% {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+@media screen and (min-width: 600px) {
+  .container {
+    margin: 1em 2em;
   }
 }

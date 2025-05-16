@@ -75,9 +75,9 @@
 
   }
 
-  .navBar-container .nav-links li, .navBar-container .nav-links li a.active{
-    color: var(--heading-color);
-
+  .navBar-container .nav-links li a:hover, .navBar-container .nav-links li a.active{
+    color: var(--nav-color);
+    background-color: var(--nav-text);
 
   }
 
