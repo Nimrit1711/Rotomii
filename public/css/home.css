@@ -1,38 +1,82 @@
   /*Search bar in main body */
-  .search-box {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+  .search-container {
     width: 100%;
-    max-width: 400px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 20px 0;
+    padding: 0 20px;
+    box-sizing: border-box;
+  }
+
+  .search-box {
+    position: relative;
+    width: 100%;
+    max-width: 450px;
     background: var(--body-search-bg);
-    border-radius: 25px;
+    border-radius: 30px;
     border: none;
-    padding: 0.5rem 1rem;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     opacity: 0;
     animation: fadeSlideUp 0.8s ease forwards;
     animation-delay: 0.5s;
+    display: flex;
+    align-items: center;
+    box-sizing: border-box;
+    overflow: hidden;
+    min-height: 50px;
   }
-
-
 
 .search-text {
-    flex: 1;
+    width: 100%;
     border: none;
     outline: none;
-    font-size: 2vh;
-    padding: 0.5rem;
+    font-size: 16px;
+    line-height: 1.5;
+    padding: 15px 60px 15px 25px;
     background-color: transparent;
     color: var(--search-text-color);
+    box-sizing: border-box;
+    display: block;
+    border-top: none;
+    border-bottom: none;
+    border-left: none;
+    border-right: none;
+    box-shadow: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    vertical-align: middle;
   }
 
-  .search-box i {
+/* Placeholder styling */
+.search-text::placeholder {
+    color: var(--search-text-color);
+    opacity: 0.7;
+    vertical-align: middle;
+  }
+
+  .search-box button {
+    position: absolute;
+    right: 5px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+  }
+
+  .search-box i, .search-box button i {
     color: var(--heading-color);
+    font-size: 18px;
   }
-
-
-  /*main body */
 
   .main-body {
     display: flex;
@@ -40,9 +84,15 @@
     align-items: center;
     justify-content: center;
     height: 50vh;
-    padding: 0 1rem;
+    padding: 0;
+    margin: 0 auto;
     text-align: center;
     animation: fadeSlideUp 0.8s ease forwards;
+    width: 100%;
+    box-sizing: border-box;
+    max-width: 100%;
+    position: relative;
+    overflow-x: hidden;
   }
 
   .main-body h1 {
@@ -61,11 +111,5 @@
   100% {
     opacity: 1;
     transform: translateY(0);
-  }
-}
-
-@media screen and (min-width: 600px) {
-  .container {
-    margin: 1em 2em;
   }
 }

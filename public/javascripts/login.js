@@ -1,27 +1,33 @@
 
+const form = document.querySelector('#login-form');
+const errorMsg = document.getElementById('error');
 
-  const form = document.querySelector('#login-form');
-  form.addEventListener('submit', async function(e){
-    e.preventDefault();
-    const formData = new FormData(form);
-    const data = Object.fromEntries(formData);
+form.addEventListener('submit', async function(e) {
+  e.preventDefault();
+  
+  // Clear previous error message
+  errorMsg.textContent = '';
+  
+  const formData = new FormData(form);
+  const data = Object.fromEntries(formData);
+  
+  try {
+    const response = await fetch('/api/auth/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
+      body: JSON.stringify(data)
+    });
 
-      const response = await fetch('/api/auth/login', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    credentials: 'include',
-    body: JSON.stringify(data)
-  });
-
-  const dataResponse = await response.json();
+    const dataResponse = await response.json();
+    
     if (response.ok) {
       window.location.href = '/';
-  } else {
-      document.getElementById('error').textContent = dataResponse.message || 'login failed';
+    } else {
+      errorMsg.textContent = dataResponse.message || 'Login failed';
     }
-
-  });
-
-
-
-
+  } catch (err) {
+    console.error('Login error:', err);
+    errorMsg.textContent = 'Something went wrong. Please try again.';
+  }
+});

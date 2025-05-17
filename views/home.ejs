@@ -14,16 +14,20 @@
     </header>
 
     <!-- Main body -->
-     <main class = "main-body">
+     <main class="main-body">
        <% if (user) { %>
         <h1>Welcome to Rotomii, <%= user.username %>!</h1>
         <% } else { %>
             <h1>Welcome to Rotomii!</h1>
         <% } %>
-            <div class = "search-box">
-                <input class = "search-text" type = "text" placeholder="Search for a Pokemon..." />
-                <i class ="fa fa-search"></i>
-            </div>
+        <div class="search-container">
+            <form class="search-box">
+                <input class="search-text" type="text" placeholder="Search for a Pokemon..." />
+                <button type="submit" aria-label="Search">
+                    <i class="fa fa-search"></i>
+                </button>
+            </form>
+        </div>
      </main>
     <!-- TEAM BUILDER TEST (commented out) 
      <%- include('partials/testTeamBuilder') %>
