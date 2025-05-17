@@ -44,6 +44,16 @@ app.use('/pokemon', pokemonRouter);
 app.use(passport.initialize());
 app.use(passport.session());
 
+//makes the user available in all views
+app.use((req, res, next) => {
+  res.locals.user = req.user || null;
+  // get current path
+    res.locals.currentPath = req.path;
+  next();
+});
+
+
+
 // Passport configuration
 require('./config/passport')(passport);
 
@@ -63,18 +73,6 @@ app.use('/api/auth', authRoutes);
 app.use('/api/pokemon', pokemonRoutes);
 app.use('/api/teams', teamRoutes);
 app.use('/', indexRoutes);
-
-// error handler
-app.use(function(err, req, res, next) {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
-
-  // render the error page
-  res.status(err.status || 500);
-  res.render('error');
-});
-
 // Get user profile if logged in
 app.get('/api/profile', isAuthenticated, (req, res) => {
   res.json({
@@ -98,6 +96,24 @@ app.get('/api/admin/users', isAdmin, async (req, res) => {
     return res.status(500).json({ message: 'Server error' });
   }
 });
+
+app.use((req, res, next) => {
+  next(createError(404, 'Page Not Found'));
+});
+
+// error handler
+app.use(function(err, req, res, next) {
+  // set locals, only providing error in development
+  res.locals.message = err.message;
+  res.locals.error = req.app.get('env') === 'development' ? err : {};
+
+
+  // render the error page
+  res.status(err.status || 500);
+   res.render('error', { error: err, message: err.message });
+});
+
+
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {

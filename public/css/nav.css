@@ -37,6 +37,11 @@
 
   }
 
+  .active {
+      color: var(--nav-color);
+    background-color: var(--nav-text);
+  }
+
   .navBar-logo {
     font-size: 2rem;
     font-family: 'PokemonSolid';
@@ -65,7 +70,6 @@
     font-size: 1rem;
     font-weight: 500;
     padding: 5px 25px;
-
     transition: all 0.7s ease;
     white-space: nowrap;
 

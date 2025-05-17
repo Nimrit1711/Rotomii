@@ -6,10 +6,8 @@ body{
 
 .container{
     background: var(--body-search-bg);
-    position: absolute;
-    top: 50%;
-    left:50%;
-    transform: translate(-50%,-50%);
+    padding: 6rem auto;
+    margin: 1rem auto;
     max-width:430px;
     width:100%;
     border-radius: 7px;
@@ -18,15 +16,14 @@ body{
 
 
 
-
 .container .form{
-    padding: 2rem;
+    padding:  3rem;
 }
 
 
 
 .form h1{
-    font-size: 2rem;
+    font-size: 4vh;
     text-align: center;
     margin-bottom: 1.5rem;
     font-family: "Fredoka", sans-serif;
@@ -37,7 +34,7 @@ body{
     height:60px;
     width: 100%;
     padding: 0 15px;
-    font-size: 17px;
+    font-size: 2vh;
     margin-bottom: 1.3rem;
     border: 1px solid var(--nav-color) ;
     outline: none;
@@ -48,7 +45,7 @@ body{
 }
 
 .form a{
-    font-size: 16px;
+    font-size: 2vh;
     color: var(--heading-color);
     text-decoration: none;
 }
@@ -60,7 +57,7 @@ body{
 .form .Login-button{
     color: #fff;
     background-color: var(--login-button);
-    font-size: 1.2rem;
+    font-size: 2vh;
     font-weight: 500;
     letter-spacing: 1px;
     margin-top: 1.3rem;
@@ -78,7 +75,7 @@ body{
 }
 
 .signup{
-    font-size: 17px;
+    font-size: 2vh;
     text-align: center;
     padding-top: 1rem;
 }
@@ -90,4 +87,11 @@ body{
 
 .signup label:hover{
     text-decoration: underline;
+}
+
+@media (max-height: 600px) {
+  .container {
+    max-height: 90vh;
+    overflow-y: auto;
+  }
 }

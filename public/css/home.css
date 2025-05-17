@@ -10,6 +10,9 @@
     border: none;
     padding: 0.5rem 1rem;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    opacity: 0;
+    animation: fadeSlideUp 0.8s ease forwards;
+    animation-delay: 0.5s;
   }
 
 
@@ -18,7 +21,7 @@
     flex: 1;
     border: none;
     outline: none;
-    font-size: 1rem;
+    font-size: 2vh;
     padding: 0.5rem;
     background-color: transparent;
     color: var(--search-text-color);
@@ -39,14 +42,30 @@
     height: 50vh;
     padding: 0 1rem;
     text-align: center;
-    transition: transform 0.3s ease;
+    animation: fadeSlideUp 0.8s ease forwards;
   }
 
   .main-body h1 {
-    font-size: 5rem;
+    font-size: 8vh;
     padding: 1rem;
     font-family: "Fredoka", sans-serif;
     color: var(--heading-color);
     -webkit-text-stroke: .05rem var(--heading-stroke);
   }
 
+@keyframes fadeSlideUp {
+  0% {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media screen and (min-width: 600px) {
+  .container {
+    margin: 1em 2em;
+  }
+}
