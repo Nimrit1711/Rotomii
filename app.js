@@ -36,6 +36,12 @@ app.use(session({
     maxAge: 24 * 60 * 60 * 1000 // 1 day in milliseconds
   }
 }));
+
+app.use((req, res, next) => {
+  res.locals.user = req.user || null;
+    res.locals.currentPath = req.path;
+  next();
+});
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/pokemon', pokemonRouter);
@@ -43,14 +49,6 @@ app.use('/pokemon', pokemonRouter);
 // Setup passport stuff
 app.use(passport.initialize());
 app.use(passport.session());
-
-//makes the user available in all views
-app.use((req, res, next) => {
-  res.locals.user = req.user || null;
-  // get current path
-    res.locals.currentPath = req.path;
-  next();
-});
 
 
 
