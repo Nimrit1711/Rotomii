@@ -37,18 +37,20 @@ app.use(session({
   }
 }));
 
-app.use((req, res, next) => {
-  res.locals.user = req.user || null;
-    res.locals.currentPath = req.path;
-  next();
-});
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
-app.use('/pokemon', pokemonRouter);
-
 // Setup passport stuff
 app.use(passport.initialize());
 app.use(passport.session());
+
+// Make user available in all views
+app.use((req, res, next) => {
+  res.locals.user = req.user || null;
+  res.locals.currentPath = req.path;
+  next();
+});
+
+app.use('/', indexRouter);
+app.use('/users', usersRouter);
+app.use('/pokemon', pokemonRouter);
 
 
 
