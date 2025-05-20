@@ -1,5 +1,8 @@
 const express = require("express");
 const path = require('path');
+const { nextTick } = require("process");
+const { queryObjects } = require("v8");
+const User = require("../models/user");
 
 const router = express.Router();
 let publicPath = path.join(__dirname, '..', 'public');
@@ -13,13 +16,16 @@ router.get('/myteams', (req, res) => {
   res.render('teams');
 });
 
-router.get('/profile', (req, res) => {
-  res.render('profile');
+router.get('/profile', async (req, res) => {
+  try {
+    const user = await User.findById(req.user.user_id);
+    res.render('profile', { user });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Error loading profile');
+  }
 });
 
-router.get('/myboxes', (req, res) => {
-  res.render('boxes');
-});
 
 router.get('/login', (req, res) => {
   res.render('login');

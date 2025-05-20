@@ -1,3 +1,4 @@
+const router = require('../routes');
 const getDb = require('./db');
 const crypto = require('crypto');
 // Function to hash a password with a salt
@@ -143,5 +144,25 @@ class User {
     }
   }
 }
+
+
+// update users theme
+
+router.post('/profile/update-theme', isLoggedIn, async (req, res) => {
+  const userId = req.user.user_id;
+  const { theme } = req.body;
+
+  if (!['light', 'dark'].includes(theme)) {
+    return res.status(400).json({error: 'INVALID theme value'});
+  }
+
+  try {
+    await user.updateProfile(userId, { theme_preference: theme });
+    res.status(200).json({ success: true });
+  } catch (err) {
+    console.error('Error updating theme:', err);
+    res.status(500).json({ error: 'Server error '});
+  }
+});
 
 module.exports = User;
