@@ -25,13 +25,13 @@ const enableDarkMode = () => {
 const disableDarkMode = () => {
     document.body.classList.remove('darkMode');
     localStorage.setItem('darkMode',null);
-    updateThemePreference('Light');
+    //updateThemePreference('Light');
 };
 
 
 
 if(darkMode === "active"){
-    updateThemePreference('Dark');
+    //updateThemePreference('Dark');
     enableDarkMode();
 }
 

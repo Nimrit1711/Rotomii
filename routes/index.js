@@ -4,6 +4,7 @@ const { nextTick } = require("process");
 const { queryObjects } = require("v8");
 const User = require("../models/user");
 
+
 const router = express.Router();
 let publicPath = path.join(__dirname, '..', 'public');
 
@@ -27,6 +28,10 @@ router.get('/profile', async (req, res) => {
 });
 
 
+router.get('/edit-profile', (req, res) => {
+  res.render('profileEdit');
+});
+
 router.get('/login', (req, res) => {
   res.render('login');
 });
@@ -35,4 +40,23 @@ router.get('/register', (req, res) => {
   res.render('register.ejs');
 });
 
+
+// update users theme
+
+// router.post('/profile/update-theme', async (req, res) => {
+//   const userId = req.user.user_id;
+//   const { theme } = req.body;
+
+//   if (!['light', 'dark'].includes(theme)) {
+//     return res.status(400).json({error: 'INVALID theme value'});
+//   }
+
+//   try {
+//     await user.updateProfile(userId, { theme_preference: theme });
+//     res.status(200).json({ success: true });
+//   } catch (err) {
+//     console.error('Error updating theme:', err);
+//     res.status(500).json({ error: 'Server error '});
+//   }
+// });
 module.exports = router;

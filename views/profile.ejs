@@ -23,9 +23,7 @@
                 <% } %>
             </div>
         <div class="edit-btn-wrapper">
-            <form action="/profile/edit-avatar" method="GET">
-                <button type = "submit">Edit profile</button>
-            </form>
+                <a href="/edit-profile" class="edit-btn">Edit profile</a>
         </div>
     </div>
         <div class="profile-details">
@@ -35,11 +33,7 @@
             <p><strong>Password:</strong> ******** </p>
             <p><strong>Theme: </strong><%= user.theme_preference %></p>
             <p><strong>Joined: </strong><%= new Date(user.created_at).toLocaleDateString() %></p>
-
-
-
         </div>
-
     </div>
 
     <!--  footer  -->

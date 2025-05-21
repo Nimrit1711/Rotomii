@@ -33,14 +33,11 @@
     box-sizing: border-box;
   }
 
-
-
   body {
     font-family: 'Segoe UI', sans-serif;
     background-color: var(--bg-color);
     color: var(--text-color);
   }
-
 
   h1 {
     font-family: "Fredoka", sans-serif;
