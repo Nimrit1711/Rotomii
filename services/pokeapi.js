@@ -64,6 +64,12 @@ const pokeApiService = {
       .slice(0, limit);
 
     return matches;
+  },
+
+  // Get all Pokemon names (for autocomplete/search features)
+  getPokemonNames: async () => {
+    const response = await fetchFromPokeAPI('/pokemon-form/?limit=1527');
+    return response.results.map((pokemon) => pokemon.name);
   }
 };
 

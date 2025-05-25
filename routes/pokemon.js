@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const pokeApiService = require('../services/pokeapi');
 
 // TODO: Implement Pokemon search and detail routes (Kristian)
 // - Search route using PokeAPI
@@ -11,14 +12,7 @@ router.get('/search', (req, res) => {
 
 router.get('/nameslist', async (req, res) => {
   try {
-    const pokemonData = await fetch('https://pokeapi.co/api/v2/pokemon-form/?limit=1527');
-    const pokemonDataJson = await pokemonData.json();
-
-    let namesArray = [];
-    for (let i = 0; i < pokemonDataJson.results.length ; i++){
-      namesArray.push(pokemonDataJson.results[i].name);
-    }
-
+    const namesArray = await pokeApiService.getPokemonNames();
     res.json(namesArray);
   } catch(error) {
     res.status(500).json({ error: 'PokeAPI request failed.' });
@@ -27,10 +21,8 @@ router.get('/nameslist', async (req, res) => {
 
 router.get('/:pokemonId', async (req, res) => {
   try {
-    const pokemonData = await fetch('https://pokeapi.co/api/v2/pokemon/' + req.params.pokemonId);
-    const pokemonDataJson = await pokemonData.json();
-    res.json(pokemonDataJson);
-
+    const pokemonData = await pokeApiService.getPokemon(req.params.pokemonId);
+    res.json(pokemonData);
   } catch(error) {
     res.status(500).json({ error: 'PokeAPI request failed.' });
   }
