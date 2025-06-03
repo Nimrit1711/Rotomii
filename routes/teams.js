@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { isAuthenticated } = require('../middleware/auth');
+const getDb = require('../models/db');
 
 // TODO: Implement Team management routes (Madeleine/Alex)
 // - Create new team
@@ -11,9 +12,55 @@ const { isAuthenticated } = require('../middleware/auth');
 // - Delete team
 // - Maybe update Pokemon details within a team (nickname, notes)
 
-router.get('/', isAuthenticated, (req, res) => {
-  res.json({ message: "Get user's teams (Madeleine/Alex to implement)" });
-});
+router.get('/', isAuthenticated, async (req, res) => {
+  let db;
+  try {
+    db = await getDb();
+    const userId = req.user.user_id;
+    console.log(req.user);
+    console.log(userId);
+    const teamGet = await db.all(`SELECT * FROM teams WHERE user_id = ?`, [userId]);
+    const teams = [];
+    for (const team of teamGet) {
+      const pokemonRows = await db.all(`
+        SELECT position, nickname, pokemon_id
+        FROM team_pokemon
+        WHERE team_id = ?
+        ORDER BY position ASC
+        `, [team.team_id]);
+         console.log(`Pokémon for team ${team.team_name}:`, pokemonRows);
+        const pokemon = [];
+        for (let i=0; i<6; i++){
+          const poke = pokemonRows.find((p) => p.position === i +1);
+          if (poke) {
+            pokemon.push({
+              name: poke.pokemon_id,
+              nickname: poke.nickname,
+              spriteUrl: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${poke.pokemon_id}.png`
+            });
+          } else {
+            pokemon.push(null);
+          }
+        }
+
+        teams.push({
+          id: team.team_id,
+          nickname: team.team_name,
+          pokemon
+        });
+    }
+
+    res.render('teams', { teams });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Error fetching teams');
+  } finally {
+    if (db) {
+      await db.close();
+    }
+  }
+  });
+
 
 router.post('/', isAuthenticated, (req, res) => {
   res.json({ message: 'Create new team (Madeleine/Alex to implement)' });

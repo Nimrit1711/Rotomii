@@ -4,13 +4,13 @@ const errorMsg = document.getElementById('error');
 
 form.addEventListener('submit', async function(e) {
   e.preventDefault();
-  
+
   // Clear previous error message
   errorMsg.textContent = '';
-  
+
   const formData = new FormData(form);
   const data = Object.fromEntries(formData);
-  
+
   try {
     const response = await fetch('/api/auth/login', {
       method: 'POST',
@@ -20,7 +20,7 @@ form.addEventListener('submit', async function(e) {
     });
 
     const dataResponse = await response.json();
-    
+
     if (response.ok) {
       window.location.href = '/';
     } else {

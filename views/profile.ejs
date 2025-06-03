@@ -4,6 +4,7 @@
     <meta name = "viewport" content="width=device-width, initial-scale=1.0" />
     <title> Rotomii - My Profile </title>
     <link rel="stylesheet" href="css/themeSwitch.css" />
+    <link rel="stylesheet" href="css/profile.css" />
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&display=swap" rel="stylesheet">
 </head>
 <header>
@@ -11,6 +12,29 @@
 </header>
 
 <body>
+    <div class="profile-container">
+        <h1>Your Profile</h1>
+        <div class="profile-row">
+            <div class="avatar-wrapper">
+                <% if (user.avatar_image) { %>
+                        <img src="<% user.avatar_image %>" alt="avatar" class="avatar-img">
+                    <% } else { %>
+                        <img src= "/images/default-PFP.jpg" alt ="default-avatar" class="avatar-img">
+                <% } %>
+            </div>
+        <div class="edit-btn-wrapper">
+                <a href="/edit-profile" class="edit-btn">Edit profile</a>
+        </div>
+    </div>
+        <div class="profile-details">
+            <p><strong>Username: </strong><%= user.username %></p>
+            <p><strong>Email: </strong><%= user.email %></p>
+            <p><strong>Address: </strong><%= user.address || "N/A" %></p>
+            <p><strong>Password:</strong> ******** </p>
+            <p><strong>Theme: </strong><%= user.theme_preference %></p>
+            <p><strong>Joined: </strong><%= new Date(user.created_at).toLocaleDateString() %></p>
+        </div>
+    </div>
 
     <!--  footer  -->
     <%- include('partials/footer') %>
