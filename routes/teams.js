@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { isAuthenticated } = require('../middleware/auth');
+const getDb = require('../models/db');
 
 // TODO: Implement Team management routes (Madeleine/Alex)
 // - Create new team
@@ -12,19 +13,20 @@ const { isAuthenticated } = require('../middleware/auth');
 // - Maybe update Pokemon details within a team (nickname, notes)
 
 router.get('/', isAuthenticated, async (req, res) => {
+  let db;
   try {
-    const userId = req.session.user.user_id;
-    console.log(req.session.user);
+    db = await getDb();
+    const userId = req.user.user_id;
+    console.log(req.user);
     console.log(userId);
     const teamGet = await db.all(`SELECT * FROM teams WHERE user_id = ?`, [userId]);
     const teams = [];
     for (const team of teamGet) {
       const pokemonRows = await db.all(`
-        SELECT team_pokemon.position, team_pokemon.nickname, pokemon.name team_pokemon_id
-        FROM team_pokemon tp
-        JOIN pokemon p ON team_pokemon.pokemon_id = pokemon.id
-        WHERE team_pokemon.team_id = ?
-        ORDER BY team_pokemon.position ASC
+        SELECT position, nickname, pokemon_id
+        FROM team_pokemon
+        WHERE team_id = ?
+        ORDER BY position ASC
         `, [team.team_id]);
          console.log(`Pokémon for team ${team.team_name}:`, pokemonRows);
         const pokemon = [];
@@ -32,7 +34,7 @@ router.get('/', isAuthenticated, async (req, res) => {
           const poke = pokemonRows.find((p) => p.position === i +1);
           if (poke) {
             pokemon.push({
-              name: poke.name,
+              name: poke.pokemon_id,
               nickname: poke.nickname,
               spriteUrl: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${poke.pokemon_id}.png`
             });
@@ -52,6 +54,10 @@ router.get('/', isAuthenticated, async (req, res) => {
   } catch (err) {
     console.error(err);
     res.status(500).send('Error fetching teams');
+  } finally {
+    if (db) {
+      await db.close();
+    }
   }
   });
 
