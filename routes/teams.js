@@ -2,15 +2,7 @@ const express = require('express');
 const router = express.Router();
 const { isAuthenticated } = require('../middleware/auth');
 const getDb = require('../models/db');
-
-// TODO: Implement Team management routes (Madeleine/Alex)
-// - Create new team
-// - Get user's teams
-// - Get specific team details (with Pokemon)
-// - Add/Remove Pokemon from team
-// - Update team notes/name
-// - Delete team
-// - Maybe update Pokemon details within a team (nickname, notes)
+const Team = require('../models/team');
 
 router.get('/', isAuthenticated, async (req, res) => {
   let db;
@@ -59,25 +51,279 @@ router.get('/', isAuthenticated, async (req, res) => {
       await db.close();
     }
   }
-  });
-
-
-router.post('/', isAuthenticated, (req, res) => {
-  res.json({ message: 'Create new team (Madeleine/Alex to implement)' });
 });
 
-router.get('/:teamId', isAuthenticated, (req, res) => {
-  res.json({ message: `Get team ${req.params.teamId} details (Madeleine/Alex to implement)` });
+// Render team creation page
+router.get('/create', isAuthenticated, (req, res) => {
+  res.render('team-create');
 });
 
-router.post('/:teamId/pokemon', isAuthenticated, (req, res) => {
-    res.json({ message: `Add Pokemon to team ${req.params.teamId} (Madeleine/Alex to implement)` });
+
+// Create new team
+router.post('/', isAuthenticated, async (req, res) => {
+  try {
+    const userId = req.user.user_id;
+    const { teamName, notes } = req.body;
+
+    if (!teamName) {
+      return res.status(400).json({ error: 'Team name is required' });
+    }
+
+    const teamId = await Team.createTeam(userId, teamName, notes);
+    res.status(201).json({
+      success: true,
+      teamId,
+      message: 'Team created successfully'
+    });
+  } catch (err) {
+    console.error('Error creating team:', err);
+    res.status(500).json({ error: 'Failed to create team' });
+  }
 });
 
-router.delete('/:teamId/pokemon/:position', isAuthenticated, (req, res) => {
-    res.json({ message: `Remove Pokemon at position ${req.params.position} from team ${req.params.teamId} (Madeleine/Alex to implement)` });
+// Render team detail page
+router.get('/:teamId(\\d+)', isAuthenticated, async (req, res) => {
+  try {
+    const teamId = parseInt(req.params.teamId, 10);
+    const userId = req.user.user_id;
+
+    const team = await Team.getTeamById(teamId);
+
+    if (!team) {
+      return res.status(404).send('Team not found');
+    }
+
+    // Check if the team belongs to the requesting user
+    if (team.user_id !== userId) {
+      return res.status(403).send('Unauthorized access to this team');
+    }
+
+    // Format the Pokemon data for the view
+    const pokemon = [];
+    for (let i = 1; i <= 6; i++) {
+      const poke = team.pokemon.find((p) => p.position === i);
+      if (poke) {
+        pokemon.push({
+          position: i,
+          id: poke.pokemon_id,
+          nickname: poke.nickname,
+          notes: poke.custom_notes,
+          spriteUrl: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${poke.pokemon_id}.png`
+        });
+      } else {
+        pokemon.push(null);
+      }
+    }
+
+    res.render('team-detail', {
+      team: {
+        ...team,
+        pokemon
+      }
+    });
+  } catch (err) {
+    console.error('Error fetching team:', err);
+    res.status(500).send('Error loading team details');
+  }
 });
 
-// Add more routes for team modifications...
+// Get specific team details
+router.get('/:teamId', isAuthenticated, async (req, res) => {
+  try {
+    const teamId = parseInt(req.params.teamId, 10);
+    const userId = req.user.user_id;
+
+    const team = await Team.getTeamById(teamId);
+
+    if (!team) {
+      return res.status(404).json({ error: 'Team not found' });
+    }
+
+    // Check if the team belongs to the requesting user
+    if (team.user_id !== userId) {
+      return res.status(403).json({ error: 'Unauthorized access to this team' });
+    }
+
+    res.json({
+      success: true,
+      team
+    });
+  } catch (err) {
+    console.error('Error fetching team:', err);
+    res.status(500).json({ error: 'Failed to fetch team details' });
+  }
+});
+
+// Add/Update Pokemon in team
+router.post('/:teamId/pokemon', isAuthenticated, async (req, res) => {
+  try {
+    const teamId = parseInt(req.params.teamId, 10);
+    const userId = req.user.user_id;
+    const {
+ position, pokemonId, nickname, notes
+} = req.body;
+
+    // Validate input
+    if (!position || !pokemonId) {
+      return res.status(400).json({ error: 'Position and Pokemon ID are required' });
+    }
+
+    // Check if the team belongs to the user
+    const team = await Team.getTeamById(teamId);
+    if (!team) {
+      return res.status(404).json({ error: 'Team not found' });
+    }
+    if (team.user_id !== userId) {
+      return res.status(403).json({ error: 'Unauthorized access to this team' });
+    }
+
+    // Add Pokemon to team
+    const pokemonEntryId = await Team.addPokemonToTeam(
+      teamId,
+      parseInt(position, 10),
+      pokemonId,
+      nickname || '',
+      notes || ''
+    );
+
+    res.json({
+      success: true,
+      pokemonEntryId,
+      message: 'Pokemon added to team successfully'
+    });
+  } catch (err) {
+    console.error('Error adding Pokemon to team:', err);
+    res.status(500).json({ error: err.message || 'Failed to add Pokemon to team' });
+  }
+});
+
+// Remove Pokemon from team
+router.delete('/:teamId/pokemon/:position', isAuthenticated, async (req, res) => {
+  try {
+    const teamId = parseInt(req.params.teamId, 10);
+    const position = parseInt(req.params.position, 10);
+    const userId = req.user.user_id;
+
+    // Check if the team belongs to the user
+    const team = await Team.getTeamById(teamId);
+    if (!team) {
+      return res.status(404).json({ error: 'Team not found' });
+    }
+    if (team.user_id !== userId) {
+      return res.status(403).json({ error: 'Unauthorized access to this team' });
+    }
+
+    // Remove Pokemon from team
+    const success = await Team.removePokemonFromTeam(teamId, position);
+
+    if (success) {
+      res.json({
+        success: true,
+        message: 'Pokemon removed from team successfully'
+      });
+    } else {
+      res.status(404).json({ error: 'Pokemon not found at this position' });
+    }
+  } catch (err) {
+    console.error('Error removing Pokemon from team:', err);
+    res.status(500).json({ error: 'Failed to remove Pokemon from team' });
+  }
+});
+
+// Update team name/notes
+router.put('/:teamId', isAuthenticated, async (req, res) => {
+  try {
+    const teamId = parseInt(req.params.teamId, 10);
+    const userId = req.user.user_id;
+    const { team_name, notes } = req.body;
+
+    // Check if the team belongs to the user
+    const team = await Team.getTeamById(teamId);
+    if (!team) {
+      return res.status(404).json({ error: 'Team not found' });
+    }
+    if (team.user_id !== userId) {
+      return res.status(403).json({ error: 'Unauthorized access to this team' });
+    }
+
+    // Update team
+    const updates = {};
+    if (team_name !== undefined) updates.team_name = team_name;
+    if (notes !== undefined) updates.notes = notes;
+
+    const success = await Team.updateTeam(teamId, updates);
+
+    if (success) {
+      res.json({
+        success: true,
+        message: 'Team updated successfully'
+      });
+    } else {
+      res.status(400).json({ error: 'No valid fields to update' });
+    }
+  } catch (err) {
+    console.error('Error updating team:', err);
+    res.status(500).json({ error: 'Failed to update team' });
+  }
+});
+
+// Delete team
+router.delete('/:teamId', isAuthenticated, async (req, res) => {
+  try {
+    const teamId = parseInt(req.params.teamId, 10);
+    const userId = req.user.user_id;
+
+    // Check if the team belongs to the user
+    const team = await Team.getTeamById(teamId);
+    if (!team) {
+      return res.status(404).json({ error: 'Team not found' });
+    }
+    if (team.user_id !== userId) {
+      return res.status(403).json({ error: 'Unauthorized access to this team' });
+    }
+
+    // Delete team
+    const success = await Team.deleteTeam(teamId);
+
+    if (success) {
+      res.json({
+        success: true,
+        message: 'Team deleted successfully'
+      });
+    } else {
+      res.status(500).json({ error: 'Failed to delete team' });
+    }
+  } catch (err) {
+    console.error('Error deleting team:', err);
+    res.status(500).json({ error: 'Failed to delete team' });
+  }
+});
+
+// Get team Pokemon count
+router.get('/:teamId/count', isAuthenticated, async (req, res) => {
+  try {
+    const teamId = parseInt(req.params.teamId, 10);
+    const userId = req.user.user_id;
+
+    // Check if the team belongs to the user
+    const team = await Team.getTeamById(teamId);
+    if (!team) {
+      return res.status(404).json({ error: 'Team not found' });
+    }
+    if (team.user_id !== userId) {
+      return res.status(403).json({ error: 'Unauthorized access to this team' });
+    }
+
+    const count = await Team.countPokemonInTeam(teamId);
+
+    res.json({
+      success: true,
+      count
+    });
+  } catch (err) {
+    console.error('Error counting Pokemon in team:', err);
+    res.status(500).json({ error: 'Failed to count Pokemon in team' });
+  }
+});
 
 module.exports = router;
