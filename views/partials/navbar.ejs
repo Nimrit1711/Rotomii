@@ -12,7 +12,7 @@
         <ul class = "nav-links">
            <li><a href="/" class="<%= currentPath === '/' ? 'active' : '' %>">Home</a></li>
                 <% if (user) { %>
-                    <li><a href="/myteams" class="<%= currentPath === '/myteams' ? 'active' : '' %>">My Teams</a></li>
+                    <li><a href="/teams" class="<%= currentPath === '/myteams' ? 'active' : '' %>">My Teams</a></li>
                     <li><a href="/profile" class="<%= currentPath === '/profile' ? 'active' : '' %>"><%= user.username %></a></li>
                     <li><a href="/api/auth/logout">Logout</a></li>
                 <% } else { %>

@@ -11,9 +11,50 @@ const { isAuthenticated } = require('../middleware/auth');
 // - Delete team
 // - Maybe update Pokemon details within a team (nickname, notes)
 
-router.get('/', isAuthenticated, (req, res) => {
-  res.json({ message: "Get user's teams (Madeleine/Alex to implement)" });
-});
+router.get('/', isAuthenticated, async (req, res) => {
+  try {
+    const userId = req.session.user.user_id;
+    console.log(req.session.user);
+    console.log(userId);
+    const teamGet = await db.all(`SELECT * FROM teams WHERE user_id = ?`, [userId]);
+    const teams = [];
+    for (const team of teamGet) {
+      const pokemonRows = await db.all(`
+        SELECT team_pokemon.position, team_pokemon.nickname, pokemon.name team_pokemon_id
+        FROM team_pokemon tp
+        JOIN pokemon p ON team_pokemon.pokemon_id = pokemon.id
+        WHERE team_pokemon.team_id = ?
+        ORDER BY team_pokemon.position ASC
+        `, [team.team_id]);
+         console.log(`Pokémon for team ${team.team_name}:`, pokemonRows);
+        const pokemon = [];
+        for (let i=0; i<6; i++){
+          const poke = pokemonRows.find((p) => p.position === i +1);
+          if (poke) {
+            pokemon.push({
+              name: poke.name,
+              nickname: poke.nickname,
+              spriteUrl: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${poke.pokemon_id}.png`
+            });
+          } else {
+            pokemon.push(null);
+          }
+        }
+
+        teams.push({
+          id: team.team_id,
+          nickname: team.team_name,
+          pokemon
+        });
+    }
+
+    res.render('teams', { teams });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Error fetching teams');
+  }
+  });
+
 
 router.post('/', isAuthenticated, (req, res) => {
   res.json({ message: 'Create new team (Madeleine/Alex to implement)' });

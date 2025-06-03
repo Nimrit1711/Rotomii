@@ -12,6 +12,8 @@ const { isAuthenticated, isAdmin } = require('./middleware/auth');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var pokemonRouter = require('./routes/pokemon');
+var teamPages = require('./routes/teams');
+
 
 var app = express();
 
@@ -53,6 +55,8 @@ app.use((req, res, next) => {
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/pokemon', pokemonRouter);
+app.use('/teams', teamPages);
+
 
 
 
