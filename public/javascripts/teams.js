@@ -13,13 +13,13 @@ async function createTeam(teamName, notes = '') {
                 notes
             })
         });
-        
+
         const data = await response.json();
-        
+
         if (!response.ok) {
             throw new Error(data.error || 'Failed to create team');
         }
-        
+
         return data;
     } catch (err) {
         console.error('Error creating team:', err);
@@ -31,11 +31,11 @@ async function createTeam(teamName, notes = '') {
 async function getUserTeams() {
     try {
         const response = await fetch('/api/teams');
-        
+
         if (!response.ok) {
             throw new Error('Failed to fetch teams');
         }
-        
+
         const data = await response.json();
         return data.teams;
     } catch (err) {
@@ -48,11 +48,11 @@ async function getUserTeams() {
 async function getTeamById(teamId) {
     try {
         const response = await fetch(`/api/teams/${teamId}`);
-        
+
         if (!response.ok) {
             throw new Error('Failed to fetch team');
         }
-        
+
         const data = await response.json();
         return data.team;
     } catch (err) {
@@ -71,13 +71,13 @@ async function updateTeam(teamId, updates) {
             },
             body: JSON.stringify(updates)
         });
-        
+
         const data = await response.json();
-        
+
         if (!response.ok) {
             throw new Error(data.error || 'Failed to update team');
         }
-        
+
         return data;
     } catch (err) {
         console.error('Error updating team:', err);
@@ -91,13 +91,13 @@ async function deleteTeam(teamId) {
         const response = await fetch(`/api/teams/${teamId}`, {
             method: 'DELETE'
         });
-        
+
         const data = await response.json();
-        
+
         if (!response.ok) {
             throw new Error(data.error || 'Failed to delete team');
         }
-        
+
         return data;
     } catch (err) {
         console.error('Error deleting team:', err);
@@ -120,13 +120,13 @@ async function addPokemonToTeam(teamId, position, pokemonId, nickname = '', note
                 notes
             })
         });
-        
+
         const data = await response.json();
-        
+
         if (!response.ok) {
             throw new Error(data.error || 'Failed to add Pokemon to team');
         }
-        
+
         return data;
     } catch (err) {
         console.error('Error adding Pokemon to team:', err);
@@ -140,13 +140,13 @@ async function removePokemonFromTeam(teamId, position) {
         const response = await fetch(`/api/teams/${teamId}/pokemon/${position}`, {
             method: 'DELETE'
         });
-        
+
         const data = await response.json();
-        
+
         if (!response.ok) {
             throw new Error(data.error || 'Failed to remove Pokemon from team');
         }
-        
+
         return data;
     } catch (err) {
         console.error('Error removing Pokemon from team:', err);
@@ -158,11 +158,11 @@ async function removePokemonFromTeam(teamId, position) {
 async function getTeamPokemonCount(teamId) {
     try {
         const response = await fetch(`/api/teams/${teamId}/count`);
-        
+
         if (!response.ok) {
             throw new Error('Failed to get Pokemon count');
         }
-        
+
         const data = await response.json();
         return data.count;
     } catch (err) {

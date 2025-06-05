@@ -1,11 +1,12 @@
 .profile-container {
-    max-width: 600px;
-    margin: 3rem auto;
-    padding: 2rem;
-    background: var(--body-search-bg);
+    max-width: 700px;
+    margin: 5rem auto;
+    padding: 3rem;
+    background: var(--body-search-bg, #fff);
     color: var(--text-color);
     border-radius: 1rem;
     box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    font-family: 'Fredoka', sans-serif;
 
 }
 
@@ -37,14 +38,7 @@
     background-color: var(--nav-color);
 }
 
-.profile-details p {
-    margin-bottom: 1rem;
-    font-size: 2vh;
-    border-style: solid;
-    padding: 0.5rem;
-    border-width: 0.005rem;
-    border-radius: 5px;
-}
+
 
 .avatar-img {
     width: 120px;
@@ -60,4 +54,25 @@
 h1 {
     color: var(--heading-color);
 
+}
+
+.profile-details {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+.detail-group {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #ccc;
+    padding: 1rem;
+    border-radius: 8px;
+}
+
+.detail-group p {
+    font-size: 1rem;
+    margin: 0;
+    color: var(--text-color);
 }

@@ -3,6 +3,7 @@ const path = require('path');
 const { nextTick } = require("process");
 const { queryObjects } = require("v8");
 const User = require("../models/user");
+const { isAuthenticated } = require("../middleware/auth");
 
 
 const router = express.Router();
@@ -27,9 +28,50 @@ router.get('/profile', async (req, res) => {
   }
 });
 
+// edit profile page
+router.get('/edit-profile', isAuthenticated, async (req, res) => {
+  try {
+    const user = await User.findById(req.user.user_id);
+    res.render('profileEdit', {user});
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Error loading profile');
+  }
 
-router.get('/edit-profile', (req, res) => {
-  res.render('profileEdit');
+});
+
+router.post('/profile', isAuthenticated, async (req,res) => {
+  try {
+    const userId = req.user.user_id;
+    const { username, address, password, confirmedPassword } = req.body;
+
+    const updates = {};
+    if (username) {
+      updates.username = username;
+    }
+
+    if (address){
+      updates.address = address;
+    }
+
+    if (password && confirmedPassword && password === confirmedPassword){
+      await User.changePassword(userId, password);
+    }
+
+
+
+
+    const success = await User.updateProfile(userId, updates);
+    if (success){
+      res.redirect('/profile');
+    } else {
+      res.status(400).send('No valid updates provided');
+    }
+
+  } catch (err){
+    console.error(err);
+    res.status(500).send('Error updating profile');
+  }
 });
 
 router.get('/login', (req, res) => {
@@ -41,22 +83,4 @@ router.get('/register', (req, res) => {
 });
 
 
-// update users theme
-
-// router.post('/profile/update-theme', async (req, res) => {
-//   const userId = req.user.user_id;
-//   const { theme } = req.body;
-
-//   if (!['light', 'dark'].includes(theme)) {
-//     return res.status(400).json({error: 'INVALID theme value'});
-//   }
-
-//   try {
-//     await user.updateProfile(userId, { theme_preference: theme });
-//     res.status(200).json({ success: true });
-//   } catch (err) {
-//     console.error('Error updating theme:', err);
-//     res.status(500).json({ error: 'Server error '});
-//   }
-// });
 module.exports = router;

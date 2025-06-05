@@ -13,19 +13,19 @@
             margin: 2rem auto;
             padding: 2rem;
         }
-        
+
         .team-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 2rem;
         }
-        
+
         .team-actions {
             display: flex;
             gap: 1rem;
         }
-        
+
         .btn {
             padding: 0.5rem 1rem;
             border: none;
@@ -35,48 +35,48 @@
             cursor: pointer;
             transition: background-color 0.3s;
         }
-        
+
         .btn-edit {
             background-color: #2196F3;
             color: white;
         }
-        
+
         .btn-edit:hover {
             background-color: #1976D2;
         }
-        
+
         .btn-delete {
             background-color: #f44336;
             color: white;
         }
-        
+
         .btn-delete:hover {
             background-color: #d32f2f;
         }
-        
+
         .btn-back {
             background-color: #666;
             color: white;
         }
-        
+
         .btn-back:hover {
             background-color: #555;
         }
-        
+
         .team-notes {
             background: var(--card-bg, #f5f5f5);
             padding: 1rem;
             border-radius: 8px;
             margin-bottom: 2rem;
         }
-        
+
         .pokemon-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
             gap: 1.5rem;
             margin-top: 2rem;
         }
-        
+
         .pokemon-card {
             background: var(--card-bg, #fff);
             border-radius: 12px;
@@ -84,7 +84,7 @@
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
             position: relative;
         }
-        
+
         .pokemon-card.empty {
             display: flex;
             flex-direction: column;
@@ -94,12 +94,12 @@
             border: 2px dashed var(--border-color, #ddd);
             cursor: pointer;
         }
-        
+
         .pokemon-card.empty:hover {
             border-color: var(--primary-color, #4CAF50);
             background: var(--hover-bg, #f9f9f9);
         }
-        
+
         .pokemon-position {
             position: absolute;
             top: 10px;
@@ -114,61 +114,61 @@
             justify-content: center;
             font-weight: bold;
         }
-        
+
         .pokemon-content {
             display: flex;
             gap: 1rem;
             align-items: center;
         }
-        
+
         .pokemon-sprite {
             width: 120px;
             height: 120px;
             object-fit: contain;
         }
-        
+
         .pokemon-info {
             flex: 1;
         }
-        
+
         .pokemon-nickname {
             font-size: 1.2rem;
             font-weight: 600;
             margin-bottom: 0.5rem;
         }
-        
+
         .pokemon-id {
             color: var(--text-secondary, #666);
             font-size: 0.9rem;
             margin-bottom: 0.5rem;
         }
-        
+
         .pokemon-notes {
             font-size: 0.9rem;
             color: var(--text-secondary, #666);
             margin-top: 0.5rem;
         }
-        
+
         .pokemon-actions {
             margin-top: 1rem;
             display: flex;
             gap: 0.5rem;
         }
-        
+
         .btn-small {
             padding: 0.3rem 0.8rem;
             font-size: 0.8rem;
         }
-        
+
         .btn-remove {
             background-color: #f44336;
             color: white;
         }
-        
+
         .btn-remove:hover {
             background-color: #d32f2f;
         }
-        
+
         .modal {
             display: none;
             position: fixed;
@@ -179,7 +179,7 @@
             height: 100%;
             background-color: rgba(0, 0, 0, 0.5);
         }
-        
+
         .modal-content {
             background-color: var(--card-bg, #fff);
             margin: 10% auto;
@@ -188,7 +188,7 @@
             width: 90%;
             max-width: 600px;
         }
-        
+
         .close {
             color: #aaa;
             float: right;
@@ -196,7 +196,7 @@
             font-weight: bold;
             cursor: pointer;
         }
-        
+
         .close:hover {
             color: #000;
         }
@@ -223,14 +223,14 @@
                     </button>
                 </div>
             </div>
-            
+
             <% if (team.notes) { %>
                 <div class="team-notes">
                     <h3>Notes:</h3>
                     <p><%= team.notes %></p>
                 </div>
             <% } %>
-            
+
             <h2>Team Pokemon</h2>
             <div class="pokemon-grid">
                 <% for (let i = 0; i < 6; i++) { %>
@@ -294,21 +294,21 @@
 
     <script>
         const teamId = <%= team.team_id %>;
-        
+
         function openEditModal() {
             document.getElementById('editTeamModal').style.display = 'block';
         }
-        
+
         function closeEditModal() {
             document.getElementById('editTeamModal').style.display = 'none';
         }
-        
+
         document.getElementById('editTeamForm').addEventListener('submit', async (e) => {
             e.preventDefault();
-            
+
             const teamName = document.getElementById('editTeamName').value.trim();
             const notes = document.getElementById('editTeamNotes').value.trim();
-            
+
             try {
                 const response = await fetch(`/api/teams/${teamId}`, {
                     method: 'PUT',
@@ -320,7 +320,7 @@
                         notes: notes
                     })
                 });
-                
+
                 if (response.ok) {
                     location.reload();
                 } else {
@@ -332,17 +332,17 @@
                 alert('An error occurred. Please try again.');
             }
         });
-        
+
         async function deleteTeam() {
             if (!confirm('Are you sure you want to delete this team? This action cannot be undone.')) {
                 return;
             }
-            
+
             try {
                 const response = await fetch(`/api/teams/${teamId}`, {
                     method: 'DELETE'
                 });
-                
+
                 if (response.ok) {
                     window.location.href = '/teams';
                 } else {
@@ -354,17 +354,17 @@
                 alert('An error occurred. Please try again.');
             }
         }
-        
+
         async function removePokemon(position) {
             if (!confirm('Are you sure you want to remove this Pokemon from the team?')) {
                 return;
             }
-            
+
             try {
                 const response = await fetch(`/api/teams/${teamId}/pokemon/${position}`, {
                     method: 'DELETE'
                 });
-                
+
                 if (response.ok) {
                     location.reload();
                 } else {
@@ -376,19 +376,19 @@
                 alert('An error occurred. Please try again.');
             }
         }
-        
+
         function addPokemon(position) {
             // This would open a Pokemon selection modal
             // For now, we'll just show an alert
             alert(`Add Pokemon functionality for position ${position} to be implemented with Pokemon selection modal`);
         }
-        
+
         function editPokemon(position) {
             // This would open a Pokemon edit modal
             // For now, we'll just show an alert
             alert(`Edit Pokemon functionality for position ${position} to be implemented`);
         }
-        
+
         // Close modal when clicking outside of it
         window.onclick = function(event) {
             const modal = document.getElementById('editTeamModal');

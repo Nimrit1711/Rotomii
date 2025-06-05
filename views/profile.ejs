@@ -27,12 +27,30 @@
         </div>
     </div>
         <div class="profile-details">
-            <p><strong>Username: </strong><%= user.username %></p>
-            <p><strong>Email: </strong><%= user.email %></p>
-            <p><strong>Address: </strong><%= user.address || "N/A" %></p>
-            <p><strong>Password:</strong> ******** </p>
-            <p><strong>Theme: </strong><%= user.theme_preference %></p>
-            <p><strong>Joined: </strong><%= new Date(user.created_at).toLocaleDateString() %></p>
+            <div class="detail-group">
+                <label>Username</label>
+                <p><%= user.username %></p>
+            </div>
+
+            <div class="detail-group">
+                <label>Email</label>
+                <p><%= user.email %></p>
+            </div>
+
+            <div class="detail-group">
+                <label>Address</label>
+                <p><%= user.address %></p>
+            </div>
+
+            <div class="detail-group">
+                <label>Password</label>
+                <p>*******</p>
+            </div>
+
+             <div class="detail-group">
+                <label>Joined</label>
+                <p><%= new Date(user.created_at).toLocaleDateString() %></p>
+            </div>
         </div>
     </div>
 
