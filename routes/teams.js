@@ -9,8 +9,6 @@ router.get('/', isAuthenticated, async (req, res) => {
   try {
     db = await getDb();
     const userId = req.user.user_id;
-    console.log(req.user);
-    console.log(userId);
     const teamGet = await db.all(`SELECT * FROM teams WHERE user_id = ?`, [userId]);
     const teams = [];
     for (const team of teamGet) {
@@ -20,7 +18,6 @@ router.get('/', isAuthenticated, async (req, res) => {
         WHERE team_id = ?
         ORDER BY position ASC
         `, [team.team_id]);
-         console.log(`Pokémon for team ${team.team_name}:`, pokemonRows);
         const pokemon = [];
         for (let i=0; i<6; i++){
           const poke = pokemonRows.find((p) => p.position === i +1);
@@ -44,7 +41,6 @@ router.get('/', isAuthenticated, async (req, res) => {
 
     res.render('teams', { teams });
   } catch (err) {
-    console.error(err);
     res.status(500).send('Error fetching teams');
   } finally {
     if (db) {
@@ -76,7 +72,6 @@ router.post('/', isAuthenticated, async (req, res) => {
       message: 'Team created successfully'
     });
   } catch (err) {
-    console.error('Error creating team:', err);
     res.status(500).json({ error: 'Failed to create team' });
   }
 });
@@ -122,7 +117,6 @@ router.get('/:teamId(\\d+)', isAuthenticated, async (req, res) => {
       }
     });
   } catch (err) {
-    console.error('Error fetching team:', err);
     res.status(500).send('Error loading team details');
   }
 });
@@ -149,7 +143,6 @@ router.get('/:teamId', isAuthenticated, async (req, res) => {
       team
     });
   } catch (err) {
-    console.error('Error fetching team:', err);
     res.status(500).json({ error: 'Failed to fetch team details' });
   }
 });
@@ -177,20 +170,6 @@ router.post('/:teamId/pokemon', isAuthenticated, async (req, res) => {
       return res.status(403).json({ error: 'Unauthorized access to this team' });
     }
 
-    // Check if the team is empty
-    var isEmpty = true;
-    if (team.countPokemonInTeam !== 0){
-      isEmpty = false;
-    }
-    if (team.teamName !== 'My Team'){
-      isEmpty = false;
-    }
-
-    // Creating a new team if the Pokemon being added is into an empty team
-    if (isEmpty === true){
-      userId.createTeam(userId, 'My Team');
-    }
-
     // Add Pokemon to team
     const pokemonEntryId = await Team.addPokemonToTeam(
       teamId,
@@ -200,13 +179,28 @@ router.post('/:teamId/pokemon', isAuthenticated, async (req, res) => {
       notes || ''
     );
 
+    // After adding Pokemon, check if we need a new blank team
+    const teams = await Team.getUserTeams(userId);
+    let blankTeamCount = 0;
+
+    for (const userTeam of teams) {
+      const pokemonCount = await Team.countPokemonInTeam(userTeam.team_id);
+      if (pokemonCount === 0 && (userTeam.team_name === 'My Team' || userTeam.team_name === '')) {
+        blankTeamCount++;
+      }
+    }
+
+    // If no blank teams exist, create one
+    if (blankTeamCount === 0) {
+      await Team.createTeam(userId, 'My Team', '');
+    }
+
     res.json({
       success: true,
       pokemonEntryId,
       message: 'Pokemon added to team successfully'
     });
   } catch (err) {
-    console.error('Error adding Pokemon to team:', err);
     res.status(500).json({ error: err.message || 'Failed to add Pokemon to team' });
   }
 });
@@ -230,21 +224,26 @@ router.delete('/:teamId/pokemon/:position', isAuthenticated, async (req, res) =>
     // Remove Pokemon from team
     const success = await Team.removePokemonFromTeam(teamId, position);
 
-    // Check if the team is empty
-    var isEmpty = true;
-    if (team.countPokemonInTeam !== 0){
-      isEmpty = false;
-    }
-    if (team.teamName !== 'My Team'){
-      isEmpty = false;
-    }
-
-    // Deleting the team if it is empty, as there will be another blank team
-    if (isEmpty === true){
-      userId.deleteTeam(teamId);
-    }
-
     if (success) {
+      // After removing Pokemon, check for duplicate blank teams
+      const teams = await Team.getUserTeams(userId);
+      const blankTeams = [];
+
+      for (const userTeam of teams) {
+        const pokemonCount = await Team.countPokemonInTeam(userTeam.team_id);
+        if (pokemonCount === 0 && (userTeam.team_name === 'My Team' || userTeam.team_name === '')) {
+          blankTeams.push(userTeam);
+        }
+      }
+
+      // If we have more than one blank team, delete the extras
+      if (blankTeams.length > 1) {
+        // Keep the first blank team, delete the rest
+        for (let i = 1; i < blankTeams.length; i++) {
+          await Team.deleteTeam(blankTeams[i].team_id);
+        }
+      }
+
       res.json({
         success: true,
         message: 'Pokemon removed from team successfully'
@@ -253,7 +252,6 @@ router.delete('/:teamId/pokemon/:position', isAuthenticated, async (req, res) =>
       res.status(404).json({ error: 'Pokemon not found at this position' });
     }
   } catch (err) {
-    console.error('Error removing Pokemon from team:', err);
     res.status(500).json({ error: 'Failed to remove Pokemon from team' });
   }
 });
@@ -290,7 +288,6 @@ router.put('/:teamId', isAuthenticated, async (req, res) => {
       res.status(400).json({ error: 'No valid fields to update' });
     }
   } catch (err) {
-    console.error('Error updating team:', err);
     res.status(500).json({ error: 'Failed to update team' });
   }
 });
@@ -310,10 +307,33 @@ router.delete('/:teamId', isAuthenticated, async (req, res) => {
       return res.status(403).json({ error: 'Unauthorized access to this team' });
     }
 
+    // Check if this is the user's last team
+    const allTeams = await Team.getUserTeams(userId);
+    if (allTeams.length === 1) {
+      return res.status(400).json({ error: 'Cannot delete your last team' });
+    }
+
     // Delete team
     const success = await Team.deleteTeam(teamId);
 
     if (success) {
+      // After deleting, ensure user still has a blank team
+      const remainingTeams = await Team.getUserTeams(userId);
+      let hasBlankTeam = false;
+
+      for (const userTeam of remainingTeams) {
+        const pokemonCount = await Team.countPokemonInTeam(userTeam.team_id);
+        if (pokemonCount === 0 && (userTeam.team_name === 'My Team' || userTeam.team_name === '')) {
+          hasBlankTeam = true;
+          break;
+        }
+      }
+
+      // If no blank team exists after deletion, create one
+      if (!hasBlankTeam) {
+        await Team.createTeam(userId, 'My Team', '');
+      }
+
       res.json({
         success: true,
         message: 'Team deleted successfully'
@@ -322,7 +342,6 @@ router.delete('/:teamId', isAuthenticated, async (req, res) => {
       res.status(500).json({ error: 'Failed to delete team' });
     }
   } catch (err) {
-    console.error('Error deleting team:', err);
     res.status(500).json({ error: 'Failed to delete team' });
   }
 });
@@ -349,7 +368,6 @@ router.get('/:teamId/count', isAuthenticated, async (req, res) => {
       count
     });
   } catch (err) {
-    console.error('Error counting Pokemon in team:', err);
     res.status(500).json({ error: 'Failed to count Pokemon in team' });
   }
 });
