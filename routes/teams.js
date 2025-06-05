@@ -3,6 +3,7 @@ const router = express.Router();
 const { isAuthenticated } = require('../middleware/auth');
 const getDb = require('../models/db');
 const Team = require('../models/team');
+const pokeApiService = require('../services/pokeapi');
 
 router.get('/', isAuthenticated, async (req, res) => {
   let db;
@@ -153,12 +154,12 @@ router.post('/:teamId/pokemon', isAuthenticated, async (req, res) => {
     const teamId = parseInt(req.params.teamId, 10);
     const userId = req.user.user_id;
     const {
- position, pokemonId, nickname, notes
+ position, pokemonName, nickname, notes
 } = req.body;
 
     // Validate input
-    if (!position || !pokemonId) {
-      return res.status(400).json({ error: 'Position and Pokemon ID are required' });
+    if (!position || !pokemonName) {
+      return res.status(400).json({ error: 'Position and Pokemon name are required' });
     }
 
     // Check if the team belongs to the user
@@ -169,6 +170,16 @@ router.post('/:teamId/pokemon', isAuthenticated, async (req, res) => {
     if (team.user_id !== userId) {
       return res.status(403).json({ error: 'Unauthorized access to this team' });
     }
+
+    // Get name to ID map
+    const nameToIdMap = await pokeApiService.getNameToIdMap();
+    
+    // Validate Pokémon name exists
+    if (!nameToIdMap[pokemonName]) {
+      return res.status(400).json({ error: `Invalid Pokémon name: ${pokemonName}` });
+    }
+    
+    const pokemonId = nameToIdMap[pokemonName];
 
     // Add Pokemon to team
     const pokemonEntryId = await Team.addPokemonToTeam(
@@ -198,7 +209,8 @@ router.post('/:teamId/pokemon', isAuthenticated, async (req, res) => {
     res.json({
       success: true,
       pokemonEntryId,
-      message: 'Pokemon added to team successfully'
+      message: 'Pokemon added to team successfully',
+      pokemonId
     });
   } catch (err) {
     res.status(500).json({ error: err.message || 'Failed to add Pokemon to team' });

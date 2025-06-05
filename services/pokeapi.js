@@ -70,6 +70,22 @@ const pokeApiService = {
   getPokemonNames: async () => {
     const response = await fetchFromPokeAPI('/pokemon-form/?limit=1527');
     return response.results.map((pokemon) => pokemon.name);
+  },
+  
+  // Get Pokemon ID by name
+  getNameToIdMap: async () => {
+    const response = await fetchFromPokeAPI('/pokemon?limit=1527');
+    const nameToIdMap = {};
+    
+    response.results.forEach(pokemon => {
+      // Extract ID from URL (e.g., 'https://pokeapi.co/api/v2/pokemon/25/')
+      const id = pokemon.url.split('/').filter(part => part).pop();
+      if (id && !isNaN(id)) {
+        nameToIdMap[pokemon.name] = parseInt(id);
+      }
+    });
+    
+    return nameToIdMap;
   }
 };
 
