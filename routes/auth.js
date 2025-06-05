@@ -2,6 +2,7 @@ const express = require('express');
 const passport = require('passport');
 const User = require('../models/user');
 const { validateRegistration, isAuthenticated, isAdmin } = require('../middleware/auth');
+const Team = require('../models/team');
 const router = express.Router();
 
 // Register new user
@@ -23,6 +24,9 @@ router.post('/register', validateRegistration, async (req, res) => {
 
     // Register user
     const userId = await User.register(username, email, password);
+
+    // Creating an empty team
+    await Team.createTeam(userId, 'My Team', '');
 
     return res.status(201).json({
       message: 'User registered successfully',

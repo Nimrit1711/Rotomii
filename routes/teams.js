@@ -177,6 +177,20 @@ router.post('/:teamId/pokemon', isAuthenticated, async (req, res) => {
       return res.status(403).json({ error: 'Unauthorized access to this team' });
     }
 
+    // Check if the team is empty
+    var isEmpty = true;
+    if (team.countPokemonInTeam !== 0){
+      isEmpty = false;
+    }
+    if (team.teamName !== 'My Team'){
+      isEmpty = false;
+    }
+
+    // Creating a new team if the Pokemon being added is into an empty team
+    if (isEmpty === true){
+      userId.createTeam(userId, 'My Team');
+    }
+
     // Add Pokemon to team
     const pokemonEntryId = await Team.addPokemonToTeam(
       teamId,
@@ -215,6 +229,20 @@ router.delete('/:teamId/pokemon/:position', isAuthenticated, async (req, res) =>
 
     // Remove Pokemon from team
     const success = await Team.removePokemonFromTeam(teamId, position);
+
+    // Check if the team is empty
+    var isEmpty = true;
+    if (team.countPokemonInTeam !== 0){
+      isEmpty = false;
+    }
+    if (team.teamName !== 'My Team'){
+      isEmpty = false;
+    }
+
+    // Deleting the team if it is empty, as there will be another blank team
+    if (isEmpty === true){
+      userId.deleteTeam(teamId);
+    }
 
     if (success) {
       res.json({
