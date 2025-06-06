@@ -1,11 +1,13 @@
 .edit-profile-container {
     max-width: 700px;
+    max-height: auto;
     margin: 5rem auto;
     padding: 3rem;
     background-color: var(--body-search-bg, #fff);
     border-radius: 1rem;
     box-shadow: 0 5 15px rgba(0, 0, 0, 0.15);
     font-family: 'Fredoka', sans-serif;
+   
 
 }
 

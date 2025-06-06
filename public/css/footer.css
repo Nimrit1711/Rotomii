@@ -4,10 +4,11 @@
     color: var(--nav-text);
     text-align: center;
     padding: 2rem 1rem;
-    position: absolute;
-    margin-top: 3rem;
+    margin-top: auto;
+     display: flex;
+    flex-direction: column;
+    min-height: 100vh;
     font-size: 1rem;
-    bottom: 0;
     left: 0;
     width: 100%;
   }
