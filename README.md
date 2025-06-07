@@ -15,5 +15,7 @@ And finally, open localhost:3000. If that doesn't work, try localhost:8080.
 - nickname your favourite pokémon
 - view weaknesses, resistances and immunities of your pokémon
 - view weaknesses, resistances and immunities of your teams
+- create an account to save your data
+- login from anywhere to view and edit your teams
 
 ## Known bugs
