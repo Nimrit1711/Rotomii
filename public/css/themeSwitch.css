@@ -8,8 +8,11 @@
     --nav-search-bg: #FFFFFF;
     --body-search-bg:#FFFFFF;
     --search-text-color: #000000;
+    --border-color: #FF7531;
     --nav-text: #FFFFFF;
     --login-button: #29ACBD;
+    --card-bg: #FFFFFF;
+    --hover-bg: #ececec;
   }
 
 
@@ -23,12 +26,15 @@
     --nav-search-bg: #2F333A;
     --body-search-bg:#1C1E22;
     --search-text-color: #EAF6F7;
+    --border-color: #3de8ff;
     --nav-text: #3de8ff;
     --login-button: #2B2E34;
+    --card-bg: #c3c3c3;
+    --hover-bg: #a7a7a7;
   }
 
   * {
-  
+
     margin: 0;
     padding: 0;
     box-sizing: border-box;

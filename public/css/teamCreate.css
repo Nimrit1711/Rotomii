@@ -1,0 +1,78 @@
+.create-team-container {
+            max-width: 600px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background: var(--card-bg, #fff);
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            color: rgb(84, 84, 84);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--text-color, #333);
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid var(--border-color, #ddd);
+            border-radius: 8px;
+            font-size: 1rem;
+            font-family: inherit;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary-color, #4CAF50);
+        }
+
+        .form-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: flex-end;
+            margin-top: 2rem;
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color, #4CAF50);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-hover, #45a049);
+        }
+
+        .btn-secondary {
+            background-color: var(--secondary-color, #666);
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--secondary-hover, #555);
+        }
+
+        .error-message {
+            color: #f44336;
+            margin-top: 0.5rem;
+            display: none;
+        }
