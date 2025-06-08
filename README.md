@@ -5,6 +5,7 @@ Rotomii is a Pokémon team-builder app that allows users to create and save team
 First, clone the attached git repo.
 Then, in terminal:
 ```bash
+npm install
 npm start
 ```
 And finally, open localhost:3000. If that doesn't work, try localhost:8080.
