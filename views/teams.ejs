@@ -18,7 +18,7 @@
     <div class = "teams-wrapper">
       <% teams.forEach(team => { %>
         <div class="team-card">
-          <a href="/teams/<%= team.id %>" class="team-link">
+          <a tabindex="1" href="/teams/<%= team.id %>" class="team-link">
           <h2 class="team-name"><%= team.nickname || 'Untitled Team' %></h2>
           <div class="team-pokemon">
             <% for (let i =0; i< 6; i++) { %>
@@ -43,7 +43,7 @@
          <div class="team-card new-team">
           <a href="/teams/create" class="team-link">
             <div class="empty-team">
-              <p> + Create New Team </p>
+              <p tabindex="2"> + Create New Team </p>
             </div>
           </a>
          </div>
