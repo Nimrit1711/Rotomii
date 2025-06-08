@@ -86,6 +86,26 @@ const pokeApiService = {
     });
 
     return nameToIdMap;
+  },
+
+  // Enhanced search function for Pokemon
+  searchPokemon: async (query, limit = 20) => {
+    const response = await fetchFromPokeAPI('/pokemon?limit=1527');
+    const searchQuery = String(query).toLowerCase();
+
+    const matches = response.results
+      .filter((pokemon) => pokemon.name.includes(searchQuery))
+      .slice(0, limit)
+      .map((pokemon) => {
+        const id = pokemon.url.split('/').filter((part) => part).pop();
+        return {
+          id: parseInt(id, 10),
+          name: pokemon.name,
+          url: pokemon.url
+        };
+      });
+
+    return matches;
   }
 };
 
