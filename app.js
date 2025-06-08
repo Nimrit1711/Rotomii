@@ -87,11 +87,13 @@ setupDb().catch((err) => {
 const authRoutes = require('./routes/auth');
 const pokemonRoutes = require('./routes/pokemon');
 const teamRoutes = require('./routes/teams');
+const tagsRoutes = require('./routes/tags');
 const indexRoutes = require('./routes/index');
 
 app.use('/api/auth', authRoutes);
 app.use('/api/pokemon', pokemonRoutes);
 app.use('/api/teams', teamRoutes);
+app.use('/api/tags', tagsRoutes);
 app.use('/', indexRoutes);
 // Get user profile if logged in
 app.get('/api/profile', isAuthenticated, (req, res) => {

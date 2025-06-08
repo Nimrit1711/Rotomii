@@ -1,0 +1,166 @@
+.team-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.team-modal {
+  background-color: var(--modal-bg, #fff);
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  width: 90%;
+  max-width: 500px;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+.team-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 20px 0 20px;
+  border-bottom: 1px solid var(--border-color, #eee);
+}
+
+.team-modal-header h3 {
+  margin: 0;
+  color: var(--heading-color, #333);
+  font-size: 18px;
+}
+
+.close-team-modal {
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: var(--muted-text, #666);
+  padding: 0;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: background-color 0.2s;
+}
+
+.close-team-modal:hover {
+  background-color: var(--hover-bg, #f5f5f5);
+}
+
+.team-modal-body {
+  padding: 20px;
+}
+
+.team-list {
+  margin-bottom: 20px;
+}
+
+.team-selection-option {
+  padding: 12px 16px;
+  border: 1px solid var(--border-color, #ddd);
+  border-radius: 6px;
+  margin-bottom: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+  background-color: var(--card-bg, #fff);
+}
+
+.team-selection-option:hover {
+  background-color: var(--hover-bg, #f8f9fa);
+  border-color: var(--primary-color, #007bff);
+}
+
+.team-selection-option:last-child {
+  margin-bottom: 0;
+}
+
+.team-name {
+  display: block;
+  font-weight: 600;
+  color: var(--heading-color, #333);
+  margin-bottom: 4px;
+}
+
+.team-notes {
+  display: block;
+  font-size: 12px;
+  color: var(--muted-text, #666);
+  font-style: italic;
+}
+
+.nickname-section {
+  border-top: 1px solid var(--border-color, #eee);
+  padding-top: 20px;
+}
+
+.nickname-section label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 500;
+  color: var(--heading-color, #333);
+}
+
+.nickname-section input {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid var(--input-border, #ccc);
+  border-radius: 4px;
+  font-size: 14px;
+  box-sizing: border-box;
+}
+
+.nickname-section input:focus {
+  outline: none;
+  border-color: var(--primary-color, #007bff);
+  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+}
+
+.add-to-team-btn {
+  background-color: var(--success-color, #28a745);
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  font-size: 12px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  margin-left: 8px;
+}
+
+.add-to-team-btn:hover {
+  background-color: var(--success-hover, #218838);
+}
+
+.add-to-team-btn:disabled {
+  background-color: var(--disabled-bg, #6c757d);
+  cursor: not-allowed;
+}
+
+.pokemon-card .pokemon-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  margin-top: 10px;
+}
+
+[data-theme="dark"] {
+  --modal-bg: #2d2d2d;
+  --border-color: #444;
+  --heading-color: #fff;
+  --muted-text: #999;
+  --hover-bg: #3d3d3d;
+  --card-bg: #2d2d2d;
+  --input-border: #555;
+  --primary-color: #0d6efd;
+  --success-color: #198754;
+  --success-hover: #157347;
+  --disabled-bg: #495057;
+}

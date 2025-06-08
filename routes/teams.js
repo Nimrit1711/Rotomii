@@ -7,6 +7,17 @@ const getDb = require('../models/db');
 const Team = require('../models/team');
 const pokeApiService = require('../services/pokeapi');
 
+// API endpoint to get user teams (for dropdowns, etc.)
+router.get('/api/list', isAuthenticated, async (req, res) => {
+  try {
+    const userId = req.user.user_id;
+    const teams = await Team.getUserTeams(userId);
+    res.json(teams);
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to fetch teams' });
+  }
+});
+
 router.get('/', isAuthenticated, async (req, res) => {
   let db;
   try {
@@ -143,6 +154,56 @@ router.get('/:teamId', isAuthenticated, async (req, res) => {
     });
   } catch (err) {
     res.status(500).json({ error: 'Failed to fetch team details' });
+  }
+});
+
+// Add Pokemon by ID to team (for search results)
+router.post('/:teamId/add-pokemon', isAuthenticated, validateNumericId('teamId'), async (req, res) => {
+  try {
+    const teamId = parseInt(req.params.teamId, 10);
+    const userId = req.user.user_id;
+    const { pokemonId, nickname } = req.body;
+
+    // Check if the team belongs to the user
+    const team = await Team.getTeamById(teamId);
+    if (!team) {
+      return res.status(404).json({ error: 'Team not found' });
+    }
+    if (team.user_id !== userId) {
+      return res.status(403).json({ error: 'Unauthorized access to this team' });
+    }
+
+    // Find the first available position
+    const existingPokemon = team.pokemon || [];
+    let position = 1;
+    for (let i = 1; i <= 6; i++) {
+      if (!existingPokemon.find((p) => p.position === i)) {
+        position = i;
+        break;
+      }
+    }
+
+    // Check if team is full
+    if (existingPokemon.length >= 6) {
+      return res.status(400).json({ error: 'Team is full (maximum 6 Pokemon)' });
+    }
+
+    // Add Pokemon to team
+    const pokemonEntryId = await Team.addPokemonToTeam(
+      teamId,
+      position,
+      parseInt(pokemonId, 10),
+      nickname || ''
+    );
+
+    res.json({
+      success: true,
+      pokemonEntryId,
+      position,
+      message: 'Pokemon added to team successfully'
+    });
+  } catch (err) {
+    res.status(500).json({ error: err.message || 'Failed to add Pokemon to team' });
   }
 });
 
