@@ -32,7 +32,7 @@ router.get('/profile', async (req, res) => {
 router.get('/edit-profile', isAuthenticated, async (req, res) => {
   try {
     const user = await User.findById(req.user.user_id);
-    res.render('profileEdit', {user});
+    res.render('profileEdit', { user });
   } catch (err) {
     console.error(err);
     res.status(500).send('Error loading profile');
@@ -43,7 +43,9 @@ router.get('/edit-profile', isAuthenticated, async (req, res) => {
 router.post('/profile', isAuthenticated, async (req,res) => {
   try {
     const userId = req.user.user_id;
-    const { username, address, password, confirmedPassword } = req.body;
+    const {
+ username, address, password, confirmedPassword
+} = req.body;
 
     const updates = {};
     if (username) {

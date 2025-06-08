@@ -1,7 +1,9 @@
 const express = require('express');
 const passport = require('passport');
 const User = require('../models/user');
-const { validateRegistration, isAuthenticated, isAdmin } = require('../middleware/auth');
+const {
+ validateRegistration, isAuthenticated, isAdmin, validateNumericId
+} = require('../middleware/auth');
 const Team = require('../models/team');
 const router = express.Router();
 
@@ -143,7 +145,7 @@ router.get('/users', isAdmin, async (req, res) => {
 });
 
 // Delete user (admin only)
-router.delete('/users/:userId', isAdmin, async (req, res) => {
+router.delete('/users/:userId', isAdmin, validateNumericId('userId'), async (req, res) => {
   try {
     const { userId } = req.params;
 

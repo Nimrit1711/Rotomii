@@ -17,7 +17,7 @@
         <div class="profile-row">
             <div class="avatar-wrapper">
                 <% if (user.avatar_image) { %>
-                        <img src="<% user.avatar_image %>" alt="avatar" class="avatar-img">
+                        <img src="<%= user.avatar_image %>" alt="avatar" class="avatar-img">
                     <% } else { %>
                         <img src= "/images/default-PFP.jpg" alt ="default-avatar" class="avatar-img">
                 <% } %>

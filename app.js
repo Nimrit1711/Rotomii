@@ -1,3 +1,4 @@
+require('dotenv').config();
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
@@ -28,18 +29,31 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Session configuration
-// TODO: Move secret to environment variable later
 app.use(session({
-  secret: 'rotomii-secret-key',
+  secret: process.env.SESSION_SECRET || 'fallback-secret-for-development',
   resave: false,
   saveUninitialized: false,
   cookie: {
-    secure: false, // Change to true when we deploy with HTTPS
+    secure: process.env.NODE_ENV === 'production', // Use HTTPS in production
     maxAge: 24 * 60 * 60 * 1000, // 1 day in milliseconds
     httpOnly: true,
     sameSite: 'lax'
   }
 }));
+
+// Basic security headers middleware
+app.use((req, res, next) => {
+  // Prevent clickjacking attacks
+  res.setHeader('X-Frame-Options', 'DENY');
+
+  // Prevent MIME type sniffing
+  res.setHeader('X-Content-Type-Options', 'nosniff');
+
+  // Enable XSS filtering in browsers
+  res.setHeader('X-XSS-Protection', '1; mode=block');
+
+  next();
+});
 
 // Setup passport stuff
 app.use(passport.initialize());
@@ -109,14 +123,28 @@ app.use((req, res, next) => {
 
 // error handler
 app.use(function(err, req, res, next) {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
+  // Log error for debugging (in production, use proper logging service)
+  if (process.env.NODE_ENV === 'development') {
+    console.error('Error:', err);
+  }
 
+  // Don't expose sensitive error information in production
+  const isDevelopment = process.env.NODE_ENV === 'development';
 
-  // render the error page
+  // Set safe error message
+  const safeMessage = isDevelopment ? err.message : 'Something went wrong';
+  const safeError = isDevelopment ? err : {};
+
+  // Set locals for template
+  res.locals.message = safeMessage;
+  res.locals.error = safeError;
+
+  // Render error page with safe information
   res.status(err.status || 500);
-   res.render('error', { error: err, message: err.message });
+  res.render('error', {
+    error: safeError,
+    message: safeMessage
+  });
 });
 
 

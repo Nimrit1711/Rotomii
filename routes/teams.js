@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
-const { isAuthenticated } = require('../middleware/auth');
+const {
+ isAuthenticated, validateTeam, validatePokemon, validateNumericId
+} = require('../middleware/auth');
 const getDb = require('../models/db');
 const Team = require('../models/team');
 const pokeApiService = require('../services/pokeapi');
@@ -57,14 +59,10 @@ router.get('/create', isAuthenticated, (req, res) => {
 
 
 // Create new team
-router.post('/', isAuthenticated, async (req, res) => {
+router.post('/', isAuthenticated, validateTeam, async (req, res) => {
   try {
     const userId = req.user.user_id;
     const { teamName, notes } = req.body;
-
-    if (!teamName) {
-      return res.status(400).json({ error: 'Team name is required' });
-    }
 
     const teamId = await Team.createTeam(userId, teamName, notes);
     res.status(201).json({
@@ -149,18 +147,13 @@ router.get('/:teamId', isAuthenticated, async (req, res) => {
 });
 
 // Add/Update Pokemon in team
-router.post('/:teamId/pokemon', isAuthenticated, async (req, res) => {
+router.post('/:teamId/pokemon', isAuthenticated, validateNumericId('teamId'), validatePokemon, async (req, res) => {
   try {
     const teamId = parseInt(req.params.teamId, 10);
     const userId = req.user.user_id;
     const {
  position, pokemonName, nickname, notes
 } = req.body;
-
-    // Validate input
-    if (!position || !pokemonName) {
-      return res.status(400).json({ error: 'Position and Pokemon name are required' });
-    }
 
     // Check if the team belongs to the user
     const team = await Team.getTeamById(teamId);
@@ -269,7 +262,7 @@ router.delete('/:teamId/pokemon/:position', isAuthenticated, async (req, res) =>
 });
 
 // Update team name/notes
-router.put('/:teamId', isAuthenticated, async (req, res) => {
+router.put('/:teamId', isAuthenticated, validateNumericId('teamId'), validateTeam, async (req, res) => {
   try {
     const teamId = parseInt(req.params.teamId, 10);
     const userId = req.user.user_id;

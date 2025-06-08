@@ -6,7 +6,7 @@ async function createTeam(teamName, notes = '') {
         const response = await fetch('/api/teams', {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json',
+                'Content-Type': 'application/json'
             },
             body: JSON.stringify({
                 teamName,
@@ -67,7 +67,7 @@ async function updateTeam(teamId, updates) {
         const response = await fetch(`/api/teams/${teamId}`, {
             method: 'PUT',
             headers: {
-                'Content-Type': 'application/json',
+                'Content-Type': 'application/json'
             },
             body: JSON.stringify(updates)
         });
@@ -111,7 +111,7 @@ async function addPokemonToTeam(teamId, position, pokemonId, nickname = '', note
         const response = await fetch(`/api/teams/${teamId}/pokemon`, {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json',
+                'Content-Type': 'application/json'
             },
             body: JSON.stringify({
                 position,

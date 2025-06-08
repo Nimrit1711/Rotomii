@@ -510,7 +510,7 @@ function calculateTypeInteraction(pokemonType) {
         let type1 = typeInteraction[pokemonType[1]].defenseMultiplier;
 
         for (let key in typeDefenses){
-            if (typeof typeDefenses[key] == 'number'){
+            if (typeof typeDefenses[key] === 'number'){
             typeDefenses[key] = type0[key] * type1[key];
             }
         }
@@ -524,7 +524,7 @@ function calculateTypeInteraction(pokemonType) {
 function determineWeaknesses(defenses){
     let weakArray = [];
         for (let key in defenses){
-            if (typeof defenses[key] == 'number'){
+            if (typeof defenses[key] === 'number'){
                 if (defenses[key] > 1) {
                     weakArray.push(key);
                 }
@@ -536,7 +536,7 @@ function determineWeaknesses(defenses){
 function determineResistances(defenses){
     let resistArray = [];
         for (let key in defenses){
-            if (typeof defenses[key] == 'number'){
+            if (typeof defenses[key] === 'number'){
                 if (defenses[key] < 1 && defenses[key] > 0) {
                     resistArray.push(key);
                 }
@@ -548,7 +548,7 @@ function determineResistances(defenses){
 function determineImmunities(defenses){
     let immuneArray = [];
         for (let key in defenses){
-            if (typeof defenses[key] == 'number'){
+            if (typeof defenses[key] === 'number'){
                 if (defenses[key] === 0) {
                     immuneArray.push(key);
                 }
@@ -576,7 +576,7 @@ function findPokemon(_slotNum) {
             const pokemonOfficialArt = thisPokemon.sprites.other["official-artwork"].front_default;
             const pokemonTypeRaw = thisPokemon.types;
             const pokemonType = [];
-            for (let i = 0; i < pokemonTypeRaw.length ; i++){
+            for (let i = 0; i < pokemonTypeRaw.length; i++){
                 pokemonType.push(pokemonTypeRaw[i].type.name);
             }
 
@@ -596,7 +596,7 @@ function findPokemon(_slotNum) {
             typeP.innerText = pokemonName + "'s typing:";
             const listType = slotDiv.querySelector('#typing');
             listType.innerHTML = ""; // clear the list element
-            for (let i = 0; i < pokemonTypeRaw.length ; i++){
+            for (let i = 0; i < pokemonTypeRaw.length; i++){
                 const node = document.createElement('li');
                 node.innerText = pokemonType[i];
                 listType.appendChild(node);
