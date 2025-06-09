@@ -13,7 +13,17 @@ router.get('/search', async (req, res) => {
     const { q, tags } = req.query;
     let results = [];
 
-    if (tags && req.user) {
+     const pokemonTypes = [
+      'normal','fighting','flying','poison','ground','rock','bug','ghost','steel',
+      'fire','water','grass','electric','psychic','ice','dragon','dark','fairy','unknown'
+    ];
+
+     if (tags && pokemonTypes.includes(tags.toLowerCase())) {
+      const searchResults = await pokeApiService.searchPokemonByType(tags.toLowerCase());
+      results = searchResults;
+    }
+
+    else if (tags && req.user) {
       const tagArray = tags.split(',').map((tag) => tag.trim());
       const taggedPokemon = await Tag.searchPokemonByTags(req.user.user_id, tagArray);
       results = taggedPokemon.map((item) => ({ id: item.pokemon_id }));
@@ -21,10 +31,13 @@ router.get('/search', async (req, res) => {
 
     if (q) {
       const searchResults = await pokeApiService.searchPokemon(q);
-      if (tags && req.user) {
-        const taggedIds = results.map((p) => p.id);
-        const combinedResults = searchResults.filter((pokemon) => taggedIds.includes(pokemon.id)
-          || pokemon.name.toLowerCase().includes(q.toLowerCase()));
+
+      if (results.length > 0) {
+        const existingIds = results.map((p) => p.id);
+        const combinedResults = searchResults.filter((pokemon) =>
+          existingIds.includes(pokemon.id) ||
+          pokemon.name.toLowerCase().includes(q.toLowerCase())
+        );
         results = combinedResults;
       } else {
         results = searchResults;

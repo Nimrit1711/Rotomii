@@ -25,9 +25,10 @@ class TeamManager {
       if (e.target.matches('.add-to-team-btn')) {
         this.handleAddToTeamClick(e.target);
       }
-      if (e.target.matches('.team-selection-option')) {
-        this.handleTeamSelection(e.target);
-      }
+      const teamOption = e.target.closest('.team-selection-option');
+        if (teamOption) {
+          this.handleTeamSelection(teamOption);
+        }
       if (e.target.matches('.close-team-modal')) {
         this.closeTeamModal();
       }
@@ -65,8 +66,8 @@ class TeamManager {
             ? '<p>No teams available. Create a team first!</p>'
             : `<div class="team-list">
               ${this.userTeams.map((team) => `
-                <div class="team-selection-option" 
-                     data-team-id="${team.team_id}" 
+                <div class="team-selection-option"
+                     data-team-id="${team.team_id}"
                      data-pokemon-id="${pokemonId}"
                      data-pokemon-name="${pokemonName}">
                   <span class="team-name">${team.team_name}</span>
@@ -149,8 +150,8 @@ class TeamManager {
 
   createAddToTeamButton(pokemonId, pokemonName) {
     return `
-      <button class="add-to-team-btn" 
-              data-pokemon-id="${pokemonId}" 
+      <button class="add-to-team-btn"
+              data-pokemon-id="${pokemonId}"
               data-pokemon-name="${pokemonName}">
         Add to Team
       </button>

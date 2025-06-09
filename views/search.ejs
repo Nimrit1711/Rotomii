@@ -1,0 +1,77 @@
+<html lang = "en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name = "viewport" content="width=device-width, initial-scale=1.0" />
+    <title> Rotomii - Search </title>
+    <link rel="stylesheet" href="css/themeSwitch.css" />
+    <link rel="stylesheet" href="css/home.css" />
+    <link rel="stylesheet" href="css/teamModal.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+</head>
+<body>
+    <header>
+         <!--Nav  -->
+        <%- include('partials/navbar') %>
+    </header>
+
+    <div class="main-home-container">
+                     <!-- Search bar -->
+            <div class="home-search-bar">
+                <form class="search-box">
+                <input type="text" class="search-text Fredoka-text" placeholder="Search For Pokémon..." />
+                    <button type="submit" aria-label="Search">
+                        <i class="fa fa-search"></i>
+                    </button>
+                </form>
+            </div>
+
+             <div class="pokemon-results-container">
+            <!-- Tag/type bar -->
+             <p class="filter-text Fredoka-text">Filter by type</p>
+            <div class="home-tag-bar">
+
+                <button class="type-button type-normal" data-type="normal">Normal</button>
+                <button class="type-button type-fighting" data-type="fighting">Fighting</button>
+                <button class="type-button type-flying" data-type="flying">Flying</button>
+                <button class="type-button type-poison" data-type="poison">Poison</button>
+                <button class="type-button type-ground" data-type="ground">Ground</button>
+                <button class="type-button type-rock" data-type="rock">Rock</button>
+                <button class="type-button type-bug" data-type="bug">Bug</button>
+                <button class="type-button type-ghost" data-type="ghost">Ghost</button>
+                <button class="type-button type-steel" data-type="steel">Steel</button>
+                <button class="type-button type-fire" data-type="fire">Fire</button>
+                <button class="type-button type-water" data-type="water">Water</button>
+                <button class="type-button type-grass" data-type="grass">Grass</button>
+                <button class="type-button type-electric" data-type="electric">Electric</button>
+                <button class="type-button type-psychic" data-type="psychic">Psychic</button>
+                <button class="type-button type-ice" data-type="ice">Ice</button>
+                <button class="type-button type-dragon" data-type="dragon">Dragon</button>
+                <button class="type-button type-dark" data-type="dark">Dark</button>
+                <button class="type-button type-fairy" data-type="fairy">Fairy</button>
+              </div>
+
+
+                <!-- Pokémon results grid -->
+                <div class="home-pokemon-grid search-results                                                                                                                                                                               "></div>
+            </div>
+    </div>
+
+        <div id="pokemonModal" class="pokemon-modal hidden">
+            <div class="pokemon-modal-content">
+                <span class="close-modal">&times;</span>
+                <div id="pokemonProfileContent"></div>
+            </div>
+        </div>
+    </main>
+  <!--  footer  -->
+  <%- include('partials/footer') %>
+
+  <script src="/javascripts/tags.js"></script>
+  <script src="/javascripts/teamManager.js"></script>
+  <script src="/javascripts/pokemonSearch.js"></script>
+</body>
+</html>
+
+
+

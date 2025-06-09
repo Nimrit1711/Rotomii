@@ -106,7 +106,16 @@ const pokeApiService = {
       });
 
     return matches;
-  }
+  },
+  searchPokemonByType: async (type) => {
+  const rawResults = await pokeApiService.getPokemonByType(type);
+
+  return rawResults.map((p) => {
+    const idMatch = p.url.match(/\/pokemon\/(\d+)\//);
+    const id = idMatch ? parseInt(idMatch[1], 10) : null;
+    return { id, name: p.name };
+  });
+}
 };
 
 module.exports = pokeApiService;

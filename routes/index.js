@@ -28,6 +28,10 @@ router.get('/', (req, res) => {
   res.render('home');
 });
 
+router.get('/search', isAuthenticated, (req, res) => {
+  res.render('search', { user: req.user });
+});
+
 router.get('/myteams', (req, res) => {
   res.render('teams');
 });
@@ -104,6 +108,8 @@ router.get('/login', (req, res) => {
 router.get('/register', (req, res) => {
   res.render('register.ejs');
 });
+
+
 
 
 module.exports = router;

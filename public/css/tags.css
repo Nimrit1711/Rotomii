@@ -1,10 +1,4 @@
-.tag-interface {
-  margin: 10px 0;
-  padding: 15px;
-  border: 1px solid var(--border-color, #ddd);
-  border-radius: 8px;
-  background-color: var(--card-bg, #fff);
-}
+
 
 .pokemon-tags {
   display: flex;
@@ -14,11 +8,13 @@
   min-height: 25px;
 }
 
+
+
 .pokemon-tag {
   display: inline-flex;
   align-items: center;
   background-color: var(--tag-bg, #e3f2fd);
-  color: var(--tag-text, #1976d2);
+  color: red;
   padding: 4px 8px;
   border-radius: 12px;
   font-size: 12px;
@@ -51,14 +47,12 @@
 .add-tag-form {
   display: flex;
   gap: 5px;
-  margin-bottom: 10px;
+  margin-bottom: 5px;
 }
 
 .tag-input {
   flex: 1;
-  padding: 6px 10px;
-  border: 1px solid var(--input-border, #ccc);
-  border-radius: 4px;
+  padding: 4px 8px;
   font-size: 12px;
 }
 
@@ -118,9 +112,12 @@
 .pokemon-card {
   border: 1px solid var(--border-color, #ddd);
   border-radius: 8px;
-  padding: 15px;
-  margin-bottom: 15px;
+  padding: 12px;
   background-color: var(--card-bg, #fff);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
 }
 
 .pokemon-header {

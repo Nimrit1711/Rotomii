@@ -24,6 +24,28 @@ class PokemonSearch {
     }
   }
 
+  async handleTypeFilter(type) {
+  this.showLoading();
+
+  try {
+    // If "All" button (empty type), load all results
+    const url = type
+      ? `/api/pokemon/search?tags=${encodeURIComponent(type)}`
+      : `/api/pokemon/search`;
+
+    const response = await fetch(url);
+    if (response.ok) {
+      const results = await response.json();
+      await this.displayResults(results);
+    } else {
+      this.showError("Type filter failed. Please try again.");
+    }
+  } catch (error) {
+    console.error("Type filter error:", error);
+    this.showError("Type filter failed. Please try again.");
+  }
+}
+
   enhanceSearchForm() {
     const tagSearchDiv = document.createElement("div");
     tagSearchDiv.className = "search-tags";
@@ -63,6 +85,27 @@ class PokemonSearch {
       );
       this.searchInput.addEventListener("input", debouncedSearch);
     }
+
+       document.querySelectorAll(".type-button").forEach((button) => {
+          button.addEventListener("click", (e) => {
+            const type = e.target.dataset.type;
+            this.handleTypeFilter(type);
+          });
+        });
+
+
+        document.addEventListener("click", (e) => {
+        // If Add to Team button → do not open modal!
+        if (e.target.closest(".add-to-team-btn")) {
+          return;
+        }
+
+        const card = e.target.closest(".pokemon-card");
+        if (card) {
+          const pokemonId = card.dataset.pokemonId;
+          this.showPokemonModal(pokemonId);
+        }
+      });
   }
 
   async handleSearch(event) {
@@ -176,18 +219,17 @@ class PokemonSearch {
 
       card.innerHTML = `
         <div class="pokemon-header">
-          <img src="${sprite}" alt="${pokemon.name}" class="pokemon-sprite" />
+          <img src="${sprite}" alt="${pokemon.name}" class="pokemon-sprite Fredoka-text" />
           <div class="pokemon-info">
             <h3>${pokemon.name}</h3>
             <div class="pokemon-types">
-              ${types.map((type) => `<span class="pokemon-type">${type}</span>`).join("")}
+              ${types.map((type) => `<span class="pokemon-type Fredoka-text">${type}</span>`).join(" ")}
             </div>
           </div>
         </div>
         <div class="pokemon-actions">
           ${window.teamManager ? window.teamManager.createAddToTeamButton(pokemon.id, pokemon.name) : ""}
         </div>
-        ${window.tagManager ? window.tagManager.createTagInterface(pokemon.id) : ""}
       `;
     } catch (error) {
       console.error("Error loading Pokemon details:", error);
@@ -208,11 +250,11 @@ class PokemonSearch {
   }
 
   showLoading() {
-    this.resultsContainer.innerHTML = '<div class="loading">Searching...</div>';
+    this.resultsContainer.innerHTML = '<div class="loading Fredoka-text">Searching...</div>';
   }
 
   showError(message) {
-    this.resultsContainer.innerHTML = `<div class="error">${message}</div>`;
+    this.resultsContainer.innerHTML = `<div class="error Fredoka-text">${message}</div>`;
   }
 
   clearResults() {
@@ -230,8 +272,62 @@ class PokemonSearch {
       timeout = setTimeout(later, wait);
     };
   }
+
+
+  showPokemonModal(pokemonId) {
+  const modal = document.getElementById("pokemonModal");
+  const modalContent = document.getElementById("pokemonProfileContent");
+
+  // Load full profile:
+  fetch(`/api/pokemon/${pokemonId}`)
+    .then((response) => response.json())
+    .then((details) => {
+      const types = details.types.map(t => t.type.name).join(", ");
+      const sprite = details.sprites.front_default || "/images/pokeball-placeholder.png";
+
+      modalContent.innerHTML = `
+      <div class="pokemon-modal-header">
+        <h2 class="Fredoka-text">${details.name}</h2>
+      </div>
+      <div class="pokemon-modal-body">
+        <div class="pokemon-modal-main">
+            <img src="${sprite}" alt="${details.name}" class="pokemon-modal-sprite" />
+          <div class= "pokemon-modal-info">
+            <p><strong>Types: </strong>${types}</p>
+
+            <div class="pokemon-modal-tags-section">
+              <p>Tags:</p>
+              <div id="pokemonTagsContainer"></div>
+            </div>
+        </div>
+      </div>
+
+      <div class="pokemon-modal-stats">
+        <p>Weaknesses: ...</p>
+        <p>Resistances: ...</p>
+        <p>Immunities: ...</p>
+        </div>
+      </div>
+      `;
+      const tagsContainer = document.getElementById("pokemonTagsContainer");
+        if (window.tagManager && tagsContainer) {
+          tagsContainer.innerHTML = window.tagManager.createTagInterface(pokemonId);
+          window.tagManager.loadPokemonTags(pokemonId);
+        }
+      modal.classList.remove("hidden");
+    })
+    .catch((error) => {
+      console.error("Error loading modal details:", error);
+    });
+
+
+  document.querySelector(".close-modal").onclick = () => {
+    modal.classList.add("hidden");
+  };
+}
 }
 
 document.addEventListener("DOMContentLoaded", () => {
   new PokemonSearch();
 });
+

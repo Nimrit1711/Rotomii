@@ -5,7 +5,6 @@
     <title> Rotomii - Home </title>
     <link rel="stylesheet" href="css/themeSwitch.css" />
     <link rel="stylesheet" href="css/home.css" />
-    <link rel="stylesheet" href="css/tags.css" />
     <link rel="stylesheet" href="css/teamModal.css" />
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
@@ -16,29 +15,21 @@
         <%- include('partials/navbar') %>
     </header>
 
-    <!-- Main body -->
-     <main class="main-body">
-       <% if (user) { %>
-        <h1>Welcome to Rotomii, <%= user.username %>!</h1>
-        <% } else { %>
-            <h1>Welcome to Rotomii!</h1>
-        <% } %>
-        <div class="search-container">
-            <form class="search-box">
-                <input class="search-text" type="text" placeholder="Search for a Pokemon..." />
-                <button type="submit" aria-label="Search">
-                    <i class="fa fa-search"></i>
-                </button>
-            </form>
+    <div class="main-home-container">
+        <div class="home-header Fredoka-text">
+            <% if (user) { %>
+            <h1>Welcome to Rotomii, <%= user.username %>!</h1>
+            <% } else { %>
+                <h1>Welcome to Rotomii!</h1>
+            <% } %>
+            <button class="start-search-btn Fredoka-text" onclick="location.href='/search'">Start Searching</button>
         </div>
-     </main>
 
-
-
+    </div>
 
   <!--  footer  -->
   <%- include('partials/footer') %>
-  
+
   <script src="/javascripts/tags.js"></script>
   <script src="/javascripts/teamManager.js"></script>
   <script src="/javascripts/pokemonSearch.js"></script>

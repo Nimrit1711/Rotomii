@@ -58,7 +58,7 @@ class TagManager {
       }
     } catch (error) {
       console.error('Error adding tag:', error);
-      this.showMessage('Failed to add tag', 'error');
+      this.showMessage('Failed to add tag. Log in!', 'error');
     }
   }
 
