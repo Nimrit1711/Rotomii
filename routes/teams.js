@@ -438,4 +438,82 @@ router.get('/:teamId/count', isAuthenticated, async (req, res) => {
   }
 });
 
+// Get team weakness/resistance analysis
+router.get('/:teamId/analysis', isAuthenticated, async (req, res) => {
+  try {
+    const teamId = parseInt(req.params.teamId, 10);
+    const userId = req.user.user_id;
+
+    // Check if the team belongs to the user
+    const team = await Team.getTeamById(teamId);
+    if (!team) {
+      return res.status(404).json({ error: 'Team not found' });
+    }
+    if (team.user_id !== userId) {
+      return res.status(403).json({ error: 'Unauthorized access to this team' });
+    }
+
+    const analysis = await Team.getTeamAnalysis(teamId);
+
+    res.json({
+      success: true,
+      analysis
+    });
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to get team analysis' });
+  }
+});
+
+// Get just team weaknesses
+router.get('/:teamId/weaknesses', isAuthenticated, async (req, res) => {
+  try {
+    const teamId = parseInt(req.params.teamId, 10);
+    const userId = req.user.user_id;
+
+    // Check if the team belongs to the user
+    const team = await Team.getTeamById(teamId);
+    if (!team) {
+      return res.status(404).json({ error: 'Team not found' });
+    }
+    if (team.user_id !== userId) {
+      return res.status(403).json({ error: 'Unauthorized access to this team' });
+    }
+
+    const weaknesses = await Team.getTeamWeaknesses(teamId);
+
+    res.json({
+      success: true,
+      weaknesses
+    });
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to get team weaknesses' });
+  }
+});
+
+// Get just team resistances
+router.get('/:teamId/resistances', isAuthenticated, async (req, res) => {
+  try {
+    const teamId = parseInt(req.params.teamId, 10);
+    const userId = req.user.user_id;
+
+    // Check if the team belongs to the user
+    const team = await Team.getTeamById(teamId);
+    if (!team) {
+      return res.status(404).json({ error: 'Team not found' });
+    }
+    if (team.user_id !== userId) {
+      return res.status(403).json({ error: 'Unauthorized access to this team' });
+    }
+
+    const resistances = await Team.getTeamResistances(teamId);
+
+    res.json({
+      success: true,
+      resistances
+    });
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to get team resistances' });
+  }
+});
+
 module.exports = router;
