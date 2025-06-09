@@ -1,0 +1,35 @@
+
+
+.home-header {
+  text-align: center;
+  padding: 2rem;
+}
+
+.rotom-logo {
+  width: 200px;
+  height: auto;
+  margin-bottom: 1.5rem;
+}
+
+.landing-title {
+  font-size: 3rem;
+  color: #ff6600;
+  text-shadow: 2px 2px #333;
+  margin-bottom: 2rem;
+}
+
+.start-search-btn {
+  display: inline-block;
+  padding: 1rem 2rem;
+  background-color: #ff6600;
+  color: white;
+  text-decoration: none;
+  font-size: 1.2rem;
+  border-radius: 30px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.start-search-btn:hover {
+  background-color: #e65500;
+  transform: translateY(-2px);
+}
