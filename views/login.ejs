@@ -19,15 +19,15 @@
                 <div class="login form">
                     <h1>Login</h1>
                     <form id="login-form">
-                        <input type="text" id="username" name ="username" placeholder="Username or Email" required/>
-                        <input type="password" name="password" id="password" placeholder="Password" required/>
-                        <a href="#">Forgot Password?</a>
+                        <input tabindex=1 type="text" id="username" name ="username" placeholder="Username or Email" required/>
+                        <input tabindex=2 type="password" name="password" id="password" placeholder="Password" required/>
+                        <a tabindex=3 href="#">Forgot Password?</a>
                           <div id="error" style="color: red;"></div>
-                        <button type="submit" class="Login-button" >Login</button>
+                        <button tabindex=4 type="submit" class="Login-button" >Login</button>
                     </form>
                     <div class="signup">
                         <span class="signup">Don't have an account?
-                            <a href="/register">Sign up!</a>
+                            <a tabindex=5 href="/register">Sign up!</a>
                         </span>
                     </div>
                 </div>

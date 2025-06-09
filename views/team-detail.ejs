@@ -22,13 +22,13 @@
             <div class="team-header">
                 <h1><%= team.team_name %></h1>
                 <div class="team-actions">
-                    <button class="btn btn-back" onclick="window.location.href='/teams'">
+                    <button tabindex="13" class="btn btn-back" onclick="window.location.href='/teams'">
                         Back to Teams
                     </button>
-                    <button class="btn btn-edit" onclick="openEditModal()">
+                    <button tabindex="14" class="btn btn-edit" onclick="openEditModal()">
                         Edit Team
                     </button>
-                    <button class="btn btn-delete" onclick="deleteTeam()">
+                    <button tabindex="15" class="btn btn-delete" onclick="deleteTeam()">
                         Delete Team
                     </button>
                 </div>
@@ -57,10 +57,10 @@
                                         <div class="pokemon-notes"><%= pokemon.notes %></div>
                                     <% } %>
                                     <div class="pokemon-actions">
-                                        <button class="btn btn-small btn-edit" onclick="editPokemon(<%= i + 1 %>)">
+                                        <button tabindex="2*i+1" class="btn btn-small btn-edit" onclick="editPokemon(<%= i + 1 %>)">
                                             Edit
                                         </button>
-                                        <button class="btn btn-small btn-remove" onclick="removePokemon(<%= i + 1 %>)">
+                                        <button tabindex="2*i+2" class="btn btn-small btn-remove" onclick="removePokemon(<%= i + 1 %>)">
                                             Remove
                                         </button>
                                     </div>
@@ -70,7 +70,7 @@
                     <% } else { %>
                         <div class="pokemon-card empty" onclick="addPokemon(<%= i + 1 %>)">
                             <div class="pokemon-position"><%= i + 1 %></div>
-                            <p>+ Add Pokemon</p>
+                            <p tabindex="2*i+1">+ Add Pokemon</p>
                         </div>
                     <% } %>
                 <% } %>

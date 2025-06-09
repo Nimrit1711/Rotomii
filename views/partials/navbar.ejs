@@ -10,6 +10,7 @@
             <span class ="bar"></span>
         </button>
         <ul class = "nav-links">
+<<<<<<< HEAD
            <li><a href="/" class="<%= currentPath === '/' ? 'active' : '' %> Fredoka-text">Home</a></li>
                 <% if (user) { %>
                     <li><a href="/teams" class="<%= currentPath === '/myteams' ? 'active' : '' %> Fredoka-text">My Teams</a></li>
@@ -19,6 +20,23 @@
                 <% } else { %>
                     <li><a href="/login" class="<%= currentPath === '/login' ? 'active' : '' %> Fredoka-text">Login</a></li>
                 <% } %>
+=======
+           <li><a tabindex=501 href="/" class="<%= currentPath === '/' ? 'active' : '' %>">Home</a></li>
+                <% if (user) { %>
+                    <li><a tabindex=502 href="/teams" class="<%= currentPath === '/myteams' ? 'active' : '' %>">My Teams</a></li>
+                    <li><a tabindex=503 href="/profile" class="<%= currentPath === '/profile' ? 'active' : '' %>"><%= user.username %></a></li>
+                    <li><a tabindex=504 href="/api/auth/logout">Logout</a></li>
+                <% } else { %>
+                    <li><a tabindex=505 href="/login" class="<%= currentPath === '/login' ? 'active' : '' %>">Login</a></li>
+                <% } %>
+
+            <li class= "nav-search-item">
+                <form class= "nav-search" onsubmit="return false;">
+                    <input tabindex=506 type="text" class="nav-search-input" placeholder="Search Pokemon...">
+                    <i class="fa fa-search"></i>
+                </form>
+            </li>
+>>>>>>> 03db9d2d7ff2486fc92e6c1e56d0d0e7c372db33
         </ul>
     </div>
 </nav>
