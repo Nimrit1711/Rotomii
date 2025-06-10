@@ -10,6 +10,7 @@ class PokemonSearch {
   init() {
     this.setupSearchForm();
     this.setupEventListeners();
+    this.setupModalEventListeners();
   }
 
   setupSearchForm() {
@@ -274,6 +275,11 @@ class PokemonSearch {
     const modal = document.getElementById("pokemonModal");
     const modalContent = document.getElementById("pokemonProfileContent");
 
+    if (!modal || !modalContent) {
+      console.error("Modal elements not found");
+      return;
+    }
+
     fetch(`/api/pokemon/${pokemonId}`)
       .then((response) => response.json())
       .then((details) => {
@@ -349,10 +355,25 @@ class PokemonSearch {
       .catch((error) => {
         console.error("Error loading modal details:", error);
       });
+  }
 
-    document.querySelector(".close-modal").onclick = () => {
-      modal.classList.add("hidden");
-    };
+  setupModalEventListeners() {
+    const modal = document.getElementById("pokemonModal");
+    const closeButton = document.querySelector(".close-modal");
+
+    if (closeButton) {
+      closeButton.onclick = () => {
+        modal?.classList.add("hidden");
+      };
+    }
+
+    if (modal) {
+      modal.onclick = (e) => {
+        if (e.target === modal) {
+          modal.classList.add("hidden");
+        }
+      };
+    }
   }
 }
 

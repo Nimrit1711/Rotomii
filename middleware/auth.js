@@ -7,13 +7,15 @@ exports.isAuthenticated = (req, res, next) => {
     return next();
   }
 
-  res.status(401).render('error', {
-  error: 401,
-  message: "Please log in to access this page.",
-  err: {}
-});
+  if (req.headers.accept && req.headers.accept.includes('application/json')) {
+    return res.status(401).json({ message: 'Please log in to access this page' });
+  }
 
-  return res.status(401).json({ message: 'Please log in to access this page' });
+  return res.status(401).render('error', {
+    error: 401,
+    message: "Please log in to access this page.",
+    err: {}
+  });
 };
 
 // Check if the user is an admin
