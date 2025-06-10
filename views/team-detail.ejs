@@ -75,6 +75,14 @@
                     <% } %>
                 <% } %>
             </div>
+
+            <h2>Team Type Match Ups</h2>
+            <div class="team-type-match-up-container">
+                <!-- Team Type Match Ups-->
+                <h3>Defenses</h3>
+                <div id="team-defense-match-up" class="match-up-grid">
+                </div>
+            </div>
         </div>
     </main>
 
@@ -112,6 +120,45 @@
         function closeEditModal() {
             document.getElementById('editTeamModal').style.display = 'none';
         }
+
+
+        window.addEventListener('load', async (e) => {
+            const teamDefenseMatchUpContainer = document.getElementById('team-defense-match-up');
+            teamDefenseMatchUpContainer.html = ``;
+
+            if (!teamDefenseMatchUpContainer) {
+            console.error("Team Overall Type Defenses elements not found");
+            return;
+            }
+
+            fetch (`/teams/${teamId}/analysis`)
+                .then((response) => response.json())
+                .then((response) => {
+                    const matchUp = response.analysis.scores;
+
+                    Object.keys(matchUp).forEach( key => {
+                        // console.log(key, matchUp[key]);
+                        // teamDefenseMatchUpContainer.innerHTML = teamDefenseMatchUpContainer.innerHTML +`<p>${key} : ${matchUp[key]}</p>`;
+                        const typeBox = document.createElement('div');
+                        typeBox.className = "type-card";
+                        typeBox.innerHTML = `
+                            <p class="type-name">${(key).toUpperCase()}</p>
+                            <h4 class="match-up-count">${matchUp[key]}</h4>
+                        `;
+                        teamDefenseMatchUpContainer.appendChild(typeBox);
+
+                    });
+
+
+                    // teamDefenseMatchUpContainer.innerHTML = `<p>${matchUp.normal}</p>`;
+
+                })
+                .catch((error) => {
+                    console.error('Error getting team match up:', error);
+                    alert('An error occurred getting team match up. Please try again.');
+                })
+        });
+
 
         document.getElementById('editTeamForm').addEventListener('submit', async (e) => {
             e.preventDefault();
