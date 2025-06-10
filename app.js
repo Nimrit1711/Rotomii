@@ -125,27 +125,18 @@ app.use((req, res, next) => {
 
 // error handler
 app.use(function(err, req, res, next) {
-  // Log error for debugging (in production, use proper logging service)
   if (process.env.NODE_ENV === 'development') {
     console.error('Error:', err);
   }
 
-  // Don't expose sensitive error information in production
   const isDevelopment = process.env.NODE_ENV === 'development';
-
-  // Set safe error message
   const safeMessage = isDevelopment ? err.message : 'Something went wrong';
-  const safeError = isDevelopment ? err : {};
 
-  // Set locals for template
-  res.locals.message = safeMessage;
-  res.locals.error = safeError;
-
-  // Render error page with safe information
   res.status(err.status || 500);
   res.render('error', {
-    error: safeError,
-    message: safeMessage
+    error: err.status || 500,
+    message: safeMessage,
+    err: isDevelopment ? err : {}
   });
 });
 

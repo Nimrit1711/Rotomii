@@ -29,7 +29,12 @@ router.get('/', (req, res) => {
 });
 
 router.get('/search', isAuthenticated, (req, res) => {
-  res.render('search', { user: req.user });
+  try {
+    res.render('search', { user: req.user });
+  } catch (err) {
+    console.error(err);
+  }
+
 });
 
 router.get('/myteams', (req, res) => {
