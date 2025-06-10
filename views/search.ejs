@@ -10,12 +10,13 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
 </head>
 <body>
+    <div class="page-wrapper">
     <header>
          <!--Nav  -->
         <%- include('partials/navbar') %>
     </header>
 
-    <div class="main-home-container">
+    <main class="main-home-container">
                      <!-- Search bar -->
             <div class="home-search-bar">
                 <form class="search-box">
@@ -26,9 +27,10 @@
                 </form>
             </div>
 
-             <div class="pokemon-results-container">
+        <div class="pokemon-results-container">
             <!-- Tag/type bar -->
              <p class="filter-text Fredoka-text">Filter by type</p>
+
             <div class="home-tag-bar">
 
                 <button class="type-button type-normal" data-type="normal">Normal</button>
@@ -49,13 +51,14 @@
                 <button class="type-button type-dragon" data-type="dragon">Dragon</button>
                 <button class="type-button type-dark" data-type="dark">Dark</button>
                 <button class="type-button type-fairy" data-type="fairy">Fairy</button>
-              </div>
+            </div>
 
 
                 <!-- Pokémon results grid -->
-                <div class="home-pokemon-grid search-results                                                                                                                                                                               "></div>
-            </div>
-    </div>
+                <div class="home-pokemon-grid search-results"></div>
+        </div>
+
+    </main>
 
         <div id="pokemonModal" class="pokemon-modal hidden">
             <div class="pokemon-modal-content">
@@ -63,9 +66,10 @@
                 <div id="pokemonProfileContent"></div>
             </div>
         </div>
-    </main>
   <!--  footer  -->
+    
   <%- include('partials/footer') %>
+  </div>
 
   <script src="/javascripts/tags.js"></script>
   <script src="/javascripts/teamManager.js"></script>
