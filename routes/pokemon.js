@@ -3,6 +3,7 @@ const router = express.Router();
 const pokeApiService = require('../services/pokeapi');
 const Tag = require('../models/tag');
 const { isAuthenticated } = require('../middleware/auth');
+const { calculatePokemonDamageRelations, POKEMON_TYPES } = require('../services/damageRelations');
 
 // TODO: Implement Pokemon search and detail routes (Kristian)
 // - Search route using PokeAPI
@@ -21,9 +22,7 @@ router.get('/search', async (req, res) => {
      if (tags && pokemonTypes.includes(tags.toLowerCase())) {
       const searchResults = await pokeApiService.searchPokemonByType(tags.toLowerCase());
       results = searchResults;
-    }
-
-    else if (tags && req.user) {
+    } else if (tags && req.user) {
       const tagArray = tags.split(',').map((tag) => tag.trim());
       const taggedPokemon = await Tag.searchPokemonByTags(req.user.user_id, tagArray);
       results = taggedPokemon.map((item) => ({ id: item.pokemon_id }));
@@ -34,10 +33,8 @@ router.get('/search', async (req, res) => {
 
       if (results.length > 0) {
         const existingIds = results.map((p) => p.id);
-        const combinedResults = searchResults.filter((pokemon) =>
-          existingIds.includes(pokemon.id) ||
-          pokemon.name.toLowerCase().includes(q.toLowerCase())
-        );
+        const combinedResults = searchResults.filter((pokemon) => existingIds.includes(pokemon.id)
+          || pokemon.name.toLowerCase().includes(q.toLowerCase()));
         results = combinedResults;
       } else {
         results = searchResults;
@@ -123,5 +120,48 @@ router.get('/:pokemonId/tags', isAuthenticated, async (req, res) => {
 });
 
 
+
+router.get('/:pokemonId/damage-relations', async (req, res) => {
+  try {
+    const damageRelations = await calculatePokemonDamageRelations(req.params.pokemonId);
+
+    let weaknesses = "";
+    let resistances = "";
+    let immunities = "";
+
+    for (let i = 0; i < 18; i++) {
+      const key = `${POKEMON_TYPES[i]}_dmg`;
+      if (damageRelations[key] > 1) {
+        weaknesses = weaknesses.concat(POKEMON_TYPES[i], ", ");
+      }
+      if (damageRelations[key] < 1 && damageRelations[key] > 0) {
+        resistances = resistances.concat(POKEMON_TYPES[i], ", ");
+      }
+      if (damageRelations[key] === 0) {
+        immunities = immunities.concat(POKEMON_TYPES[i], ", ");
+      }
+    }
+
+    if (weaknesses !== "") {
+      weaknesses = weaknesses.slice(0, weaknesses.length - 2);
+    }
+    if (resistances !== "") {
+      resistances = resistances.slice(0, resistances.length - 2);
+    }
+    if (immunities !== "") {
+      immunities = immunities.slice(0, immunities.length - 2);
+    }
+
+    res.json({
+      weaknesses,
+      resistances,
+      immunities,
+      damageMultipliers: damageRelations
+    });
+  } catch (error) {
+    console.error('Damage relations error:', error);
+    res.status(500).json({ error: 'Failed to calculate damage relations' });
+  }
+});
 
 module.exports = router;

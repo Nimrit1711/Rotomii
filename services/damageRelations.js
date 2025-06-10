@@ -9,31 +9,31 @@ const POKEMON_TYPES = [
 async function calculatePokemonDamageRelations(pokemonId) {
   try {
     const pokemon = await pokeApiService.getPokemon(pokemonId);
-    
+
     const damageMultipliers = {};
-    POKEMON_TYPES.forEach(type => {
+    POKEMON_TYPES.forEach((type) => {
       damageMultipliers[`${type}_dmg`] = 1.0;
     });
 
     for (const typeData of pokemon.types) {
       const typeName = typeData.type.name;
       const typeEffectiveness = await pokeApiService.getTypeData(typeName);
-      
-      typeEffectiveness.damage_relations.double_damage_from.forEach(attackingType => {
+
+      typeEffectiveness.damage_relations.double_damage_from.forEach((attackingType) => {
         const key = `${attackingType.name}_dmg`;
         if (damageMultipliers[key] !== undefined) {
           damageMultipliers[key] *= 2.0;
         }
       });
-      
-      typeEffectiveness.damage_relations.half_damage_from.forEach(attackingType => {
+
+      typeEffectiveness.damage_relations.half_damage_from.forEach((attackingType) => {
         const key = `${attackingType.name}_dmg`;
         if (damageMultipliers[key] !== undefined) {
           damageMultipliers[key] *= 0.5;
         }
       });
-      
-      typeEffectiveness.damage_relations.no_damage_from.forEach(attackingType => {
+
+      typeEffectiveness.damage_relations.no_damage_from.forEach((attackingType) => {
         const key = `${attackingType.name}_dmg`;
         if (damageMultipliers[key] !== undefined) {
           damageMultipliers[key] = 0.0;
@@ -50,16 +50,16 @@ async function calculatePokemonDamageRelations(pokemonId) {
 
 function calculateTeamWeaknessScores(teamPokemon) {
   const teamScores = {};
-  
-  POKEMON_TYPES.forEach(type => {
+
+  POKEMON_TYPES.forEach((type) => {
     teamScores[type] = 0;
   });
-  
-  teamPokemon.forEach(pokemon => {
-    POKEMON_TYPES.forEach(type => {
+
+  teamPokemon.forEach((pokemon) => {
+    POKEMON_TYPES.forEach((type) => {
       const damageKey = `${type}_dmg`;
       const multiplier = pokemon[damageKey] || 1.0;
-      
+
       if (multiplier > 1.0) {
         teamScores[type] -= 1;
       } else if (multiplier < 1.0) {
@@ -67,23 +67,23 @@ function calculateTeamWeaknessScores(teamPokemon) {
       }
     });
   });
-  
+
   return teamScores;
 }
 
 function getTeamWeaknesses(teamScores) {
-  return Object.keys(teamScores).filter(type => teamScores[type] < 0);
+  return Object.keys(teamScores).filter((type) => teamScores[type] < 0);
 }
 
 function getTeamResistances(teamScores) {
-  return Object.keys(teamScores).filter(type => teamScores[type] > 0);
+  return Object.keys(teamScores).filter((type) => teamScores[type] > 0);
 }
 
 function getTeamAnalysis(teamPokemon) {
   const scores = calculateTeamWeaknessScores(teamPokemon);
   const weaknesses = getTeamWeaknesses(scores);
   const resistances = getTeamResistances(scores);
-  
+
   return {
     scores,
     weaknesses,

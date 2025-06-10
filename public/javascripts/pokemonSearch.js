@@ -15,9 +15,8 @@ class PokemonSearch {
   setupSearchForm() {
     this.searchForm = document.querySelector(".search-box");
     this.searchInput = document.querySelector(".search-text");
-    this.resultsContainer =
-      document.querySelector(".search-results") ||
-      this.createResultsContainer();
+    this.resultsContainer = document.querySelector(".search-results")
+      || this.createResultsContainer();
 
     if (this.searchForm) {
       this.enhanceSearchForm();
@@ -55,7 +54,7 @@ class PokemonSearch {
 
     this.searchForm.parentNode.insertBefore(
       tagSearchDiv,
-      this.searchForm.nextSibling,
+      this.searchForm.nextSibling
     );
     this.tagSearchInput = tagSearchDiv.querySelector(".tag-search-input");
   }
@@ -73,22 +72,20 @@ class PokemonSearch {
     }
 
     if (this.tagSearchInput) {
-      this.tagSearchInput.addEventListener("input", (e) =>
-        this.handleTagSearch(e),
-      );
+      this.tagSearchInput.addEventListener("input", (e) => this.handleTagSearch(e));
     }
 
     if (this.searchInput) {
       const debouncedSearch = this.debounce(
         (e) => this.handleLiveSearch(e),
-        300,
+        300
       );
       this.searchInput.addEventListener("input", debouncedSearch);
     }
 
        document.querySelectorAll(".type-button").forEach((button) => {
           button.addEventListener("click", (e) => {
-            const type = e.target.dataset.type;
+            const { type } = e.target.dataset;
             this.handleTypeFilter(type);
           });
         });
@@ -102,7 +99,7 @@ class PokemonSearch {
 
         const card = e.target.closest(".pokemon-card");
         if (card) {
-          const pokemonId = card.dataset.pokemonId;
+          const { pokemonId } = card.dataset;
           this.showPokemonModal(pokemonId);
         }
       });
@@ -148,7 +145,7 @@ class PokemonSearch {
 
     try {
       const response = await fetch(
-        `/api/pokemon/search?tags=${encodeURIComponent(tagQuery)}`,
+        `/api/pokemon/search?tags=${encodeURIComponent(tagQuery)}`
       );
       if (response.ok) {
         const results = await response.json();
@@ -168,7 +165,7 @@ class PokemonSearch {
 
     try {
       const response = await fetch(
-        `/api/pokemon/search?q=${encodeURIComponent(query)}`,
+        `/api/pokemon/search?q=${encodeURIComponent(query)}`
       );
       if (response.ok) {
         const results = await response.json();
@@ -188,7 +185,7 @@ class PokemonSearch {
     }
 
     const resultElements = await Promise.all(
-      results.map((pokemon) => this.createPokemonCard(pokemon)),
+      results.map((pokemon) => this.createPokemonCard(pokemon))
     );
 
     resultElements.forEach((element) => {
@@ -213,9 +210,8 @@ class PokemonSearch {
       const details = await detailResponse.json();
 
       const types = details.types ? details.types.map((t) => t.type.name) : [];
-      const sprite =
-        (details.sprites && details.sprites.front_default) ||
-        "/images/pokeball-placeholder.png";
+      const sprite = (details.sprites && details.sprites.front_default)
+        || "/images/pokeball-placeholder.png";
 
       card.innerHTML = `
         <div class="pokemon-header">
@@ -275,59 +271,93 @@ class PokemonSearch {
 
 
   showPokemonModal(pokemonId) {
-  const modal = document.getElementById("pokemonModal");
-  const modalContent = document.getElementById("pokemonProfileContent");
+    const modal = document.getElementById("pokemonModal");
+    const modalContent = document.getElementById("pokemonProfileContent");
 
-  // Load full profile:
-  fetch(`/api/pokemon/${pokemonId}`)
-    .then((response) => response.json())
-    .then((details) => {
-      const types = details.types.map(t => t.type.name).join(", ");
-      const sprite = details.sprites.front_default || "/images/pokeball-placeholder.png";
+    fetch(`/api/pokemon/${pokemonId}`)
+      .then((response) => response.json())
+      .then((details) => {
+        const types = details.types.map((t) => t.type.name).join(", ");
+        const sprite = details.sprites.front_default || "/images/pokeball-placeholder.png";
 
-      modalContent.innerHTML = `
-      <div class="pokemon-modal-header">
-        <h2 class="Fredoka-text">${details.name}</h2>
-      </div>
-      <div class="pokemon-modal-body">
-        <div class="pokemon-modal-main">
-            <img src="${sprite}" alt="${details.name}" class="pokemon-modal-sprite" />
-          <div class= "pokemon-modal-info">
-            <p><strong>Types: </strong>${types}</p>
-
-            <div class="pokemon-modal-tags-section">
-              <p>Tags:</p>
-              <div id="pokemonTagsContainer"></div>
+        fetch(`/api/pokemon/${pokemonId}/damage-relations`)
+          .then((response) => response.json())
+          .then((damageData) => {
+            modalContent.innerHTML = `
+            <div class="pokemon-modal-header">
+              <h2 class="Fredoka-text">${details.name}</h2>
             </div>
-        </div>
-      </div>
+            <div class="pokemon-modal-body">
+              <div class="pokemon-modal-main">
+                  <img src="${sprite}" alt="${details.name}" class="pokemon-modal-sprite" />
+                <div class= "pokemon-modal-info">
+                  <p><strong>Types: </strong>${types}</p>
+                  <div class="pokemon-modal-tags-section">
+                    <p>Tags:</p>
+                    <div id="pokemonTagsContainer"></div>
+                  </div>
+              </div>
+            </div>
+            <div class="pokemon-modal-stats">
+              <p><strong>Weaknesses:</strong> ${damageData.weaknesses || "None"}</p>
+              <p><strong>Resistances:</strong> ${damageData.resistances || "None"}</p>
+              <p><strong>Immunities:</strong> ${damageData.immunities || "None"}</p>
+              </div>
+            </div>
+            `;
 
-      <div class="pokemon-modal-stats">
-        <p>Weaknesses: ...</p>
-        <p>Resistances: ...</p>
-        <p>Immunities: ...</p>
-        </div>
-      </div>
-      `;
-      const tagsContainer = document.getElementById("pokemonTagsContainer");
-        if (window.tagManager && tagsContainer) {
-          tagsContainer.innerHTML = window.tagManager.createTagInterface(pokemonId);
-          window.tagManager.loadPokemonTags(pokemonId);
-        }
-      modal.classList.remove("hidden");
-    })
-    .catch((error) => {
-      console.error("Error loading modal details:", error);
-    });
+            const tagsContainer = document.getElementById("pokemonTagsContainer");
+            if (window.tagManager && tagsContainer) {
+              tagsContainer.innerHTML = window.tagManager.createTagInterface(pokemonId);
+              window.tagManager.loadPokemonTags(pokemonId);
+            }
+            modal.classList.remove("hidden");
+          })
+          .catch((error) => {
+            console.error("Error loading damage relations:", error);
+            modalContent.innerHTML = `
+            <div class="pokemon-modal-header">
+              <h2 class="Fredoka-text">${details.name}</h2>
+            </div>
+            <div class="pokemon-modal-body">
+              <div class="pokemon-modal-main">
+                  <img src="${sprite}" alt="${details.name}" class="pokemon-modal-sprite" />
+                <div class= "pokemon-modal-info">
+                  <p><strong>Types: </strong>${types}</p>
+                  <div class="pokemon-modal-tags-section">
+                    <p>Tags:</p>
+                    <div id="pokemonTagsContainer"></div>
+                  </div>
+              </div>
+            </div>
+            <div class="pokemon-modal-stats">
+              <p><strong>Weaknesses:</strong> Loading...</p>
+              <p><strong>Resistances:</strong> Loading...</p>
+              <p><strong>Immunities:</strong> Loading...</p>
+              </div>
+            </div>
+            `;
 
+            const tagsContainer = document.getElementById("pokemonTagsContainer");
+            if (window.tagManager && tagsContainer) {
+              tagsContainer.innerHTML = window.tagManager.createTagInterface(pokemonId);
+              window.tagManager.loadPokemonTags(pokemonId);
+            }
+            modal.classList.remove("hidden");
+          });
+      })
+      .catch((error) => {
+        console.error("Error loading modal details:", error);
+      });
 
-  document.querySelector(".close-modal").onclick = () => {
-    modal.classList.add("hidden");
-  };
-}
+    document.querySelector(".close-modal").onclick = () => {
+      modal.classList.add("hidden");
+    };
+  }
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-  new PokemonSearch();
+  const pokemonSearch = new PokemonSearch();
+  window.pokemonSearch = pokemonSearch;
 });
 

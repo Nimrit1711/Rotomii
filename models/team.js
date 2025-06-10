@@ -119,7 +119,8 @@ class Team {
 
       // Calculate damage relations for this Pokemon
       console.log(`Calculating damage relations for Pokemon ${pokemonId}...`);
-      const damageRelations = await damageRelationsService.calculatePokemonDamageRelations(pokemonId);
+      const damageRelations = await damageRelationsService
+        .calculatePokemonDamageRelations(pokemonId);
 
       // Check if there's already a Pokemon in this position
       const existingPokemon = await db.get(
@@ -128,33 +129,33 @@ class Team {
       );
 
       // Build the damage relation columns for the SQL query
-      const damageColumns = damageRelationsService.POKEMON_TYPES.map(type => `${type}_dmg`);
-      const damageValues = damageColumns.map(col => damageRelations[col]);
+      const damageColumns = damageRelationsService.POKEMON_TYPES.map((type) => `${type}_dmg`);
+      const damageValues = damageColumns.map((col) => damageRelations[col]);
 
       // If position is already taken, update that Pokemon instead of adding a new one
       if (existingPokemon) {
-        const updateColumns = ['pokemon_id = ?', 'nickname = ?', 'custom_notes = ?', 
-                              ...damageColumns.map(col => `${col} = ?`)];
+        const updateColumns = ['pokemon_id = ?', 'nickname = ?', 'custom_notes = ?',
+                              ...damageColumns.map((col) => `${col} = ?`)];
         const updateValues = [pokemonId, nickname, notes, ...damageValues, teamId, position];
-        
+
         await db.run(
           `UPDATE team_pokemon SET ${updateColumns.join(', ')} WHERE team_id = ? AND position = ?`,
           updateValues
         );
         return existingPokemon.id;
-      } else {
-        // Add new Pokemon to the team with damage relations
-        const insertColumns = ['team_id', 'position', 'pokemon_id', 'nickname', 'custom_notes', 
-                              ...damageColumns];
-        const placeholders = insertColumns.map(() => '?').join(', ');
-        const insertValues = [teamId, position, pokemonId, nickname, notes, ...damageValues];
-        
-        const result = await db.run(
-          `INSERT INTO team_pokemon (${insertColumns.join(', ')}) VALUES (${placeholders})`,
-          insertValues
-        );
-        return result.lastID;
       }
+
+      const insertColumns = ['team_id', 'position', 'pokemon_id', 'nickname', 'custom_notes',
+                            ...damageColumns];
+      const placeholders = insertColumns.map(() => '?').join(', ');
+      const insertValues = [teamId, position, pokemonId, nickname, notes, ...damageValues];
+
+      const result = await db.run(
+        `INSERT INTO team_pokemon (${insertColumns.join(', ')}) VALUES (${placeholders})`,
+        insertValues
+      );
+      return result.lastID;
+
     } finally {
       await db.close();
     }

@@ -11,7 +11,7 @@ const router = express.Router();
 let publicPath = path.join(__dirname, '..', 'public');
 
 
-//avatar image file upload
+// avatar image file upload
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, 'public/images/avatars');
