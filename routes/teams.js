@@ -40,6 +40,7 @@ router.get('/', isAuthenticated, async (req, res) => {
               name: poke.pokemon_id,
               nickname: poke.nickname,
               spriteUrl: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${poke.pokemon_id}.png`
+              //spriteUrl: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${poke.pokemon_id}.png`
             });
           } else {
             pokemon.push(null);
@@ -114,6 +115,7 @@ router.get('/:teamId(\\d+)', isAuthenticated, async (req, res) => {
           nickname: poke.nickname,
           notes: poke.custom_notes,
           spriteUrl: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${poke.pokemon_id}.png`
+          //spriteUrl: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${poke.pokemon_id}.png`
         });
       } else {
         pokemon.push(null);

@@ -284,7 +284,7 @@ class PokemonSearch {
       .then((response) => response.json())
       .then((details) => {
         const types = details.types.map((t) => t.type.name).join(", ");
-        const sprite = details.sprites.front_default || "/images/pokeball-placeholder.png";
+        const sprite = details.sprites.other["official-artwork"].front_default || "/images/pokeball-placeholder.png";
 
         fetch(`/api/pokemon/${pokemonId}/damage-relations`)
           .then((response) => response.json())
