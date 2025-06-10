@@ -216,7 +216,7 @@ class PokemonSearch {
 
       card.innerHTML = `
         <div class="pokemon-header">
-          <img src="${sprite}" alt="${pokemon.name}" class="pokemon-sprite Fredoka-text" />
+          <img src="${sprite}" alt="Game Sprite of ${pokemon.name}" class="pokemon-sprite Fredoka-text" />
           <div class="pokemon-info">
             <h3>${pokemon.name}</h3>
             <div class="pokemon-types">
@@ -295,7 +295,7 @@ class PokemonSearch {
             </div>
             <div class="pokemon-modal-body">
               <div class="pokemon-modal-main">
-                  <img src="${sprite}" alt="${details.name}" class="pokemon-modal-sprite" />
+                  <img src="${sprite}" alt="Official Artwork of ${details.name}" class="pokemon-modal-sprite" />
                 <div class= "pokemon-modal-info">
                   <p><strong>Types: </strong>${types}</p>
                   <div class="pokemon-modal-tags-section">
@@ -327,7 +327,7 @@ class PokemonSearch {
             </div>
             <div class="pokemon-modal-body">
               <div class="pokemon-modal-main">
-                  <img src="${sprite}" alt="${details.name}" class="pokemon-modal-sprite" />
+                  <img src="${sprite}" alt="Official Artwork of ${details.name}" class="pokemon-modal-sprite" />
                 <div class= "pokemon-modal-info">
                   <p><strong>Types: </strong>${types}</p>
                   <div class="pokemon-modal-tags-section">
