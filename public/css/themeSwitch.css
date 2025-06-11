@@ -11,8 +11,10 @@
     --border-color: #FF7531;
     --nav-text: #FFFFFF;
     --login-button: #29ACBD;
-    --card-bg: #FFFFFF;
+    --card-bg: #ffffff;
     --hover-bg: #ececec;
+    --empty-slot-text: #7b7b7b;
+    --empty-slot-bg: #e0e0e0;
   }
 
 
@@ -29,8 +31,10 @@
     --border-color: #3de8ff;
     --nav-text: #3de8ff;
     --login-button: #2B2E34;
-    --card-bg: #c3c3c3;
+    --card-bg: #efefef;
     --hover-bg: #a7a7a7;
+    --empty-slot-text: #a9a9a9;
+    --empty-slot-bg: #5f6064;
   }
 
   * {
