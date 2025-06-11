@@ -59,7 +59,7 @@ class TeamManager {
       <div class="team-modal">
         <div class="team-modal-header">
           <h3>Add ${pokemonName} to Team</h3>
-          <button class="close-team-modal">×</button>
+          <button tabindex="${pokemonId}+20" class="close-team-modal">×</button>
         </div>
         <div class="team-modal-body">
           ${this.userTeams.length === 0
@@ -150,7 +150,7 @@ class TeamManager {
 
   createAddToTeamButton(pokemonId, pokemonName) {
     return `
-      <button class="add-to-team-btn"
+      <button tabindex="${pokemonId}+20" class="add-to-team-btn"
               data-pokemon-id="${pokemonId}"
               data-pokemon-name="${pokemonName}">
         Add to Team

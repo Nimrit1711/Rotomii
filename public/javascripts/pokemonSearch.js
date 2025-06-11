@@ -50,7 +50,7 @@ class PokemonSearch {
     const tagSearchDiv = document.createElement("div");
     tagSearchDiv.className = "search-tags";
     tagSearchDiv.innerHTML = `
-      <input type="text" class="tag-search-input" placeholder="Search by tags (eg favourite,fire)..." />
+      <input type="text" tabindex="2" class="tag-search-input" placeholder="Search by tags (eg favourite,fire)..." />
     `;
 
     this.searchForm.parentNode.insertBefore(

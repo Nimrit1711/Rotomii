@@ -10,14 +10,14 @@
             <span class ="bar"></span>
         </button>
         <ul class = "nav-links">
-           <li><a href="/" class="<%= currentPath === '/' ? 'active' : '' %> Fredoka-text">Home</a></li>
+           <li><a tabindex="2000" href="/" class="<%= currentPath === '/' ? 'active' : '' %> Fredoka-text">Home</a></li>
                 <% if (user) { %>
-                    <li><a href="/teams" class="<%= currentPath === '/myteams' ? 'active' : '' %> Fredoka-text">My Teams</a></li>
-                    <li><a href="/profile" class="<%= currentPath === '/profile' ? 'active' : '' %> Fredoka-text"><%= user.username %></a></li>
-                    <li><a href="/search" class="<%= currentPath === '/search' ? 'active' : '' %> Fredoka-text">Search</a></li>
-                    <li><a href="/api/auth/logout" class="Fredoka-text">Logout</a></li>
+                    <li><a tabindex="2001" href="/teams" class="<%= currentPath === '/myteams' ? 'active' : '' %> Fredoka-text">My Teams</a></li>
+                    <li><a tabindex="2002" href="/profile" class="<%= currentPath === '/profile' ? 'active' : '' %> Fredoka-text"><%= user.username %></a></li>
+                    <li><a tabindex="2003" href="/search" class="<%= currentPath === '/search' ? 'active' : '' %> Fredoka-text">Search</a></li>
+                    <li><a tabindex="2004" href="/api/auth/logout" class="Fredoka-text">Logout</a></li>
                 <% } else { %>
-                    <li><a href="/login" class="<%= currentPath === '/login' ? 'active' : '' %> Fredoka-text">Login</a></li>
+                    <li><a tabindex="2005" href="/login" class="<%= currentPath === '/login' ? 'active' : '' %> Fredoka-text">Login</a></li>
                 <% } %>
         </ul>
     </div>
