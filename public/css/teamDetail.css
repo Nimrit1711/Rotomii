@@ -230,6 +230,7 @@
         }
 
 .team-type-match-up-container {
+            color: #000000;
             background: var(--card-bg, #f5f5f5);
             padding: 1rem;
             border-radius: 8px;
