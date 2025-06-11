@@ -19,7 +19,7 @@
 <form action = "/profile" method="POST" id="editProfileForm" enctype="multipart/form-data">
         <div class="edit-profile-header">
                 <img id = "avatarPreview" src = "<%= user.avatar_image || 'images/default-PFP.jpg' %>" alt="avatar" class="avatar-img" />
-            <div>
+            <div class="upload-wrapper">
                 <label tabindex=1 for="avatarUpload" class="upload-label">Upload New Photo</label>
                 <input tabindex=2 type = "file" id="avatarUpload" name="avatar" accept="image/*" />
             </div>

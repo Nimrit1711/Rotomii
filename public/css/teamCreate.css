@@ -76,3 +76,34 @@
             margin-top: 0.5rem;
             display: none;
         }
+
+
+        @media only screen and (max-width: 650px) {
+    .create-team-container {
+        margin: 1rem;
+        padding: 1.5rem;
+    }
+
+    .create-team-container h1 {
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+    }
+
+    .form-group input,
+    .form-group textarea {
+        font-size: 1rem;
+        padding: 0.65rem;
+    }
+
+    .form-buttons {
+        flex-direction: column;
+        gap: 0.5rem;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .form-buttons .btn {
+        width: 100%;
+        font-size: 1rem;
+    }
+}

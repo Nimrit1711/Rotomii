@@ -47,26 +47,38 @@
                     <% const pokemon = team.pokemon[i]; %>
                     <% if (pokemon) { %>
                         <div class="pokemon-card">
+
                             <div class="pokemon-position"><%= pokemon.position %></div>
+
                             <div class="pokemon-content">
-                                <img src="<%= pokemon.spriteUrl %>" alt="<%= pokemon.nickname || pokemon.id %>" class="pokemon-sprite">
+                                <div class="pokemon-image-wrapper">
+                                    <img src="<%= pokemon.spriteUrl %>" alt="<%= pokemon.nickname || pokemon.id %>" class="pokemon-sprite">
+                                </div>
+
                                 <div class="pokemon-info">
-                                    <div class="pokemon-nickname"><%= pokemon.nickname || `Pokemon #${pokemon.id}` %></div>
-                                    <div class="pokemon-id">ID: <%= pokemon.id %></div>
+
+                                    <div class="pokemon-name-id">
+                                        <div class="pokemon-nickname"><%= pokemon.nickname || `Pokemon #${pokemon.id}` %></div>
+                                        <div class="pokemon-id">ID: <%= pokemon.id %></div>
+                                    </div>
+
                                     <% if (pokemon.notes) { %>
                                         <div class="pokemon-notes"><%= pokemon.notes %></div>
                                     <% } %>
-                                    <div class="pokemon-actions">
-                                        <button tabindex="2*i+1" class="btn btn-small btn-edit" onclick="editPokemon(<%= i + 1 %>)">
-                                            Edit
-                                        </button>
-                                        <button tabindex="2*i+2" class="btn btn-small btn-remove" onclick="removePokemon(<%= i + 1 %>)">
-                                            Remove
-                                        </button>
-                                    </div>
+                                    
                                 </div>
                             </div>
+
+                            <div class="pokemon-actions">
+                                <button tabindex="2*i+1" class="btn btn-small btn-edit" onclick="editPokemon(<%= i + 1 %>)">
+                                    Edit
+                                </button>
+                                <button tabindex="2*i+2" class="btn btn-small btn-remove" onclick="removePokemon(<%= i + 1 %>)">
+                                    Remove
+                                </button>
+                            </div>
                         </div>
+
                     <% } else { %>
                         <div class="pokemon-card empty" onclick="addPokemon(<%= i + 1 %>)">
                             <div class="pokemon-position"><%= i + 1 %></div>
