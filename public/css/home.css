@@ -156,9 +156,6 @@
   margin: 0 auto;
 }
 
-
-
-
 .pokemon-results-container {
   padding: 1rem;
   max-width: 1200px;
@@ -222,7 +219,14 @@
 @media (max-width: 600px) {
 
   .pokemon-results-container {
-    padding: 0.5rem;  
+    padding: 0.5rem;
+  }
+
+  .edit-profile-container {
+    margin: 1rem;
+    padding: 1.5rem;
+    max-width: 100%;
+    box-sizing: border-box;
   }
 
   .home-pokemon-grid {
