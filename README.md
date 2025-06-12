@@ -20,3 +20,5 @@ And finally, open localhost:3000. If that doesn't work, try localhost:8080.
 - login from anywhere to view and edit your teams
 
 ## Known bugs
+- the first search after a refresh may be inaccurate. Press enter again and the problem should resolve.
+- the keyboard navigation for the 'add to team' pop up on the search page malfunctions, and requires the user to tab through each pokémon searched.
