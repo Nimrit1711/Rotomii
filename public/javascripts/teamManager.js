@@ -150,7 +150,7 @@ class TeamManager {
 
   createAddToTeamButton(pokemonId, pokemonName) {
     return `
-      <button tabindex="${pokemonId}+20" class="add-to-team-btn"
+      <button class="add-to-team-btn"
               data-pokemon-id="${pokemonId}"
               data-pokemon-name="${pokemonName}">
         Add to Team

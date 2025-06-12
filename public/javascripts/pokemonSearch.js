@@ -189,7 +189,13 @@ class PokemonSearch {
       results.map((pokemon) => this.createPokemonCard(pokemon))
     );
 
+    let resultTabIndex = Number(this.resultsContainer.previousElementSibling.lastElementChild.getAttribute("tabIndex")) + 1;
+
     resultElements.forEach((element) => {
+      element.setAttribute("tabIndex", resultTabIndex);
+      resultTabIndex++;
+      element.querySelector("button").setAttribute("tabIndex", resultTabIndex);
+      resultTabIndex++;
       this.resultsContainer.appendChild(element);
     });
 
