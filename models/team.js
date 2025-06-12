@@ -1,4 +1,5 @@
 const getDb = require('./db');
+const damageRelationsService = require('../services/damageRelations');
 
 // Team model for handling Pokemon teams
 class Team {
@@ -101,7 +102,7 @@ class Team {
     }
   }
 
-  // Add or update a Pokemon in a team
+  // Add or update a Pokemon in a team with damage relations calculation
   static async addPokemonToTeam(teamId, position, pokemonId, nickname = '', notes = '') {
     const db = await getDb();
     try {
@@ -116,26 +117,44 @@ class Team {
         throw new Error('Team not found');
       }
 
+      // Calculate damage relations for this Pokemon
+      console.log(`Calculating damage relations for Pokemon ${pokemonId}...`);
+      const damageRelations = await damageRelationsService
+        .calculatePokemonDamageRelations(pokemonId);
+
       // Check if there's already a Pokemon in this position
       const existingPokemon = await db.get(
         'SELECT * FROM team_pokemon WHERE team_id = ? AND position = ?',
         [teamId, position]
       );
 
+      // Build the damage relation columns for the SQL query
+      const damageColumns = damageRelationsService.POKEMON_TYPES.map((type) => `${type}_dmg`);
+      const damageValues = damageColumns.map((col) => damageRelations[col]);
+
       // If position is already taken, update that Pokemon instead of adding a new one
       if (existingPokemon) {
+        const updateColumns = ['pokemon_id = ?', 'nickname = ?', 'custom_notes = ?',
+                              ...damageColumns.map((col) => `${col} = ?`)];
+        const updateValues = [pokemonId, nickname, notes, ...damageValues, teamId, position];
+
         await db.run(
-          'UPDATE team_pokemon SET pokemon_id = ?, nickname = ?, custom_notes = ? WHERE team_id = ? AND position = ?',
-          [pokemonId, nickname, notes, teamId, position]
+          `UPDATE team_pokemon SET ${updateColumns.join(', ')} WHERE team_id = ? AND position = ?`,
+          updateValues
         );
         return existingPokemon.id;
       }
-        // Add new Pokemon to the team
-        const result = await db.run(
-          'INSERT INTO team_pokemon (team_id, position, pokemon_id, nickname, custom_notes) VALUES (?, ?, ?, ?, ?)',
-          [teamId, position, pokemonId, nickname, notes]
-        );
-        return result.lastID;
+
+      const insertColumns = ['team_id', 'position', 'pokemon_id', 'nickname', 'custom_notes',
+                            ...damageColumns];
+      const placeholders = insertColumns.map(() => '?').join(', ');
+      const insertValues = [teamId, position, pokemonId, nickname, notes, ...damageValues];
+
+      const result = await db.run(
+        `INSERT INTO team_pokemon (${insertColumns.join(', ')}) VALUES (${placeholders})`,
+        insertValues
+      );
+      return result.lastID;
 
     } finally {
       await db.close();
@@ -169,6 +188,50 @@ class Team {
       await db.close();
     }
   }
+
+  // Get team weakness/resistance analysis
+  static async getTeamAnalysis(teamId) {
+    const db = await getDb();
+    try {
+      // Get all Pokemon in the team with their damage relations
+      const teamPokemon = await db.all(
+        'SELECT * FROM team_pokemon WHERE team_id = ? ORDER BY position',
+        [teamId]
+      );
+
+      if (teamPokemon.length === 0) {
+        return {
+          scores: {},
+          weaknesses: [],
+          resistances: [],
+          summary: {
+            totalWeaknesses: 0,
+            totalResistances: 0,
+            overallBalance: 0
+          }
+        };
+      }
+
+      // Use the damage relations service to calculate team analysis
+      return damageRelationsService.getTeamAnalysis(teamPokemon);
+    } finally {
+      await db.close();
+    }
+  }
+
+  // Get just team weaknesses (types where score < 0)
+  static async getTeamWeaknesses(teamId) {
+    const analysis = await Team.getTeamAnalysis(teamId);
+    return analysis.weaknesses;
+  }
+
+  // Get just team resistances (types where score > 0)
+  static async getTeamResistances(teamId) {
+    const analysis = await Team.getTeamAnalysis(teamId);
+    return analysis.resistances;
+  }
+
+
 }
 
 module.exports = Team;

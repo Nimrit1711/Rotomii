@@ -64,7 +64,58 @@ const pokeApiService = {
       .slice(0, limit);
 
     return matches;
-  }
+  },
+
+  // Get all Pokemon names (for autocomplete/search features)
+  getPokemonNames: async () => {
+    const response = await fetchFromPokeAPI('/pokemon-form/?limit=1527');
+    return response.results.map((pokemon) => pokemon.name);
+  },
+
+  // Get Pokemon ID by name
+  getNameToIdMap: async () => {
+    const response = await fetchFromPokeAPI('/pokemon?limit=1527');
+    const nameToIdMap = {};
+
+    response.results.forEach((pokemon) => {
+      // Extract ID from URL (e.g., 'https://pokeapi.co/api/v2/pokemon/25/')
+      const id = pokemon.url.split('/').filter((part) => part).pop();
+      if (id && !isNaN(id)) {
+        nameToIdMap[pokemon.name] = parseInt(id, 10);
+      }
+    });
+
+    return nameToIdMap;
+  },
+
+  // Enhanced search function for Pokemon
+  searchPokemon: async (query, limit = 20) => {
+    const response = await fetchFromPokeAPI('/pokemon?limit=1527');
+    const searchQuery = String(query).toLowerCase();
+
+    const matches = response.results
+      .filter((pokemon) => pokemon.name.includes(searchQuery))
+      .slice(0, limit)
+      .map((pokemon) => {
+        const id = pokemon.url.split('/').filter((part) => part).pop();
+        return {
+          id: parseInt(id, 10),
+          name: pokemon.name,
+          url: pokemon.url
+        };
+      });
+
+    return matches;
+  },
+  searchPokemonByType: async (type) => {
+  const rawResults = await pokeApiService.getPokemonByType(type);
+
+  return rawResults.map((p) => {
+    const idMatch = p.url.match(/\/pokemon\/(\d+)\//);
+    const id = idMatch ? parseInt(idMatch[1], 10) : null;
+    return { id, name: p.name };
+  });
+}
 };
 
 module.exports = pokeApiService;

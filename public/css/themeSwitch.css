@@ -8,7 +8,13 @@
     --nav-search-bg: #FFFFFF;
     --body-search-bg:#FFFFFF;
     --search-text-color: #000000;
+    --border-color: #FF7531;
     --nav-text: #FFFFFF;
+    --login-button: #29ACBD;
+    --card-bg: #ffffff;
+    --hover-bg: #ececec;
+    --empty-slot-text: #7b7b7b;
+    --empty-slot-bg: #e0e0e0;
   }
 
 
@@ -22,13 +28,28 @@
     --nav-search-bg: #2F333A;
     --body-search-bg:#1C1E22;
     --search-text-color: #EAF6F7;
+    --border-color: #3de8ff;
     --nav-text: #3de8ff;
+    --login-button: #2B2E34;
+    --card-bg: #efefef;
+    --hover-bg: #a7a7a7;
+    --empty-slot-text: #efefef;
+    --empty-slot-bg: #5f6064;
   }
 
   * {
+
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+  }
+
+  html, body {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    padding: 0;
   }
 
   body {
@@ -37,3 +58,24 @@
     color: var(--text-color);
   }
 
+  .page-wrapper {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+
+  h1 {
+    font-family: "Fredoka", sans-serif;
+  }
+
+
+  .Fredoka-text {
+    font-size: 0.5em;
+    font-family: "Fredoka", sans-serif;
+}
+
+@media only screen and (min-width: 500px) {
+    .Fredoka-text {
+        font-size: 1em
+    }
+}

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang ="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name = "viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Rotomii - Sign up</title>
+    <link rel="stylesheet" href="css/themeSwitch.css" />
+    <link rel="stylesheet" href="css/registration.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&display=swap" rel="stylesheet">
+    <script src="/javascripts/register.js" defer></script>
+</head>
+<body>
+     <header>
+         <!--Nav  -->
+        <%- include('partials/navbar') %>
+    </header>
+    <section>
+            <div class="container">
+                <div class="rego form">
+                    <h1>Sign up</h1>
+                    <form id="register-form">
+                        <input tabindex=1 type="text" id="username" name ="username" placeholder="Username" required/>
+                        <input tabindex=2 type="text" name="email" id="email" placeholder="Email" required/>
+                        <input tabindex=3 type="password" name="password" id="password" placeholder="Create Password" required/>
+                        <input tabindex=4 type="password" name="confirmPassword" id="confirmPassword" placeholder="Confirm Password" required/>
+                        <div id="passwordMatch" style="margin-top: 5px;"></div>
+                        <div id="error" style="color: red;"></div>
+                        <button tabindex=5 type="submit" class="Login-button" >Sign Up</button>
+                    </form>
+                    <div class="signup">
+                        <span class="signup">Already have an account?
+                            <a tabindex=6 href="/login">Login!</a>
+                        </span>
+                    </div>
+                </div>
+            </div>
+    </section>
+    <!--  footer  -->
+  <%- include('partials/footer') %>
+</body>
+</html>

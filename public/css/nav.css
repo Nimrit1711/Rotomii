@@ -37,6 +37,11 @@
 
   }
 
+  .active {
+      color: var(--nav-color);
+    background-color: var(--nav-text);
+  }
+
   .navBar-logo {
     font-size: 2rem;
     font-family: 'PokemonSolid';
@@ -65,7 +70,6 @@
     font-size: 1rem;
     font-weight: 500;
     padding: 5px 25px;
-
     transition: all 0.7s ease;
     white-space: nowrap;
 
@@ -95,39 +99,6 @@
 
   }
 
-  /* nav search bar*/
-  .nav-search {
-    display: flex;
-    align-items: center;
-
-  }
-
-
-
-  .nav-search-input {
-    padding: 0.5rem;
-    border-radius: 15px;
-    font-size: 0.8rem;
-    width: 180px;
-    border: none;
-    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
-    transition: 0.4s ease-in-out;
-    outline: none;
-    background-color: var(--nav-search-bg);
-    color: var(--search-text-color);
-
-  }
-
-  .nav-search-input:focus {
-    width: 13rem;
-  }
-
-  .nav-search i {
-    position: relative;
-    right: 1.8rem;
-    color: var(--heading-color);
-    cursor: pointer;
-  }
 
 
 

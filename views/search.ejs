@@ -1,0 +1,81 @@
+<html lang = "en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name = "viewport" content="width=device-width, initial-scale=1.0" />
+    <title> Rotomii - Search </title>
+    <link rel="stylesheet" href="css/themeSwitch.css" />
+    <link rel="stylesheet" href="css/searchPage.css" />
+    <link rel="stylesheet" href="css/teamModal.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+</head>
+<body>
+    <div class="page-wrapper">
+    <header>
+         <!--Nav  -->
+        <%- include('partials/navbar') %>
+    </header>
+
+    <main class="main-home-container">
+                     <!-- Search bar -->
+            <div class="home-search-bar">
+                <form class="search-box">
+                <input tabindex="1" type="text" class="search-text Fredoka-text" placeholder="Search For Pokémon..." />
+                    <button type="submit" aria-label="Search">
+                        <i class="fa fa-search"></i>
+                    </button>
+                </form>
+            </div>
+
+        <div class="pokemon-results-container">
+            <!-- Tag/type bar -->
+             <p class="filter-text Fredoka-text">Filter by type</p>
+
+            <div class="home-tag-bar">
+
+                <button tabindex="3" class="type-button type-normal" data-type="normal">Normal</button>
+                <button tabindex="4" class="type-button type-fighting" data-type="fighting">Fighting</button>
+                <button tabindex="5" class="type-button type-flying" data-type="flying">Flying</button>
+                <button tabindex="6" class="type-button type-poison" data-type="poison">Poison</button>
+                <button tabindex="7" class="type-button type-ground" data-type="ground">Ground</button>
+                <button tabindex="8" class="type-button type-rock" data-type="rock">Rock</button>
+                <button tabindex="9" class="type-button type-bug" data-type="bug">Bug</button>
+                <button tabindex="10" class="type-button type-ghost" data-type="ghost">Ghost</button>
+                <button tabindex="11" class="type-button type-steel" data-type="steel">Steel</button>
+                <button tabindex="12" class="type-button type-fire" data-type="fire">Fire</button>
+                <button tabindex="13" class="type-button type-water" data-type="water">Water</button>
+                <button tabindex="14" class="type-button type-grass" data-type="grass">Grass</button>
+                <button tabindex="15" class="type-button type-electric" data-type="electric">Electric</button>
+                <button tabindex="16" class="type-button type-psychic" data-type="psychic">Psychic</button>
+                <button tabindex="17" class="type-button type-ice" data-type="ice">Ice</button>
+                <button tabindex="18" class="type-button type-dragon" data-type="dragon">Dragon</button>
+                <button tabindex="19" class="type-button type-dark" data-type="dark">Dark</button>
+                <button tabindex="20" class="type-button type-fairy" data-type="fairy">Fairy</button>
+            </div>
+
+
+                <!-- Pokémon results grid -->
+                <div class="home-pokemon-grid search-results"></div>
+        </div>
+
+    </main>
+
+        <div id="pokemonModal" class="pokemon-modal hidden">
+            <div class="pokemon-modal-content">
+                <span class="close-modal">&times;</span>
+                <div id="pokemonProfileContent"></div>
+            </div>
+        </div>
+  <!--  footer  -->
+
+  <%- include('partials/footer') %>
+  </div>
+
+  <script src="/javascripts/tags.js"></script>
+  <script src="/javascripts/teamManager.js"></script>
+  <script src="/javascripts/pokemonSearch.js"></script>
+</body>
+</html>
+
+
+

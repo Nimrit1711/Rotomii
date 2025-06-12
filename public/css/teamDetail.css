@@ -1,0 +1,335 @@
+ .team-detail-container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 1rem;
+        }
+/*page header*/
+        .team-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .team-actions {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .btn {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .btn-edit {
+            background-color: #2196F3;
+            color: white;
+        }
+
+        .btn-edit:hover {
+            background-color: #1976D2;
+        }
+
+        .btn-delete {
+            background-color: #f44336;
+            color: white;
+        }
+
+        .btn-delete:hover {
+            background-color: #d32f2f;
+        }
+
+        .btn-back {
+            background-color: #666;
+            color: white;
+        }
+
+        .btn-back:hover {
+            background-color: #555;
+        }
+
+        .team-notes {
+            background: var(--card-bg, #f5f5f5);
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+            color: #000000;
+        }
+/*Pokemon team cards div*/
+        .pokemon-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .pokemon-card {
+            background: var(--card-bg, #fff);
+            border-radius: 12px;
+            padding: 1rem;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            position: relative;
+            color: #000000;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            height: 100%;
+        }
+
+        .pokemon-card.empty {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 200px;
+            padding: 1rem;
+            border: 2px dashed #FF7531;
+            cursor: pointer;
+            color: black;
+
+        }
+
+        .pokemon-card.empty:hover {
+            border-color: var(--heading-color, #4CAF50);
+            background: var(--hover-bg, #cf3e3e);
+        }
+
+        .pokemon-position {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: var(--heading-color, #e37e3e);
+            color: black;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .pokemon-content {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+            margin-bottom: 1rem;
+
+        }
+
+        .pokemon-image-wrapper {
+            width: 80px;
+            height: 80px;
+            flex-shrink: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 50%;
+            padding: 5px;
+        }
+
+        .pokemon-sprite {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+
+        .pokemon-info {
+            flex: 1;
+        }
+
+        .pokemon-nickname {
+            font-size: 2rem;
+            font-weight: 600;
+        }
+
+        .pokemon-name-id {
+            display: flex;
+            align-items: baseline;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .pokemon-id {
+            color: #000000;
+            font-size: 0.9rem;
+        }
+
+        .pokemon-notes {
+            font-size: 0.9rem;
+            color: #000000;
+            margin-top: 0.5rem;
+        }
+/*pokemon buttons */
+        .pokemon-actions {
+            margin-top: 1rem;
+            display: flex;
+            gap: 0.5rem;
+            justify-content: flex-end;
+            padding-top: 0.5rem;
+            margin-top: auto;
+            border-top: 1px solid #ddd;
+        }
+
+        .btn-small {
+            padding: 0.3rem 0.8rem;
+            font-size: 0.8rem;
+        }
+
+        .btn-remove {
+            background-color: #f44336;
+            color: white;
+        }
+
+        .btn-remove:hover {
+            background-color: #d32f2f;
+        }
+
+/*EDIT team pop-up window*/
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background-color: var(--bg-color, #fff);
+            margin: 10% auto;
+            padding: 2rem;
+            border-radius: 16px;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 6px 12px rgba(0,0,0,0.3);
+            position: relative;
+            color: var(--text-color,black);
+        }
+
+        .close {
+            color: #999;
+            float: right;
+            font-size: 1.5rem;
+            font-weight: bold;
+            cursor: pointer;
+            position: absolute;
+            top: 16px;
+            right: 16px;
+
+        }
+
+        .close:hover {
+            color: #000;
+        }
+
+    /*form div*/
+
+        .modal-content .form-group {
+            margin-bottom: 1.5rem;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .modal-content label {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .modal-content input[type="text"], .modal-content textarea {
+            padding: 0.75rem 1rem;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        .modal-content input[type="text"]:focus, .modal-content textarea:focus {
+            border-color: var(--heading-color, #ccc);
+            outline: none;
+        }
+
+        .modal-content .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background-color 0.3s ease;
+             background-color: #e3621e;
+             color: white;
+        }
+
+        .modal-content .btn:hover {
+            background-color: #c9642d;
+        }
+
+
+/*game stats div*/
+    .team-type-match-up-container {
+            color: #000000;
+            background: var(--card-bg, #f5f5f5);
+            padding: 1rem;
+            border-radius: 8px;
+            position: relative;
+            margin-top: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .match-up-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            gap: 1rem;
+        }
+
+        .type-card {
+            padding: 1.5rem;
+            position: relative;
+        }
+
+        .type-name {
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            text-align: center;
+        }
+
+        .match-up-count {
+            text-align: center;
+        }
+
+    @media (max-width: 600px) {
+            .match-up-grid {
+                grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+                gap: 0.75rem;
+            }
+
+            .type-card {
+                padding: 1rem;
+            }
+
+            .type-name {
+                font-size: 0.7rem;
+            }
+
+            .match-up-count {
+                font-size: 1rem;
+            }
+    }

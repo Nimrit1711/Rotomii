@@ -3,32 +3,35 @@
     background-color: var(--nav-color);
     color: var(--nav-text);
     text-align: center;
-    padding: 2rem 1rem;
-    position: absolute;
-    margin-top: 3rem;
+    padding: 1rem;
+    margin-top: auto;
     font-size: 1rem;
-    bottom: 0;
     left: 0;
     width: 100%;
+
   }
+
+
 
 
   /*theme switch buttons */
   #theme-switch{
-    height: 50px;
-    width: 50px;
-    padding: 0;
+    height: 20px;
+    width: 20px;
+    padding: 0 auto;
     border-radius: 50%;
     border: none;
     background-color: var(--nav-color);
     display: flex;
-    justify-content: center;
+    justify-content:flex-end;
     align-items: center;
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
+    position: relative;
+    bottom: 10px;
+    left: 20px;
+    cursor: pointer;
   }
 
+  /*dark/light mode button */
   #theme-switch svg{
     fill: var(--nav-text);
   }

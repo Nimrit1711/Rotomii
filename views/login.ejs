@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang ="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name = "viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Rotomii - Login</title>
+    <link rel="stylesheet" href="css/themeSwitch.css" />
+    <link rel="stylesheet" href="css/registration.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&display=swap" rel="stylesheet">
+    <script src="/javascripts/login.js" defer></script>
+</head>
+<body>
+     <header>
+         <!--Nav  -->
+        <%- include('partials/navbar') %>
+    </header>
+    <section>
+            <div class="container">
+                <div class="login form">
+                    <h1>Login</h1>
+                    <form id="login-form">
+                        <input tabindex=1 type="text" id="username" name ="username" placeholder="Username or Email" required/>
+                        <input tabindex=2 type="password" name="password" id="password" placeholder="Password" required/>
+                        <a tabindex=3 href="#">Forgot Password?</a>
+                          <div id="error" style="color: red;"></div>
+                        <button tabindex=4 type="submit" class="Login-button" >Login</button>
+                    </form>
+                    <div class="signup">
+                        <span class="signup">Don't have an account?
+                            <a tabindex=5 href="/register">Sign up!</a>
+                        </span>
+                    </div>
+                </div>
+            </div>
+    </section>
+    <!--  footer  -->
+  <%- include('partials/footer') %>
+</body>
+</html>

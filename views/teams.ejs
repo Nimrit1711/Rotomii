@@ -3,35 +3,52 @@
     <meta charset="UTF-8" />
     <meta name = "viewport" content="width=device-width, initial-scale=1.0" />
     <title> Rotomii - My Teams </title>
-    <link rel="stylesheet" href="css/themeSwitch.css" />
+    <link rel="stylesheet" href="/css/themeSwitch.css" />
+    <link rel="stylesheet" href="/css/teams.css" />
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&display=swap" rel="stylesheet">
 
 </head>
 <body>
   <header>
-    <!--  nav  -->
+    <!--  nav  --> 
       <%- include('partials/navbar') %>
   </header>
 
-  <main class="main-body">
-      <h1>My Teams</h1>
-
-      <div class="teams-container">
-        <p>Your saved teams will appear here.</p>
-
-        <!--  team cards  -->
-
+  <main >
+    <div class = "teams-wrapper">
+      <% teams.forEach(team => { %>
         <div class="team-card">
-          <h2>Team Lightning</h2>
-          <p>A fast team built around electric types.</p>
+          <a tabindex="1" href="/teams/<%= team.id %>" class="team-link">
+          <h2 class="team-name"><%= team.nickname || 'Untitled Team' %></h2>
+          <div class="team-pokemon">
+            <% for (let i =0; i< 6; i++) { %>
+              <% const pokemon = team.pokemon[i]; %>
+              <div class="pokemon-slot">
+                <% if (pokemon) { %>
+                <img src="<%= pokemon.spriteUrl %>" alt="Image of <%= pokemon.nickname %>" class="pokemon-sprite">
+                  <p class ="pokemon-nickname">
+                    <%= pokemon.nickname || pokemon.name %>
+                  </p>
+                <% } else { %>
+                  <div class="empty-slot">empty</div>
+                  <% } %>
+              </div>
+              <% } %>
+             </div>
+             </a>
         </div>
+        <%  }) %>
 
-        <div class="team-card">
-          <h2>Team Defense</h2>
-          <p>Bulky Pokémon with strong defensive synergy.</p>
-        </div>
+        <!-- EMPTY TEAMS SLOT AT THE END OF THE PAGE -->
+         <div class="team-card new-team">
+          <a href="/teams/create" class="team-link">
+            <div class="empty-team">
+              <p tabindex="2"> + Create New Team </p>
+            </div>
+          </a>
+         </div>
+    </div>
 
-      </div>
   </main>
   <!--  footer  -->
   <%- include('partials/footer') %>

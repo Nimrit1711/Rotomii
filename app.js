@@ -1,3 +1,4 @@
+require('dotenv').config();
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
@@ -11,6 +12,9 @@ const { isAuthenticated, isAdmin } = require('./middleware/auth');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+var pokemonRouter = require('./routes/pokemon');
+var teamPages = require('./routes/teams');
+
 
 var app = express();
 
@@ -25,20 +29,50 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Session configuration
-// TODO: Move secret to environment variable later
 app.use(session({
-  secret: 'rotomii-secret-key',
+  secret: process.env.SESSION_SECRET || 'fallback-secret-for-development',
   resave: false,
   saveUninitialized: false,
   cookie: {
-    secure: false, // Change to true when we deploy
-    maxAge: 24 * 60 * 60 * 1000 // 1 day in milliseconds
+    secure: process.env.NODE_ENV === 'production', // Use HTTPS in production
+    maxAge: 24 * 60 * 60 * 1000, // 1 day in milliseconds
+    httpOnly: true,
+    sameSite: 'lax'
   }
 }));
+
+// Basic security headers middleware
+app.use((req, res, next) => {
+  // Prevent clickjacking attacks
+  res.setHeader('X-Frame-Options', 'DENY');
+
+  // Prevent MIME type sniffing
+  res.setHeader('X-Content-Type-Options', 'nosniff');
+
+  // Enable XSS filtering in browsers
+  res.setHeader('X-XSS-Protection', '1; mode=block');
+
+  next();
+});
 
 // Setup passport stuff
 app.use(passport.initialize());
 app.use(passport.session());
+
+// Make user available in all views
+app.use((req, res, next) => {
+  res.locals.user = req.user || null;
+  res.locals.currentPath = req.path;
+  next();
+});
+
+app.use('/', indexRouter);
+app.use('/users', usersRouter);
+app.use('/pokemon', pokemonRouter);
+app.use('/teams', teamPages);
+
+
+
 
 // Passport configuration
 require('./config/passport')(passport);
@@ -53,24 +87,14 @@ setupDb().catch((err) => {
 const authRoutes = require('./routes/auth');
 const pokemonRoutes = require('./routes/pokemon');
 const teamRoutes = require('./routes/teams');
+const tagsRoutes = require('./routes/tags');
 const indexRoutes = require('./routes/index');
 
 app.use('/api/auth', authRoutes);
 app.use('/api/pokemon', pokemonRoutes);
 app.use('/api/teams', teamRoutes);
+app.use('/api/tags', tagsRoutes);
 app.use('/', indexRoutes);
-
-// error handler
-app.use(function(err, req, res, next) {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
-
-  // render the error page
-  res.status(err.status || 500);
-  res.render('error');
-});
-
 // Get user profile if logged in
 app.get('/api/profile', isAuthenticated, (req, res) => {
   res.json({
@@ -94,6 +118,29 @@ app.get('/api/admin/users', isAdmin, async (req, res) => {
     return res.status(500).json({ message: 'Server error' });
   }
 });
+
+app.use((req, res, next) => {
+  next(createError(404, 'Page Not Found'));
+});
+
+// error handler
+app.use(function(err, req, res, next) {
+  if (process.env.NODE_ENV === 'development') {
+    console.error('Error:', err);
+  }
+
+  const isDevelopment = process.env.NODE_ENV === 'development';
+  const safeMessage = isDevelopment ? err.message : 'Something went wrong';
+
+  res.status(err.status || 500);
+  res.render('error', {
+    error: err.status || 500,
+    message: safeMessage,
+    err: isDevelopment ? err : {}
+  });
+});
+
+
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {

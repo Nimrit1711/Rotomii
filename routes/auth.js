@@ -1,7 +1,10 @@
 const express = require('express');
 const passport = require('passport');
 const User = require('../models/user');
-const { validateRegistration, isAuthenticated, isAdmin } = require('../middleware/auth');
+const {
+ validateRegistration, isAuthenticated, isAdmin, validateNumericId
+} = require('../middleware/auth');
+const Team = require('../models/team');
 const router = express.Router();
 
 // Register new user
@@ -23,6 +26,9 @@ router.post('/register', validateRegistration, async (req, res) => {
 
     // Register user
     const userId = await User.register(username, email, password);
+
+    // Creating an empty team
+    await Team.createTeam(userId, 'My Team', '');
 
     return res.status(201).json({
       message: 'User registered successfully',
@@ -62,7 +68,8 @@ router.post('/login', (req, res, next) => {
 router.get('/logout', (req, res, next) => {
   req.logout(function(err) {
     if (err) { return next(err); }
-    return res.json({ message: 'Logged out successfully' });
+    return res.redirect('/');
+
   });
 });
 
@@ -138,7 +145,7 @@ router.get('/users', isAdmin, async (req, res) => {
 });
 
 // Delete user (admin only)
-router.delete('/users/:userId', isAdmin, async (req, res) => {
+router.delete('/users/:userId', isAdmin, validateNumericId('userId'), async (req, res) => {
   try {
     const { userId } = req.params;
 
