@@ -16,14 +16,14 @@
             display: block;
             margin-bottom: 0.5rem;
             font-weight: 600;
-            color: var(--text-color, #333);
+            color: #333;
         }
 
         .form-group input,
         .form-group textarea {
             width: 100%;
             padding: 0.75rem;
-            border: 2px solid var(--border-color, #ddd);
+            border: 2px solid #e3621e;
             border-radius: 8px;
             font-size: 1rem;
             font-family: inherit;
@@ -33,7 +33,7 @@
         .form-group input:focus,
         .form-group textarea:focus {
             outline: none;
-            border-color: var(--primary-color, #4CAF50);
+            border-color: #e3621e;
         }
 
         .form-buttons {

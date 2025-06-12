@@ -3,7 +3,7 @@
             margin: 2rem auto;
             padding: 1rem;
         }
-
+/*page header*/
         .team-header {
             display: flex;
             justify-content: space-between;
@@ -62,7 +62,7 @@
             margin-bottom: 2rem;
             color: #000000;
         }
-
+/*Pokemon team cards div*/
         .pokemon-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
@@ -140,8 +140,6 @@
             max-width: 100%;
             max-height: 100%;
             object-fit: contain;
-
-
         }
 
         .pokemon-info {
@@ -172,7 +170,7 @@
             color: #000000;
             margin-top: 0.5rem;
         }
-
+/*pokemon buttons */
         .pokemon-actions {
             margin-top: 1rem;
             display: flex;
@@ -197,6 +195,8 @@
             background-color: #d32f2f;
         }
 
+/*EDIT team pop-up window*/
+
         .modal {
             display: none;
             position: fixed;
@@ -206,30 +206,83 @@
             width: 100%;
             height: 100%;
             background-color: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
         }
 
         .modal-content {
-            background-color: var(--card-bg, #fff);
+            background-color: var(--bg-color, #fff);
             margin: 10% auto;
             padding: 2rem;
-            border-radius: 12px;
+            border-radius: 16px;
             width: 90%;
-            max-width: 600px;
+            max-width: 500px;
+            box-shadow: 0 6px 12px rgba(0,0,0,0.3);
+            position: relative;
+            color: var(--text-color,black);
         }
 
         .close {
-            color: #aaa;
+            color: #999;
             float: right;
-            font-size: 28px;
+            font-size: 1.5rem;
             font-weight: bold;
             cursor: pointer;
+            position: absolute;
+            top: 16px;
+            right: 16px;
+
         }
 
         .close:hover {
             color: #000;
         }
 
-.team-type-match-up-container {
+    /*form div*/
+
+        .modal-content .form-group {
+            margin-bottom: 1.5rem;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .modal-content label {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .modal-content input[type="text"], .modal-content textarea {
+            padding: 0.75rem 1rem;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        .modal-content input[type="text"]:focus, .modal-content textarea:focus {
+            border-color: var(--heading-color, #ccc);
+            outline: none;
+        }
+
+        .modal-content .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background-color 0.3s ease;
+             background-color: #e3621e;
+             color: white;
+        }
+
+        .modal-content .btn:hover {
+            background-color: #c9642d;
+        }
+
+
+/*game stats div*/
+    .team-type-match-up-container {
             color: #000000;
             background: var(--card-bg, #f5f5f5);
             padding: 1rem;
@@ -242,8 +295,8 @@
 
         .match-up-grid {
             display: grid;
-            grid-template-columns: auto auto auto auto auto auto;
-            gap: 1.5rem;
+            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            gap: 1rem;
         }
 
         .type-card {
@@ -261,3 +314,22 @@
         .match-up-count {
             text-align: center;
         }
+
+    @media (max-width: 600px) {
+            .match-up-grid {
+                grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+                gap: 0.75rem;
+            }
+
+            .type-card {
+                padding: 1rem;
+            }
+
+            .type-name {
+                font-size: 0.7rem;
+            }
+
+            .match-up-count {
+                font-size: 1rem;
+            }
+    }

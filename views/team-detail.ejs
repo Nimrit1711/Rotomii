@@ -7,8 +7,6 @@
     <link rel="stylesheet" href="/css/themeSwitch.css">
     <link rel="stylesheet" href="/css/teamDetail.css">
     <link rel="stylesheet" href="/css/teams.css">
-    <link rel="stylesheet" href="/css/nav.css">
-    <link rel="stylesheet" href="/css/footer.css">
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&display=swap" rel="stylesheet">
 
 </head>
@@ -18,7 +16,7 @@
     </header>
 
     <main>
-        <div class="team-detail-container">
+        <div class="team-detail-container Fredoka-text">
             <div class="team-header">
                 <h1><%= team.team_name %></h1>
                 <div class="team-actions">
@@ -42,7 +40,7 @@
             <% } %>
 
             <h2>Team Pokemon</h2>
-            <div class="pokemon-grid">
+            <div class="pokemon-grid ">
                 <% for (let i = 0; i < 6; i++) { %>
                     <% const pokemon = team.pokemon[i]; %>
                     <% if (pokemon) { %>
@@ -70,9 +68,6 @@
                             </div>
 
                             <div class="pokemon-actions">
-                                <button tabindex="2*i+1" class="btn btn-small btn-edit" onclick="editPokemon(<%= i + 1 %>)">
-                                    Edit
-                                </button>
                                 <button tabindex="2*i+2" class="btn btn-small btn-remove" onclick="removePokemon(<%= i + 1 %>)">
                                     Remove
                                 </button>
@@ -80,7 +75,7 @@
                         </div>
 
                     <% } else { %>
-                        <div class="pokemon-card empty" onclick="addPokemon(<%= i + 1 %>)">
+                        <div class="pokemon-card empty" onclick="location.href='/search'">
                             <div class="pokemon-position"><%= i + 1 %></div>
                             <p tabindex="2*i+1">+ Add Pokemon</p>
                         </div>
@@ -99,7 +94,7 @@
     </main>
 
     <!-- Edit Team Modal -->
-    <div id="editTeamModal" class="modal">
+    <div id="editTeamModal" class="modal Fredoka-text">
         <div class="modal-content">
             <span class="close" onclick="closeEditModal()">&times;</span>
             <h2>Edit Team</h2>
@@ -246,17 +241,6 @@
             }
         }
 
-        function addPokemon(position) {
-            // This would open a Pokemon selection modal
-            // For now, we'll just show an alert
-            alert(`Add Pokemon functionality for position ${position} to be implemented with Pokemon selection modal`);
-        }
-
-        function editPokemon(position) {
-            // This would open a Pokemon edit modal
-            // For now, we'll just show an alert
-            alert(`Edit Pokemon functionality for position ${position} to be implemented`);
-        }
 
         // Close modal when clicking outside of it
         window.onclick = function(event) {
