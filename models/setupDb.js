@@ -74,49 +74,6 @@ async function setupDb() {
         FOREIGN KEY (tag_id) REFERENCES tags(tag_id) ON DELETE CASCADE,
         UNIQUE (pokemon_id, tag_id)
       );
-
-      CREATE TABLE IF NOT EXISTS boxes (
-        box_id INTEGER PRIMARY KEY AUTOINCREMENT,
-        box_name TEXT NOT NULL,
-        user_id INTEGER NOT NULL,
-        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-        last_modified TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-        FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
-      );
-
-      CREATE TABLE IF NOT EXISTS box_pokemon (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        box_id INTEGER NOT NULL,
-        position INTEGER NOT NULL,
-        pokemon_id INTEGER NOT NULL,
-        nickname TEXT,
-        custom_notes TEXT,
-        FOREIGN KEY (box_id) REFERENCES boxes(box_id) ON DELETE CASCADE
-      );
-
-      -- Added tables for Pokemon Types and Interactions
-      CREATE TABLE IF NOT EXISTS types (
-        type_id INTEGER PRIMARY KEY AUTOINCREMENT,
-        type_name TEXT NOT NULL UNIQUE
-      );
-
-      CREATE TABLE IF NOT EXISTS pokemon_types (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        pokemon_id INTEGER NOT NULL, -- Assumes PokeAPI ID or similar external ID
-        type_id INTEGER NOT NULL,
-        FOREIGN KEY (type_id) REFERENCES types(type_id) ON DELETE CASCADE,
-        UNIQUE (pokemon_id, type_id)
-      );
-
-      CREATE TABLE IF NOT EXISTS type_interactions (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        attacking_type_id INTEGER NOT NULL,
-        defending_type_id INTEGER NOT NULL,
-        multiplier REAL NOT NULL, -- e.g., 2.0, 0.5, 0.0, 1.0
-        FOREIGN KEY (attacking_type_id) REFERENCES types(type_id) ON DELETE CASCADE,
-        FOREIGN KEY (defending_type_id) REFERENCES types(type_id) ON DELETE CASCADE,
-        UNIQUE (attacking_type_id, defending_type_id)
-      );
     `);
 
     // Check if admin user exists
