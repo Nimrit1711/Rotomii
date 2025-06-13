@@ -27,19 +27,19 @@ exports.isAdmin = (req, res, next) => {
   return res.status(403).json({ message: 'Sorry, only admins can access this page' });
 };
 
-// Basic input sanitization helper
+// Basic input sanitisation helper
 const sanitizeString = (str) => {
   if (typeof str !== 'string') return str;
   return str.trim();
 };
 
-// Validate and sanitize registration input
+// Validate and sanitise registration input
 exports.validateRegistration = (req, res, next) => {
   let {
  username, email, password, confirmPassword
 } = req.body;
 
-  // Sanitize inputs
+  // Sanitise inputs
   username = sanitizeString(username);
   email = sanitizeString(email);
 

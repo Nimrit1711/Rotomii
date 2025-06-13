@@ -40,7 +40,7 @@ router.get('/', isAuthenticated, async (req, res) => {
               name: poke.pokemon_id,
               nickname: poke.nickname,
               spriteUrl: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${poke.pokemon_id}.png`
-              //spriteUrl: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${poke.pokemon_id}.png`
+              // spriteUrl: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${poke.pokemon_id}.png`
             });
           } else {
             pokemon.push(null);
@@ -101,7 +101,7 @@ router.get('/:teamId(\\d+)', isAuthenticated, async (req, res) => {
 
     // Check if the team belongs to the requesting user
     if (team.user_id !== userId) {
-      return res.status(403).send('Unauthorized access to this team');
+      return res.status(403).send('Unauthorised access to this team');
     }
 
     // Format the Pokemon data for the view
@@ -115,7 +115,7 @@ router.get('/:teamId(\\d+)', isAuthenticated, async (req, res) => {
           nickname: poke.nickname,
           notes: poke.custom_notes,
           spriteUrl: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${poke.pokemon_id}.png`
-          //spriteUrl: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${poke.pokemon_id}.png`
+          // spriteUrl: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${poke.pokemon_id}.png`
         });
       } else {
         pokemon.push(null);
@@ -147,7 +147,7 @@ router.get('/:teamId', isAuthenticated, async (req, res) => {
 
     // Check if the team belongs to the requesting user
     if (team.user_id !== userId) {
-      return res.status(403).json({ error: 'Unauthorized access to this team' });
+      return res.status(403).json({ error: 'Unauthorised access to this team' });
     }
 
     res.json({
@@ -172,7 +172,7 @@ router.post('/:teamId/add-pokemon', isAuthenticated, validateNumericId('teamId')
       return res.status(404).json({ error: 'Team not found' });
     }
     if (team.user_id !== userId) {
-      return res.status(403).json({ error: 'Unauthorized access to this team' });
+      return res.status(403).json({ error: 'Unauthorised access to this team' });
     }
 
     // Find the first available position
@@ -224,7 +224,7 @@ router.post('/:teamId/pokemon', isAuthenticated, validateNumericId('teamId'), va
       return res.status(404).json({ error: 'Team not found' });
     }
     if (team.user_id !== userId) {
-      return res.status(403).json({ error: 'Unauthorized access to this team' });
+      return res.status(403).json({ error: 'Unauthorised access to this team' });
     }
 
     // Get name to ID map
@@ -286,7 +286,7 @@ router.delete('/:teamId/pokemon/:position', isAuthenticated, async (req, res) =>
       return res.status(404).json({ error: 'Team not found' });
     }
     if (team.user_id !== userId) {
-      return res.status(403).json({ error: 'Unauthorized access to this team' });
+      return res.status(403).json({ error: 'Unauthorised access to this team' });
     }
 
     // Remove Pokemon from team
@@ -337,7 +337,7 @@ router.put('/:teamId', isAuthenticated, validateNumericId('teamId'), validateTea
       return res.status(404).json({ error: 'Team not found' });
     }
     if (team.user_id !== userId) {
-      return res.status(403).json({ error: 'Unauthorized access to this team' });
+      return res.status(403).json({ error: 'Unauthorised access to this team' });
     }
 
     // Update team
@@ -372,7 +372,7 @@ router.delete('/:teamId', isAuthenticated, async (req, res) => {
       return res.status(404).json({ error: 'Team not found' });
     }
     if (team.user_id !== userId) {
-      return res.status(403).json({ error: 'Unauthorized access to this team' });
+      return res.status(403).json({ error: 'Unauthorised access to this team' });
     }
 
     // Check if this is the user's last team
@@ -426,7 +426,7 @@ router.get('/:teamId/count', isAuthenticated, async (req, res) => {
       return res.status(404).json({ error: 'Team not found' });
     }
     if (team.user_id !== userId) {
-      return res.status(403).json({ error: 'Unauthorized access to this team' });
+      return res.status(403).json({ error: 'Unauthorised access to this team' });
     }
 
     const count = await Team.countPokemonInTeam(teamId);
@@ -452,7 +452,7 @@ router.get('/:teamId/analysis', isAuthenticated, async (req, res) => {
       return res.status(404).json({ error: 'Team not found' });
     }
     if (team.user_id !== userId) {
-      return res.status(403).json({ error: 'Unauthorized access to this team' });
+      return res.status(403).json({ error: 'Unauthorised access to this team' });
     }
 
     const analysis = await Team.getTeamAnalysis(teamId);
@@ -478,7 +478,7 @@ router.get('/:teamId/weaknesses', isAuthenticated, async (req, res) => {
       return res.status(404).json({ error: 'Team not found' });
     }
     if (team.user_id !== userId) {
-      return res.status(403).json({ error: 'Unauthorized access to this team' });
+      return res.status(403).json({ error: 'Unauthorised access to this team' });
     }
 
     const weaknesses = await Team.getTeamWeaknesses(teamId);
@@ -504,7 +504,7 @@ router.get('/:teamId/resistances', isAuthenticated, async (req, res) => {
       return res.status(404).json({ error: 'Team not found' });
     }
     if (team.user_id !== userId) {
-      return res.status(403).json({ error: 'Unauthorized access to this team' });
+      return res.status(403).json({ error: 'Unauthorised access to this team' });
     }
 
     const resistances = await Team.getTeamResistances(teamId);

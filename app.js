@@ -77,9 +77,9 @@ app.use('/teams', teamPages);
 // Passport configuration
 require('./config/passport')(passport);
 
-// Initialize database
+// Initialise database
 setupDb().catch((err) => {
-  console.error('Database initialization error:', err);
+  console.error('Database initialisation error:', err);
   process.exit(1);
 });
 

@@ -1,6 +1,6 @@
 const getDb = require('./db');
 const crypto = require('crypto');
-// Function to initialize the database
+// Function to initialise the database
 async function setupDb() {
   let db; try {
     db = await getDb();
