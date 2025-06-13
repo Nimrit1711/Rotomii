@@ -132,6 +132,16 @@ class User {
     }
   }
 
+  // Get all non-admin users - for admin only (exclude password info)
+  static async getNonAdminUsers() {
+    const db = await getDb();
+    try {
+      return await db.all('SELECT user_id, username, email, address, avatar_image, theme_preference, is_admin, created_at FROM users WHERE is_admin = 0');
+    } finally {
+      if (db) await db.close();
+    }
+  }
+
   // Delete a user
   static async deleteUser(userId) {
     const db = await getDb();
