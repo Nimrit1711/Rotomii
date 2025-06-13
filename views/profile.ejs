@@ -52,9 +52,22 @@
                 <p><%= new Date(user.created_at).toLocaleDateString() %></p>
             </div>
         </div>
+
+        <% if (user.is_admin === 1) { %>
+        <div class="admin-section">
+            <h2>User Management</h2>
+            <div id="users-list" class="users-container">
+                <p>Loading users...</p>
+            </div>
+        </div>
+        <% } %>
     </div>
 
     <!--  footer  -->
     <%- include('partials/footer') %>
+    
+    <% if (user.is_admin === 1) { %>
+    <script src="/javascripts/userManagement.js"></script>
+    <% } %>
 </body>
 </html>

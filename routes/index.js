@@ -41,7 +41,7 @@ router.get('/myteams', (req, res) => {
   res.render('teams');
 });
 
-router.get('/profile', async (req, res) => {
+router.get('/profile', isAuthenticated, async (req, res) => {
   try {
     const user = await User.findById(req.user.user_id);
     res.render('profile', { user });
