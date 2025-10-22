@@ -28,19 +28,32 @@ The SQLite database gets created automatically when you first run it.
 ## List of Features
 
 ### Core Functionality
-- User registration and login with hashed and salted passwords
-- Session management using secure cookies
-- Create and manage teams of up to 6 pokémon, from any pokémon in existence
-- Make notes on those teams
-- Nickname your favourite pokémon
-- Search for pokémon by name and type
+User Accounts & Security
+- Register and log in securely with hashed and salted passwords.
+- Manage persistent sessions using cookies and express-session.
+- Input validation and sanitisation on both frontend and backend for safe data handling.
 
-### Type Effectiveness Analysis
-View detailed type matchups:
-- Weaknesses
-- Resistances
-- Immunities
-- View team wide matchup summary of your teams
+Team Management
+- Create, name, and save multiple Pokémon teams (up to 6 Pokémon per team).
+- Add nicknames and personal notes for each Pokémon to personalise your team.
+- Edit or delete teams easily through a clean, responsive interface
+
+Search and Selection
+- Search for Pokémon by name, type, or generation using the PokéAPI.
+- View Pokémon details such as base stats, abilities, and type combinations.
+- Add Pokémon directly from search results into a selected team.
+
+Type Effectiveness & Team Balance
+- Automatically analyse your team’s strengths and weaknesses.
+- View type matchups (weaknesses, resistances, immunities) per Pokémon.
+- Get a team-wide summary chart to visualise overall balance.
+  
+Additional Features
+- Fully responsive design across desktop, tablet, and mobile.
+- Optional Dark/Light mode toggle to personalise the theme.
+- Customisable tagging system to organise Pokémon (e.g., “Tank”, “Speedster”).
+- Built-in error handling ensures the app remains stable even when API requests fail.
+
 
 ### Data & Integration
 - Seamless integration with PokéAPI to retrieve real-time pokemon data
