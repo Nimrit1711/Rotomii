@@ -4,8 +4,8 @@ Rotomii is a Pokémon team-builder app that allows users to create and save team
 
 ## Team Members
 
-- Alex Hart (a1839644) - Backend stuff, authentication, database design
-- Nimrit Gill (a1925677) - Frontend design, making it look good and responsive
+- Alex Hart (a1839644) - Backend, authentication, database design
+- Nimrit Gill (a1925677) - Frontend/backend design, responsive layout, and user experience
 - Kristian Sorono (a1809029) - API integration, search functionality
 - Madeleine Harris (a1850837) - Pokémon logic, team analysis, type effectiveness
 
